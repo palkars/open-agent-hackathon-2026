@@ -1,0 +1,26 @@
+[
+  {
+    "note_id": "N001",
+    "date": "2026-09-10",
+    "type": "conclusion",
+    "text": "Anonymous signatures appear capable of supporting traceability.",
+    "confidence": 0.8,
+    "related_papers": ["P001", "P002"]
+  },
+  {
+    "note_id": "N002",
+    "date": "2026-09-12",
+    "type": "conclusion",
+    "text": "Traceable group signatures require a trusted opening authority.",
+    "confidence": 0.72,
+    "related_papers": ["P001", "P002"]
+  },
+  {
+    "note_id": "N003",
+    "date": "2026-09-15",
+    "type": "research_question",
+    "text": "Can traceability be achieved without a single trusted opener?",
+    "confidence": 0.5,
+    "related_papers": []
+  }
+]
