@@ -1,0 +1,452 @@
+[
+  {
+    "note_id": "N001",
+    "paper_id": "P001",
+    "date": "2026-01-04",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Classical Group Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N002",
+    "paper_id": "P002",
+    "date": "2026-02-07",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Dynamic Group Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N003",
+    "paper_id": "P003",
+    "date": "2026-03-10",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N004",
+    "paper_id": "P004",
+    "date": "2026-04-13",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Linkable Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N005",
+    "paper_id": "P005",
+    "date": "2026-05-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Traceable Ring Signatures is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N006",
+    "paper_id": "P006",
+    "date": "2026-06-19",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Anonymous Credentials provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N007",
+    "paper_id": "P007",
+    "date": "2026-07-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Direct Anonymous Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N008",
+    "paper_id": "P008",
+    "date": "2026-08-25",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Attribute-Based Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N009",
+    "paper_id": "P009",
+    "date": "2026-09-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Threshold Group Opening is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N010",
+    "paper_id": "P010",
+    "date": "2026-01-04",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Verifier-Local Revocation provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N011",
+    "paper_id": "P011",
+    "date": "2026-02-07",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Lattice Group Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N012",
+    "paper_id": "P012",
+    "date": "2026-03-10",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Lattice Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N013",
+    "paper_id": "P013",
+    "date": "2026-04-13",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Linkable Lattice Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N014",
+    "paper_id": "P014",
+    "date": "2026-05-16",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Traceable Lattice Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N015",
+    "paper_id": "P015",
+    "date": "2026-06-19",
+    "note_type": "research_note",
+    "stance": "SKEPTICAL",
+    "confidence": 0.62,
+    "note": "Current working assumption: practical traceability still requires a single trusted opener, despite the paper's distributed-opening claim.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N016",
+    "paper_id": "P016",
+    "date": "2026-07-22",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Lattice Anonymous Credentials provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N017",
+    "paper_id": "P017",
+    "date": "2026-08-25",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Module-Lattice Group Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N018",
+    "paper_id": "P018",
+    "date": "2026-09-01",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Compact Lattice Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N019",
+    "paper_id": "P019",
+    "date": "2026-01-04",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Revocable Lattice Anonymity provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N020",
+    "paper_id": "P020",
+    "date": "2026-02-07",
+    "note_type": "research_note",
+    "stance": "SKEPTICAL",
+    "confidence": 0.62,
+    "note": "Current working assumption: practical traceability still requires a single trusted opener, despite the paper's distributed-opening claim.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N021",
+    "paper_id": "P021",
+    "date": "2026-03-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Swarm Device Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "hybrid",
+      "authentication",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N022",
+    "paper_id": "P022",
+    "date": "2026-04-13",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Privacy-Preserving Swarm Attestation provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "hybrid",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N023",
+    "paper_id": "P023",
+    "date": "2026-05-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Post-Quantum Swarm Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "authentication",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N024",
+    "paper_id": "P024",
+    "date": "2026-06-19",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Anonymous PQ Swarm Attestation provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N025",
+    "paper_id": "P025",
+    "date": "2026-07-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Batch Verification for Swarms is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "authentication",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N026",
+    "paper_id": "P026",
+    "date": "2026-08-25",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Edge-Friendly Anonymous Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N027",
+    "paper_id": "P027",
+    "date": "2026-09-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Hierarchical Swarm Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "hybrid",
+      "authentication",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N028",
+    "paper_id": "P028",
+    "date": "2026-01-04",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Linkable Device Attestation offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "hybrid",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N029",
+    "paper_id": "P029",
+    "date": "2026-02-07",
+    "note_type": "research_note",
+    "stance": "SKEPTICAL",
+    "confidence": 0.62,
+    "note": "Current working assumption: practical traceability still requires a single trusted opener, despite the paper's distributed-opening claim.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N030",
+    "paper_id": "P030",
+    "date": "2026-03-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Adaptive Privacy for IoT Swarms is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  }
+]
