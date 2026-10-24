@@ -1,4 +1,4 @@
-import { ResearchMemory } from "./src/memory/research-memory.ts";
+import { ResearchMemory, seedResearchNotes } from "./src/memory/research-memory.ts";
 
 const finding = {
   type: "CLAIM",
@@ -15,6 +15,8 @@ const memory = await ResearchMemory.create();
 if (command === "remember") {
   memory.rememberResearchFinding(finding);
   console.log("rememberResearchFinding completed");
+} else if (command === "seed") {
+  seedResearchNotes(memory);
 } else if (command === "ask") {
   if (!query) {
     console.error('Usage: npx tsx research-os/test-memory.ts ask "<query>"');
@@ -36,6 +38,6 @@ if (command === "remember") {
     }
   }
 } else {
-  console.error("Usage: npx tsx research-os/test-memory.ts remember | ask \"<query>\"");
+  console.error("Usage: npx tsx research-os/test-memory.ts remember | seed | ask \"<query>\"");
   process.exitCode = 1;
 }

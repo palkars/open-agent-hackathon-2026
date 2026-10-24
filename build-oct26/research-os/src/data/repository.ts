@@ -18,11 +18,14 @@ export interface Paper {
 
 export interface Note {
   note_id: string;
+  paper_id: string;
   date: string;
-  type: string;
-  text: string;
+  note_type: string;
+  stance: string;
   confidence: number;
-  related_papers: string[];
+  note: string;
+  research_question: string;
+  tags: string[];
 }
 
 export interface Experiment {
