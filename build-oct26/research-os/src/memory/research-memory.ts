@@ -1,6 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadHMEM } from "../../../src/engine.ts";
+import type { QueryResult } from "../../../vendor/hmem/src/types.ts";
 
 export interface ResearchFinding {
   type: string;
@@ -11,7 +12,12 @@ export interface ResearchFinding {
 }
 
 export class ResearchMemory {
-  private constructor(private readonly hmem: { add: (input: Record<string, unknown>) => { id: string } }) {}
+  private constructor(
+    private readonly hmem: {
+      add: (input: Record<string, unknown>) => { id: string };
+      query: (query: string, opts?: { topN?: number; threshold?: number; chatId?: string }) => QueryResult;
+    },
+  ) {}
 
   static async create(): Promise<ResearchMemory> {
     const { HMEM } = await loadHMEM();
@@ -35,5 +41,12 @@ export class ResearchMemory {
         refs: finding.sourceIds,
       },
     });
+  }
+
+  retrieveResearchMemory(query: string): QueryResult {
+    // query() defaults to threshold 0.35. This embedder scores the sample
+    // finding near 0.15, so the default drops it. threshold 0 keeps the
+    // ranked hits; relevance is still H-MEM's score.
+    return this.hmem.query(query, { threshold: 0 });
   }
 }
