@@ -1,0 +1,9 @@
+# Secrets: Zetaris and Meterless Runtime credentials (see research-os/README.md).
+.env
+.env.local
+
+# Markovian run history written by the research agent.
+research-os/.markovian/
+
+# CSVs generated from research-os/data for Zetaris's NDP File System.
+research-os/zetaris-files/

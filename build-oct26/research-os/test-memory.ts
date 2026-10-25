@@ -5,7 +5,7 @@
 //   npx tsx research-os/test-memory.ts ask "trusted opener"
 
 import path from "node:path";
-import { RESEARCH_MEMORY_DIR, ResearchMemory } from "./src/memory/research-memory.ts";
+import { ResearchMemory } from "./src/memory/research-memory.ts";
 import type { ResearchFinding } from "./src/memory/research-memory.ts";
 
 function printFinding(finding: ResearchFinding): void {
@@ -21,7 +21,7 @@ function printFinding(finding: ResearchFinding): void {
 async function main(): Promise<void> {
   const [mode, ...rest] = process.argv.slice(2);
   const memory = await ResearchMemory.create();
-  console.log(`engine source: ${memory.engineSource} | state: ${path.relative(process.cwd(), RESEARCH_MEMORY_DIR)}`);
+  console.log(`engine source: ${memory.engineSource} | state: ${path.relative(process.cwd(), memory.dir)}`);
 
   if (mode === "remember") {
     const stored = memory.rememberResearchFinding({

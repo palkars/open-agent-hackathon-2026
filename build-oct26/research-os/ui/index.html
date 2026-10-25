@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ResearchOS</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --ink: #1c2330; --muted: #5d6879; --line: #dfe3ea; --accent: #2f5bd3;
+    --support: #1f7a4d; --support-bg: #e6f4ec; --contra: #b4232c; --contra-bg: #fbe9ea; --extend: #2f5bd3; --extend-bg: #e8eefc;
+    --neutral-bg: #eef0f4; --warn-bg: #fff6e0; --warn-line: #e6b54a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b; --panel: #1a1f27; --ink: #e5e9f0; --muted: #98a2b3; --line: #2c3340; --accent: #7c9cf5;
+      --support: #5cc690; --support-bg: #17301f; --contra: #f07a80; --contra-bg: #3a1c1f; --extend: #7c9cf5; --extend-bg: #1d2645;
+      --neutral-bg: #252b36; --warn-bg: #33290f; --warn-line: #a8822a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 20px; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--panel); }
+  header h1 { margin: 0; font-size: 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--neutral-bg); color: var(--muted); }
+  .chip b { color: var(--ink); font-weight: 600; }
+  main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; padding: 16px 20px 32px; }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+  section h2 { margin: 0 0 10px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  textarea { width: 100%; min-height: 64px; resize: vertical; padding: 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 8px; }
+  button { font: inherit; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+  button.secondary { background: transparent; color: var(--accent); }
+  button:disabled { opacity: .5; cursor: progress; }
+  label { color: var(--muted); font-size: 13px; }
+  .examples button { border: 1px solid var(--line); background: var(--bg); color: var(--muted); font-size: 12px; padding: 3px 10px; }
+  .answer { margin-top: 14px; padding: 12px; border-radius: 8px; background: var(--bg); white-space: pre-wrap; }
+  .meta { color: var(--muted); font-size: 12px; margin-top: 6px; }
+  .callout { margin-top: 12px; border: 1px solid var(--warn-line); background: var(--warn-bg); border-radius: 8px; padding: 10px 12px; }
+  .callout h3 { margin: 0 0 6px; font-size: 13px; }
+  .callout dt { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-top: 6px; }
+  .callout dd { margin: 0; }
+  .memory { padding: 8px 0; border-top: 1px solid var(--line); cursor: pointer; }
+  .memory:first-child { border-top: 0; }
+  .memory.superseded .content { text-decoration: line-through; color: var(--muted); }
+  .memory.touched { box-shadow: inset 3px 0 0 var(--accent); padding-left: 8px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 4px; background: var(--neutral-bg); margin-right: 6px; }
+  .badge.CLAIM, .badge.EXTENDS { background: var(--extend-bg); color: var(--extend); }
+  .badge.OPEN_QUESTION { background: var(--warn-bg); color: var(--ink); }
+  .badge.CONTRADICTION, .badge.CONTRADICTS { background: var(--contra-bg); color: var(--contra); }
+  .badge.EVIDENCE, .badge.SUPPORTS { background: var(--support-bg); color: var(--support); }
+  .ledger { margin: 6px 0 0; padding-left: 18px; font-size: 12px; color: var(--muted); }
+  .bar { height: 8px; border-radius: 4px; background: var(--neutral-bg); overflow: hidden; margin-top: 4px; }
+  .bar span { display: block; height: 100%; background: var(--accent); }
+  .evidence-item { padding: 8px 0; border-top: 1px solid var(--line); }
+  .evidence-item:first-child { border-top: 0; }
+  .step { border-left: 2px solid var(--line); padding: 2px 0 8px 12px; margin-left: 4px; }
+  .step h3 { margin: 0; font-size: 13px; }
+  .step .carry { font-size: 12px; color: var(--muted); white-space: pre-wrap; margin: 4px 0; }
+  .tool { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+  .tool.error { color: var(--contra); }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  td, th { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .error { color: var(--contra); white-space: pre-wrap; }
+  .empty { color: var(--muted); }
+  @media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 24px; } header { padding: 12px 16px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>ResearchOS</h1>
+  <div class="chips" id="status"><span class="chip">loading…</span></div>
+</header>
+<main>
+  <section id="question-panel">
+    <h2>Question</h2>
+    <textarea id="question" placeholder="Ask a research question">Can traceability work without a trusted opener?</textarea>
+    <div class="row examples" id="examples"></div>
+    <div class="row">
+      <button id="ask">Ask</button>
+      <button id="compare" class="secondary">Compare cold vs warm</button>
+      <label><input type="checkbox" id="use-memory" checked> use research memory</label>
+      <label><input type="checkbox" id="learn" checked> remember what it learns</label>
+    </div>
+    <div id="result"></div>
+  </section>
+
+  <section>
+    <h2>Research memory <span class="meta">(H-MEM · click a memory for its ledger)</span></h2>
+    <div id="memories" class="empty">loading…</div>
+  </section>
+
+  <section>
+    <h2>Evidence</h2>
+    <div id="evidence" class="empty">loading…</div>
+  </section>
+
+  <section>
+    <h2>Agent trace <span class="meta">(Markovian chunks)</span></h2>
+    <div id="trace" class="empty">Ask a question to see the agent's steps.</div>
+  </section>
+</main>
+<script>
+const EXAMPLES = [
+  "Can traceability work without a trusted opener?",
+  "Does traceability require a trusted opener?",
+  "Can anonymous signatures support traceability?",
+];
+let touchedMemories = new Set();
+
+function el(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(attrs)) {
+    if (key === "class") node.className = value;
+    else if (key.startsWith("on")) node.addEventListener(key.slice(2), value);
+    else node.setAttribute(key, value);
+  }
+  for (const child of children.flat()) {
+    if (child === null || child === undefined || child === false) continue;
+    node.append(child instanceof Node ? child : document.createTextNode(String(child)));
+  }
+  return node;
+}
+
+async function api(path, body) {
+  const response = await fetch(path, body === undefined ? {} : {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
+  return data;
+}
+
+function badge(text) { return el("span", { class: `badge ${text}` }, text); }
+
+async function loadStatus() {
+  const box = document.getElementById("status");
+  try {
+    const s = await api("/api/status");
+    const model = s.model.route === "offline" ? `offline (${s.model.detail})` : `${s.model.route} ${s.model.model} · ${s.model.status}`;
+    box.replaceChildren(
+      el("span", { class: "chip" }, "evidence ", el("b", {}, s.dataSource)),
+      el("span", { class: "chip" }, "model ", el("b", {}, model)),
+      el("span", { class: "chip" }, "memory ", el("b", {}, `H-MEM ${s.engines.hmem}`)),
+      el("span", { class: "chip" }, "chain ", el("b", {}, `Markovian ${s.engines.markovian}`)),
+      ...s.problems.map((p) => el("span", { class: "chip error" }, p)),
+    );
+  } catch (error) {
+    box.replaceChildren(el("span", { class: "chip error" }, error.message));
+  }
+}
+
+async function loadMemories() {
+  const box = document.getElementById("memories");
+  try {
+    const findings = await api("/api/memories");
+    if (findings.length === 0) {
+      box.replaceChildren(el("p", { class: "empty" }, "Empty. Run: npx tsx research-os/research.ts seed-memory"));
+      return;
+    }
+    box.className = "";
+    box.replaceChildren(...findings.slice().reverse().map(renderMemory));
+  } catch (error) {
+    box.replaceChildren(el("p", { class: "error" }, error.message));
+  }
+}
+
+function renderMemory(f) {
+  const ledger = el("div");
+  const classes = ["memory", f.supersededBy ? "superseded" : "", touchedMemories.has(f.id) ? "touched" : ""].join(" ");
+  const item = el("div", { class: classes, title: "Show this memory's ledger" },
+    el("div", {}, badge(f.type), el("b", {}, f.id), " ", el("span", { class: "content" }, f.content)),
+    el("div", { class: "meta" },
+      `confidence ${f.confidence} · sources ${f.sourceIds.join(", ") || "none"}`,
+      f.tags.includes("agent:conclusion") ? " · learned by the agent" : "",
+      f.supersededBy ? ` · superseded by ${f.supersededBy}` : "",
+      f.supersedes ? ` · supersedes ${f.supersedes}` : ""),
+    ledger);
+  item.addEventListener("click", async () => {
+    if (ledger.childElementCount) { ledger.replaceChildren(); return; }
+    try {
+      const audit = await api(`/api/audit?id=${encodeURIComponent(f.id)}`);
+      ledger.replaceChildren(el("ol", { class: "ledger" }, ...audit.history.map((e) => el("li", {},
+        `${e.action} · ${new Date(e.timestamp).toLocaleString()}`,
+        e.newState && e.newState.supersededBy ? ` · supersededBy ${e.newState.supersededBy}` : "",
+        e.details && e.details.query ? ` · query "${e.details.query}"` : "",
+        e.details && e.details.evidence ? ` · evidence ${e.details.evidence.join(", ")}` : "",
+        e.details && e.details.kind ? ` · ${e.details.kind}` : ""))));
+    } catch (error) {
+      ledger.replaceChildren(el("p", { class: "error" }, error.message));
+    }
+  });
+  return item;
+}
+
+async function loadEvidenceOverview() {
+  const box = document.getElementById("evidence");
+  try {
+    const rows = await api("/api/evidence");
+    box.className = "";
+    box.replaceChildren(
+      el("p", { class: "meta" }, "Cross-source query: post-quantum schemes with anonymity and traceability, their experiments and citing notes."),
+      el("table", {},
+        el("tr", {}, el("th", {}, "paper"), el("th", {}, "method"), el("th", {}, "trusted opener"), el("th", {}, "experiment"), el("th", {}, "note")),
+        ...rows.map((r) => el("tr", {},
+          el("td", {}, r.paperId), el("td", {}, r.method), el("td", {}, r.trustedOpenerRequired ? "required" : "not required"),
+          el("td", {}, r.experimentId ? `${r.experimentId} (${r.verifyTimeMs} ms)` : "–"),
+          el("td", {}, r.noteText || "–")))));
+  } catch (error) {
+    box.replaceChildren(el("p", { class: "error" }, error.message));
+  }
+}
+
+function renderEvidence(result) {
+  const box = document.getElementById("evidence");
+  const strength = new Map();
+  for (const e of result.evaluations) {
+    if (e.relationship === "UNRELATED") continue;
+    for (const id of e.evidence) strength.set(id, Math.max(strength.get(id) || 0, e.confidence));
+  }
+  const items = [
+    ...result.evidence.papers.map((p) => ({ id: p.paper_id, title: p.title, detail: `${p.method} · ${p.key_claim}` })),
+    ...result.evidence.experiments.map((e) => ({ id: e.experiment_id, title: `${e.scheme} (on ${e.paper_id})`, detail: `${e.result} · verify ${e.verify_time_ms} ms · ${e.signature_size_bytes} B signatures` })),
+    ...result.evidence.notes.map((n) => ({ id: n.note_id, title: `Researcher note (${n.date})`, detail: n.text })),
+  ].sort((a, b) => (strength.get(b.id) || 0) - (strength.get(a.id) || 0));
+  box.className = "";
+  box.replaceChildren(...items.map((item) => el("div", { class: "evidence-item" },
+    el("div", {}, el("b", {}, item.id), " ", item.title),
+    el("div", { class: "meta" }, item.detail),
+    strength.has(item.id)
+      ? el("div", { class: "bar", title: `strongest evaluation confidence ${strength.get(item.id)}` }, el("span", { style: `width:${Math.round(strength.get(item.id) * 100)}%` }))
+      : el("div", { class: "meta" }, "gathered, not decisive"))));
+  if (items.length === 0) box.replaceChildren(el("p", { class: "empty" }, "No evidence gathered."));
+}
+
+function renderTrace(result) {
+  const box = document.getElementById("trace");
+  const run = result.run;
+  box.className = "";
+  box.replaceChildren(
+    el("p", { class: "meta" },
+      `${result.mode === "model" ? `model ${result.route.id} · ${result.route.model}` : "offline planner"} · evidence ${result.dataSource} · ` +
+      `${run.chunks} chunk(s), ${run.status} · prompt ${run.promptTokens} + output ${run.outputTokens} tokens (${run.tokenLabel})`),
+    result.memoryUsed
+      ? el("div", { class: "step" }, el("h3", {}, "✓ Recall from H-MEM into chunk 0"),
+          ...result.recall.map((t) => el("div", { class: "tool" }, `${t.tool} → ${t.summary}`)))
+      : el("div", { class: "step" }, el("h3", {}, "Memory off (cold run)")),
+    ...result.iterations.map((it) => el("div", { class: "step" },
+      el("h3", {}, `✓ Iteration ${it.step}`, el("span", { class: "meta" }, ` · prompt ~${it.promptTokens} tokens`)),
+      el("div", { class: "carry" }, it.carryoverIn ? `carryover in: ${it.carryoverIn}` : "first chunk: question + memory context"),
+      ...it.tools.map((t) => el("div", { class: t.error ? "tool error" : "tool" }, `${t.tool} ${JSON.stringify(t.args)} → ${t.error || t.summary}`)))),
+    learningStep(result.learning),
+    ...result.notes.map((n) => el("p", { class: "meta" }, `note: ${n}`)));
+}
+
+function learningStep(learning) {
+  if (!learning.enabled) return el("div", { class: "step" }, el("h3", {}, "Learning off for this run"));
+  return el("div", { class: "step" }, el("h3", {}, "✓ Learning written to H-MEM"),
+    ...learning.conflicts.map((c) => el("div", { class: "tool" }, `conflict_detected on ${c.memoryId} (evidence ${c.evidence.join(", ")})`)),
+    learning.stored ? el("div", { class: "tool" }, `stored ${learning.stored.id}${learning.superseded.length ? `, superseding ${learning.superseded.join(", ")}` : ""}`) : null,
+    learning.helpful.length ? el("div", { class: "tool" }, `helpful feedback: ${learning.helpful.join(", ")}`) : null,
+    learning.skipped ? el("div", { class: "tool" }, `no new memory: ${learning.skipped}`) : null);
+}
+
+function renderResult(result) {
+  const contradictions = result.evaluations.filter((e) => e.memoryId && e.relationship === "CONTRADICTS");
+  const memoryById = new Map(result.memories.map((m) => [m.id, m]));
+  const box = document.getElementById("result");
+  box.replaceChildren(
+    el("div", { class: "answer" }, result.answer),
+    el("div", { class: "meta" }, `evaluations by ${result.evaluationSource} · `,
+      ...result.evaluations.filter((e) => e.relationship !== "UNRELATED").map((e) =>
+        el("span", {}, badge(e.relationship), `${e.memoryId || "question"} ← ${e.evidence.join("+")} (${e.confidence.toFixed(2)})  `))),
+    ...[...new Set(contradictions.map((e) => e.memoryId))].map((id) => {
+      const found = contradictions.filter((e) => e.memoryId === id);
+      const memory = memoryById.get(id);
+      const revisedNow = result.learning.superseded.includes(id) && result.learning.stored;
+      const recommendation = revisedNow
+        ? `Revised: stored ${result.learning.stored.id}, which supersedes ${id}.`
+        : memory && memory.supersededBy ? `Already revised as ${memory.supersededBy}.` : "Revise the existing conclusion.";
+      return el("div", { class: "callout" },
+        el("h3", {}, `⚠ Contradiction detected · ${id}`),
+        el("dl", {},
+          el("dt", {}, "Existing belief"), el("dd", {}, memory ? memory.content : id),
+          el("dt", {}, "New evidence"), el("dd", {}, found.map((e) => `${e.evidence.join("+")}: ${e.reason}`).join(" ")),
+          el("dt", {}, "Recommendation"), el("dd", {}, recommendation)));
+    }));
+  touchedMemories = new Set([...result.memories.map((m) => m.id), ...(result.learning.stored ? [result.learning.stored.id] : [])]);
+  renderEvidence(result);
+  renderTrace(result);
+}
+
+function renderComparison({ cold, warm }) {
+  const row = (label, a, b) => el("tr", {}, el("td", {}, label), el("td", {}, a), el("td", {}, b));
+  const contradictions = (r) => r.evaluations.filter((e) => e.memoryId && e.relationship === "CONTRADICTS").length;
+  document.getElementById("result").replaceChildren(
+    el("table", {},
+      el("tr", {}, el("th", {}, ""), el("th", {}, "cold (no memory)"), el("th", {}, "warm (H-MEM in chunk 0)")),
+      row("chunks", cold.run.chunks, warm.run.chunks),
+      row(`prompt tokens (${cold.run.tokenLabel})`, cold.run.promptTokens, warm.run.promptTokens),
+      row(`output tokens (${cold.run.tokenLabel})`, cold.run.outputTokens, warm.run.outputTokens),
+      row("memories consulted", cold.memories.length, warm.memories.length),
+      row("contradictions with memory", contradictions(cold), contradictions(warm)),
+      row("answer", cold.answer, warm.answer)),
+    el("p", { class: "meta" }, "Neither run writes to memory. The trace and evidence panels show the warm run."));
+  touchedMemories = new Set(warm.memories.map((m) => m.id));
+  renderEvidence(warm);
+  renderTrace(warm);
+}
+
+async function run(kind) {
+  const question = document.getElementById("question").value.trim();
+  if (!question) return;
+  const buttons = [document.getElementById("ask"), document.getElementById("compare")];
+  buttons.forEach((b) => (b.disabled = true));
+  document.getElementById("result").replaceChildren(el("p", { class: "meta" }, "Researching…"));
+  try {
+    if (kind === "ask") {
+      renderResult(await api("/api/ask", {
+        question,
+        useMemory: document.getElementById("use-memory").checked,
+        learn: document.getElementById("learn").checked,
+      }));
+    } else {
+      renderComparison(await api("/api/compare", { question }));
+    }
+    await loadMemories();
+  } catch (error) {
+    document.getElementById("result").replaceChildren(el("p", { class: "error" }, error.message));
+  } finally {
+    buttons.forEach((b) => (b.disabled = false));
+  }
+}
+
+document.getElementById("examples").replaceChildren(...EXAMPLES.map((q) =>
+  el("button", { onclick: () => { document.getElementById("question").value = q; } }, q)));
+document.getElementById("ask").addEventListener("click", () => run("ask"));
+document.getElementById("compare").addEventListener("click", () => run("compare"));
+document.getElementById("use-memory").addEventListener("change", (event) => {
+  const learn = document.getElementById("learn");
+  learn.disabled = !event.target.checked;
+  if (!event.target.checked) learn.checked = false;
+});
+loadStatus();
+loadMemories();
+loadEvidenceOverview();
+</script>
+</body>
+</html>

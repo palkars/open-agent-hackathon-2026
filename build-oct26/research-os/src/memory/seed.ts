@@ -1,5 +1,6 @@
-import { loadNotes } from "../data/repository.ts";
 import type { Note } from "../data/repository.ts";
+import { createResearchRepository } from "../data/research-repository.ts";
+import type { DataSourceName, ResearchRepository } from "../data/research-repository.ts";
 import { ResearchMemory } from "./research-memory.ts";
 import type { ResearchMemoryInput, ResearchMemoryType } from "./types.ts";
 
@@ -12,6 +13,7 @@ const NOTE_TYPE_TO_RESEARCH_TYPE = new Map<string, ResearchMemoryType>([
 ]);
 
 export interface SeedReport {
+  source: DataSourceName;
   processed: number;
   stored: number;
   skipped: number;
@@ -33,13 +35,14 @@ export function noteToResearchMemoryInput(note: Note): ResearchMemoryInput {
 
 // H-MEM has no upsert, so every add mints a new memory. A note is skipped
 // when the store already holds a finding tagged with its ID and the same text;
-// a note whose text changed is stored again as a new memory.
-export async function seedResearchNotes(memory?: ResearchMemory): Promise<SeedReport> {
+// a note whose text changed is stored again as a new memory. Notes come from
+// the configured evidence source (DATA_SOURCE: local JSON or Zetaris).
+export async function seedResearchNotes(memory?: ResearchMemory, repository: ResearchRepository = createResearchRepository()): Promise<SeedReport> {
   memory ??= await ResearchMemory.create();
   const existing = memory.listResearchFindings();
-  const report: SeedReport = { processed: 0, stored: 0, skipped: 0, failed: 0, storedIds: [], failures: [] };
+  const report: SeedReport = { source: repository.source, processed: 0, stored: 0, skipped: 0, failed: 0, storedIds: [], failures: [] };
 
-  for (const note of loadNotes()) {
+  for (const note of await repository.getNotes()) {
     report.processed++;
     try {
       const input = noteToResearchMemoryInput(note);
