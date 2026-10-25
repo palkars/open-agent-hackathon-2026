@@ -37,5 +37,70 @@
     "trusted_opener_required": false,
     "key_claim": "Traceability can be implemented using distributed threshold opening rather than one trusted opener.",
     "limitation": "Higher communication overhead."
+  },
+  {
+    "paper_id": "P008",
+    "title": "INW: Independent NeRF Watermarking Architecture Toward Efficient and Robust Copyright Protection",
+    "year": 2025,
+    "topic": "Copyright protection of Neural Radiance Fields via model watermarking",
+    "method": "Trains a NeRF, prunes Least Significant Neurons by weight L2 norm, records their positions as a binary secret key, then retrains only the masked LSN subnetwork to encode an implicit watermark NeRF that the key holder can extract",
+    "provides_anonymity": false,
+    "provides_traceability": false,
+    "post_quantum": false,
+    "trusted_opener_required": false,
+    "key_claim": "Exploiting parameter redundancy lets a watermark be embedded into a pre-trained NeRF without the creator taking part, with 100% lossless watermark extraction and rendering quality comparable to an unwatermarked NeRF (PSNR 31.73).",
+    "limitation": "The watermark is effectively erased by random structured pruning above a 20% ratio, the secret key must be transmitted alongside the model, and evaluation uses only the synthetic Blender dataset."
+  },
+  {
+    "paper_id": "P009",
+    "title": "MBRS: Enhancing Robustness of DNN-based Watermarking by Mini-Batch of Real and Simulated JPEG Compression",
+    "year": 2021,
+    "topic": "Robust deep-learning image watermarking against JPEG compression",
+    "method": "Encoder-noise-decoder network that randomly picks real JPEG, differentiable simulated JPEG-Mask or identity as the noise layer for each mini-batch, with Squeeze-and-Excitation blocks, a message processor, a strength factor and an optional diffusion block for crop robustness",
+    "provides_anonymity": false,
+    "provides_traceability": false,
+    "post_quantum": false,
+    "trusted_opener_required": false,
+    "key_claim": "Mixing real and simulated JPEG across mini-batches achieves a bit error rate below 0.01% under JPEG Q=50 while keeping encoded-image PSNR above 36 dB.",
+    "limitation": "The base model is vulnerable to crop and cropout, and the diffusion block that fixes this requires a shorter 30-bit message while crop error remains around 4%."
+  },
+  {
+    "paper_id": "P010",
+    "title": "TrustMark: Universal Watermarking for Arbitrary Resolution Images",
+    "year": 2023,
+    "topic": "Imperceptible robust image watermarking for content provenance and C2PA",
+    "method": "GAN-trained MUNIT-based embedder with 1x1-convolution post-processing and focal frequency loss, ResNet50 extractor, 18 differentiable noise transforms, residual-interpolation resolution scaling, and a KBNet-based watermark remover (TrustMark-RM) for re-watermarking",
+    "provides_anonymity": false,
+    "provides_traceability": false,
+    "post_quantum": false,
+    "trusted_opener_required": false,
+    "key_claim": "TrustMark achieves state-of-the-art imperceptibility (PSNR above 40 dB) and robustness across CLIC, DIV2K and MetFace at arbitrary resolution, and imperceptible watermarks can be removed with a denoising network for re-watermarking.",
+    "limitation": "Highly cluttered images yield lower PSNR and bit accuracy, and the denoising benefit of TrustMark-RM weakens as noise accumulates over repeated re-watermarking."
+  },
+  {
+    "paper_id": "P011",
+    "title": "Video Seal: Open and Efficient Video Watermarking",
+    "year": 2024,
+    "topic": "Open-source neural video watermarking robust to codecs and editing",
+    "method": "U-Net embedder and ViT-Small extractor embedding 96 bits, temporal watermark propagation every k=4 frames with downscale/upscale inference, multistage training (image pre-training, hybrid image-video training with straight-through H.264, extractor fine-tuning)",
+    "provides_anonymity": false,
+    "provides_traceability": false,
+    "post_quantum": false,
+    "trusted_opener_required": false,
+    "key_claim": "Video Seal is more robust than HiDDeN, MBRS, CIN, TrustMark and WAM, especially under combined geometric transformations and video compression, while remaining efficient and imperceptible.",
+    "limitation": "As a post-hoc method it is less secure than generation-time watermarking, it hides fewer bits than MBRS or TrustMark, and temporal propagation can introduce visible shadow artifacts in fast-moving video."
+  },
+  {
+    "paper_id": "P012",
+    "title": "FiLM-CAM: Keyed Feature Modulation for Conditional-Access Watermarking",
+    "year": 2026,
+    "topic": "Conditional-access image watermarking where embedding, decoding and removal require a secret key",
+    "method": "A 100-bit binary key is mapped by an MLP to a 64-d embedding that produces FiLM scale and shift parameters modulating the U-Net embedder bottleneck and the ConvNeXt-Base extractor head; watermarks are composed in tanh logit space with an image-dependent gain, trained with correct-key and wrong-key (all-zero target) steps, and removed by re-running the embedder and inverting the composition with 20 iterative refinement steps",
+    "provides_anonymity": false,
+    "provides_traceability": false,
+    "post_quantum": false,
+    "trusted_opener_required": false,
+    "key_claim": "Keyed FiLM modulation gives a single shared watermarking backbone conditional access, with about 0.99 bit accuracy and about 46 dB PSNR under the correct key, near-chance (0.53-0.55) decoding under wrong keys, and key-gated removal reaching about 54-58 dB PSNR.",
+    "limitation": "Access control is learned rather than cryptographic, and wrong-key removal still partly strips the watermark (post-removal bit accuracy about 0.78-0.81 rather than full recovery), with removal generalising across keys if the remover is trained without the noise layer."
   }
 ]

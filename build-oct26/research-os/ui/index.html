@@ -249,6 +249,10 @@ function renderTrace(result) {
       el("h3", {}, `✓ Iteration ${it.step}`, el("span", { class: "meta" }, ` · prompt ~${it.promptTokens} tokens`)),
       el("div", { class: "carry" }, it.carryoverIn ? `carryover in: ${it.carryoverIn}` : "first chunk: question + memory context"),
       ...it.tools.map((t) => el("div", { class: t.error ? "tool error" : "tool" }, `${t.tool} ${JSON.stringify(t.args)} → ${t.error || t.summary}`)))),
+    result.verification && result.verification.length
+      ? el("div", { class: "step" }, el("h3", {}, "✓ Verification sweep: memories citing the gathered papers"),
+          ...result.verification.map((t) => el("div", { class: t.error ? "tool error" : "tool" }, `${t.tool} → ${t.error || t.summary}`)))
+      : null,
     learningStep(result.learning),
     ...result.notes.map((n) => el("p", { class: "meta" }, `note: ${n}`)));
 }

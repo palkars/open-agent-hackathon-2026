@@ -22,5 +22,109 @@
     "text": "Can traceability be achieved without a single trusted opener?",
     "confidence": 0.5,
     "related_papers": []
+  },
+  {
+    "note_id": "N004",
+    "date": "2026-10-25",
+    "type": "limitation",
+    "text": "None of P008 to P012 are anonymous or group signature schemes; they are neural watermarking methods with no signer anonymity, no opening of a signer and no post-quantum assumptions, so they are only tangential to this dataset.",
+    "confidence": 0.95,
+    "related_papers": ["P008", "P009", "P010", "P011", "P012"]
+  },
+  {
+    "note_id": "N005",
+    "date": "2026-10-25",
+    "type": "conclusion",
+    "text": "Using redundant low-importance neurons as a key-indexed watermark subnetwork lets a third party watermark a pre-trained NeRF without the creator's involvement or a separate extractor network.",
+    "confidence": 0.6,
+    "related_papers": ["P008"]
+  },
+  {
+    "note_id": "N006",
+    "date": "2026-10-25",
+    "type": "evidence",
+    "text": "INW's watermark survives L1 unstructured pruning up to about 40% but is effectively eliminated by random structured pruning above 20%, so its pruning robustness depends strongly on the attack type.",
+    "confidence": 0.75,
+    "related_papers": ["P008"]
+  },
+  {
+    "note_id": "N007",
+    "date": "2026-10-25",
+    "type": "evidence",
+    "text": "Randomly switching between real JPEG, simulated JPEG and identity per mini-batch reduced BER at JPEG Q=50 to 0.081% versus 15.94% for two-stage TSR-S and 38.11% for one-stage simulated training.",
+    "confidence": 0.8,
+    "related_papers": ["P009"]
+  },
+  {
+    "note_id": "N008",
+    "date": "2026-10-25",
+    "type": "contradiction",
+    "text": "MBRS reports strong robustness to JPEG and several other distortions, yet Video Seal's evaluation finds MBRS near chance (bit accuracy about 0.50) under geometric and combined transformations, showing its robustness is distortion-specific.",
+    "confidence": 0.75,
+    "related_papers": ["P009", "P011"]
+  },
+  {
+    "note_id": "N009",
+    "date": "2026-10-25",
+    "type": "conclusion",
+    "text": "Interpolating only the watermark residual from a fixed 256x256 model to the original resolution is an effective, model-agnostic way to watermark arbitrary-resolution images and was reused by Video Seal.",
+    "confidence": 0.8,
+    "related_papers": ["P010", "P011"]
+  },
+  {
+    "note_id": "N010",
+    "date": "2026-10-25",
+    "type": "contradiction",
+    "text": "TrustMark reports noised bit accuracy of 0.95 to 0.97 including crop and resize, but Video Seal measures TrustMark at 0.65 on geometric and 0.53 on combined transformations on SA-1b, suggesting its robustness depends on the evaluated transform strengths.",
+    "confidence": 0.7,
+    "related_papers": ["P010", "P011"]
+  },
+  {
+    "note_id": "N011",
+    "date": "2026-10-25",
+    "type": "evidence",
+    "text": "Propagating one embedded watermark distortion across k=4 frames greatly speeds video embedding without significantly reducing robustness, though larger step sizes introduce shadowy or flickering artifacts.",
+    "confidence": 0.75,
+    "related_papers": ["P011"]
+  },
+  {
+    "note_id": "N012",
+    "date": "2026-10-25",
+    "type": "conclusion",
+    "text": "Bit accuracy alone cannot compare watermarking methods with different payloads, and a log10 p-value or expected capacity metric gives a fairer comparison.",
+    "confidence": 0.8,
+    "related_papers": ["P011"]
+  },
+  {
+    "note_id": "N013",
+    "date": "2026-10-25",
+    "type": "research_question",
+    "text": "Could a robust watermark payload carry or point to a post-quantum group signature so that leaked media can be linked to an anonymous but traceable signer?",
+    "confidence": 0.4,
+    "related_papers": []
+  },
+  {
+    "note_id": "N014",
+    "date": "2026-10-25",
+    "type": "evidence",
+    "text": "FiLM-CAM keeps wrong-key decoding near chance (bit accuracy 0.53-0.55) and stays at 50-60% bit accuracy until a query key matches about 80% of the true key bits, needing about 98% correct bits to reach about 95% accuracy, which is sharper than SSL's gradual rise.",
+    "confidence": 0.75,
+    "related_papers": ["P012"]
+  },
+  {
+    "note_id": "N015",
+    "date": "2026-10-25",
+    "type": "contradiction",
+    "text": "TrustMark presents TrustMark-RM as removing its watermark for re-watermarking, but FiLM-CAM measures post-removal bit accuracy of 0.66-0.74 for TrustMark-RM, well above chance, indicating the watermark is not fully suppressed.",
+    "confidence": 0.65,
+    "related_papers": ["P010", "P012"]
+  },
+  {
+    "note_id": "N016",
+    "date": "2026-10-25",
+    "type": "research_question",
+    "text": "Could FiLM-CAM's learned key conditioning be replaced or backed by a cryptographic key scheme, such as threshold or post-quantum keys, so that conditional access has provable rather than empirical security?",
+    "confidence": 0.4,
+    "related_papers": []
   }
 ]

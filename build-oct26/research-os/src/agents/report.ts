@@ -10,7 +10,7 @@ export function modeLabel(result: AgentResult): string {
 function evaluationLabel(e: Evaluation): string {
   const subject = e.memoryId ?? "question";
   const evidence = e.evidence.join("+") || "-";
-  return `${e.relationship.padEnd(11)} ${subject.padEnd(8)} ${evidence.padEnd(10)} ${e.confidence.toFixed(2)}  ${e.reason}`;
+  return `${e.relationship.padEnd(11)} ${subject.padEnd(8)} ${evidence.padEnd(10)} ${e.confidence.toFixed(2)}  [${e.by}] ${e.reason}`;
 }
 
 export function formatAgentResult(result: AgentResult): string {
@@ -30,6 +30,11 @@ export function formatAgentResult(result: AgentResult): string {
       lines.push(`  tool ${tool.tool} ${JSON.stringify(tool.args)} -> ${tool.error ? `ERROR ${tool.error}` : tool.summary}`);
     }
     for (const line of iteration.content.split("\n").filter(Boolean)) lines.push(`  ${line}`);
+  }
+
+  if (result.verification.length > 0) {
+    const swept = result.verification.map((t) => `${t.tool} ${JSON.stringify(t.args)} -> ${t.error ? `ERROR ${t.error}` : t.summary}`);
+    lines.push(`\nverification sweep (memories citing the gathered papers): ${swept.join("; ")}`);
   }
 
   const relevant = result.evaluations.filter((e) => e.relationship !== "UNRELATED");

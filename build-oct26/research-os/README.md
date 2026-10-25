@@ -88,6 +88,7 @@ npx tsx research-os/test-agent.ts
 
 ## Limits to know about
 
+- **Live models vary between runs.** With Nemotron (`nvidia/nemotron-3.5-lightning-30b-a3b`) a run takes 1–3 chunks and roughly 45–130 s. The model doesn't always judge every memory or write the final json block, so the offline rules act as a verification lane: they judge any memory the model skipped, supply the answer and conclusion when the model gives none, and every evaluation is labelled `[model]` or `[rules]`.
 - **Offline evaluation is narrow.** Without a model, the rules only judge claims about trusted openers, traceability and anonymity, the attributes the evidence records. Open-ended questions need the model route.
 - **H-MEM retrieval is not semantic.** The vendored H-MEM reference uses a hash-based mock embedder, and every memory gets a baseline score, so recall can include unrelated findings. The evaluator marks those UNRELATED rather than treating them as evidence.
 - **Not yet run against live services.** The Zetaris views and the Nightshift route are built to the documented contracts but haven't been run against a real instance.

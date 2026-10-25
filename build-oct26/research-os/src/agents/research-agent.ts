@@ -65,6 +65,8 @@ export interface AgentResult {
   memoryUsed: boolean;
   memoryContext?: string;
   recall: ToolTraceEntry[];
+  // The post-run memory sweep in model mode; empty otherwise.
+  verification: ToolTraceEntry[];
   iterations: AgentIteration[];
   run: {
     id: string;
@@ -78,7 +80,7 @@ export interface AgentResult {
     tokenLabel: string;
   };
   evaluations: Evaluation[];
-  evaluationSource: "rules" | "model";
+  evaluationSource: "rules" | "model" | "model+rules";
   answer: string;
   learning: AgentLearning;
   evidence: { papers: Paper[]; experiments: Experiment[]; notes: Note[] };
@@ -122,20 +124,49 @@ export async function runResearchAgent(question: string, options: AgentOptions =
   });
   if (run.status === "errored") throw new Error(`research run failed: ${run.error}`);
 
-  let evaluations = evaluateEvidence(question, tools.ledger);
+  // Read the model's verdict against what it actually saw. Then sweep memory
+  // for findings whose provenance cites the gathered papers: a store read, not
+  // fuzzy recall, so a belief the evidence bears on is judged even when recall
+  // missed it.
+  const parsed = model ? parseModelConclusion(run.output, tools.ledger, notes) : undefined;
+  const verifyStep = run.chunks.length + 1;
+  if (memory && model && tools.ledger.papers.size > 0) {
+    tools.iteration = verifyStep;
+    await tools.memoriesCiting([...tools.ledger.papers.keys()]);
+  }
+
+  const ruleEvaluations = evaluateEvidence(question, tools.ledger);
+  let evaluations = ruleEvaluations;
   let evaluationSource: AgentResult["evaluationSource"] = "rules";
   let answer: string;
   let learned: LearnedConclusion | undefined;
-  if (model) {
-    const parsed = parseModelConclusion(run.output, tools.ledger, notes);
+  if (parsed) {
     if (parsed.evaluations.length > 0) {
-      evaluations = parsed.evaluations;
-      evaluationSource = "model";
+      // The rules act as a verification lane: any memory the model left
+      // unjudged still gets checked against the evidence the model gathered.
+      const judged = new Set(parsed.evaluations.map((e) => e.memoryId ?? "question"));
+      const filled = evaluations.filter((e) => e.relationship !== "UNRELATED" && !judged.has(e.memoryId ?? "question"));
+      evaluations = [...parsed.evaluations, ...filled];
+      evaluationSource = filled.length > 0 ? "model+rules" : "model";
+      if (filled.length > 0) {
+        const ids = [...new Set(filled.map((e) => e.memoryId ?? "the question"))];
+        notes.push(`The offline rules judged what the model left out: ${ids.join(", ")}.`);
+      }
     } else {
       notes.push("The model returned no grounded evaluations; showing the offline rules' evaluation of the evidence it gathered.");
     }
-    answer = parsed.answer ?? run.chunks.at(-1)?.content ?? "";
-    learned = parsed.learned;
+    // Without a json answer, prefer the rules' grounded answer over the
+    // evidence the model gathered (leftover model text is often a preamble);
+    // fall back to that text only for questions the rules can't read.
+    const fromRules = composeAnswer(question, ruleEvaluations, tools.ledger);
+    const lastText = [...run.chunks].reverse().map((c) => c.content.replace(/```json[\s\S]*?```/gi, "").trim()).find(Boolean);
+    const rulesCanAnswer = propositionOf(question) !== undefined;
+    answer = parsed.answer?.trim() || (rulesCanAnswer ? fromRules.answer : lastText || fromRules.answer);
+    if (!parsed.answer?.trim() && (rulesCanAnswer || !lastText)) {
+      notes.push("The model wrote no final answer; this one is assembled by the offline rules from the evidence it gathered.");
+    }
+    learned = parsed.learned ?? fromRules.learned;
+    if (!parsed.learned && fromRules.learned) notes.push("The conclusion to remember comes from the offline rules, since the model gave none.");
   } else {
     ({ answer, learned } = composeAnswer(question, evaluations, tools.ledger));
   }
@@ -155,6 +186,7 @@ export async function runResearchAgent(question: string, options: AgentOptions =
     memoryUsed: useMemory,
     memoryContext,
     recall: tools.trace.filter((t) => t.iteration === 0),
+    verification: tools.trace.filter((t) => t.iteration === verifyStep),
     iterations: run.chunks.map((chunk, index) => ({
       step: chunk.id,
       carryoverIn: chunk.carryover,
@@ -281,7 +313,10 @@ function systemPrompt(tools: ResearchTools, maxIterations: number): string {
     `You have at most ${maxIterations} iterations. In each one, call tools to gather what you need, then write a short summary of what you found.`,
     "Cite only IDs that tools returned (papers P..., experiments E..., notes N..., memories mem-...). Anything else is discarded.",
     "When the evidence is enough to answer, or in the last iteration, write the final answer and then one fenced ```json block:",
-    '{"answer": "...", "evaluations": [{"relationship": "SUPPORTS|CONTRADICTS|EXTENDS|UNRELATED", "memory_id": "mem-N or null for the question itself", "evidence": ["P007", "E002"], "confidence": 0.0, "reason": "..."}], "learned": {"content": "one-sentence conclusion worth remembering", "evidence": ["P007"], "confidence": 0.0} or null}',
+    '{"answer": "...", "evaluations": [{"relationship": "SUPPORTS|CONTRADICTS|EXTENDS|UNRELATED", "memory_id": "mem-N or null for the question itself", "evidence": ["P007", "E002"], "confidence": 0.85, "reason": "..."}], "learned": {"content": "one-sentence conclusion worth remembering", "evidence": ["P007"], "confidence": 0.85} or null}',
+    "confidence is your own judgement, from 0 to 1, of how strongly the cited evidence establishes the relationship: about 0.9 when a paper and a passing experiment state it directly, about 0.7 for a single paper, lower when you are inferring. Never copy the example values.",
+    "Every evaluation needs one of the four relationships. Include one for the question itself (memory_id null): SUPPORTS if the evidence answers it yes, CONTRADICTS if no, EXTENDS if only in part. Then judge every memory the tools returned, so a belief the evidence refutes is caught. Judge a memory by whether the evidence agrees with what that memory says: a memory recording that two sources disagree gets SUPPORTS when the evidence shows that disagreement. Evidence means papers, experiments and notes, never memories. Cite the experiments that corroborate a paper alongside it.",
+    "Don't repeat a tool call you already made with the same arguments. Finish as soon as the evidence answers the question.",
     "End that final chunk with [TASK_COMPLETE]. Otherwise end with [STATE_CHECKPOINT] and the COMPLETED/REMAINING/DECISIONS/CONTEXT block.",
   ].join("\n");
 }
@@ -295,15 +330,31 @@ function modelStep(tools: ResearchTools, model: ResearchModel, maxIterations: nu
       { role: "user", content: `${prompt}\n\nThis is iteration ${i} of ${maxIterations}.${last}` },
     ];
     // The tool loop stays inside the chunk; only Markovian's carryover leaves it.
+    let text = "";
     for (let turn = 1; ; turn++) {
       const allowTools = turn < MAX_MODEL_TURNS_PER_ITERATION;
       const reply = await model.chat(messages, allowTools ? tools.definitions() : undefined);
-      if (!allowTools || !reply.tool_calls?.length) return stripThinking(reply.content ?? "");
+      if (!allowTools || !reply.tool_calls?.length) {
+        text = stripThinking(reply.content ?? "");
+        break;
+      }
       messages.push(reply);
       for (const call of reply.tool_calls) {
         messages.push({ role: "tool", tool_call_id: call.id, content: await tools.call(call.function.name, call.function.arguments) });
       }
     }
+    // A final chunk without the json block gets one reminder.
+    const finishing = i >= maxIterations || /\[TASK_COMPLETE\]/.test(text);
+    if (finishing && !/```json/i.test(text)) {
+      messages.push(
+        { role: "assistant", content: text },
+        { role: "user", content: "Now write the final answer and the ```json block described in the instructions, then [TASK_COMPLETE]." },
+      );
+      const retry = stripThinking((await model.chat(messages)).content ?? "");
+      text = [text.replace(/\[TASK_COMPLETE\]/g, "").trim(), retry].filter(Boolean).join("\n");
+      if (!/\[TASK_COMPLETE\]/.test(text)) text += "\n[TASK_COMPLETE]";
+    }
+    return text;
   };
 }
 
@@ -311,6 +362,13 @@ function modelStep(tools: ResearchTools, model: ResearchModel, maxIterations: nu
 function stripThinking(text: string): string {
   return text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
 }
+
+// Models sometimes inflect the relationship word; these mean the same thing.
+const RELATIONSHIP_VARIANTS = new Map<string, Relationship>([
+  ["SUPPORTED", "SUPPORTS"], ["SUPPORT", "SUPPORTS"],
+  ["CONTRADICTED", "CONTRADICTS"], ["CONTRADICT", "CONTRADICTS"],
+  ["EXTENDED", "EXTENDS"], ["EXTEND", "EXTENDS"],
+]);
 
 // Accepts the model's evaluations only where they cite evidence the tools
 // actually returned during this run.
@@ -339,10 +397,11 @@ function parseModelConclusion(output: string, ledger: EvidenceLedger, notes: str
   const evaluations: Evaluation[] = [];
   for (const item of Array.isArray(data.evaluations) ? data.evaluations : []) {
     const e = item as Record<string, unknown>;
-    const relationship = e.relationship as Relationship;
+    const word = typeof e.relationship === "string" ? e.relationship.trim().toUpperCase() : "";
+    const relationship = RELATIONSHIPS.includes(word as Relationship) ? (word as Relationship) : RELATIONSHIP_VARIANTS.get(word);
     const memoryId = typeof e.memory_id === "string" ? e.memory_id : null;
     const confidence = confidenceOf(e.confidence);
-    if (!RELATIONSHIPS.includes(relationship) || confidence === undefined) {
+    if (!relationship || confidence === undefined) {
       notes.push(`Dropped a malformed evaluation: ${JSON.stringify(item).slice(0, 120)}`);
       continue;
     }
@@ -350,9 +409,12 @@ function parseModelConclusion(output: string, ledger: EvidenceLedger, notes: str
       notes.push(`Dropped an evaluation of ${memoryId}, which no tool returned.`);
       continue;
     }
-    const evidence = grounded(e.evidence, "evaluation");
+    const cited = grounded(e.evidence, "evaluation");
+    // Memories are what is being judged, not evidence for it.
+    const evidence = cited.filter((id) => !id.startsWith("mem-"));
+    if (evidence.length < cited.length) notes.push(`Memories aren't evidence: dropped ${cited.filter((id) => id.startsWith("mem-")).join(", ")} from a citation.`);
     if (relationship !== "UNRELATED" && evidence.length === 0) continue;
-    evaluations.push({ relationship, memoryId, evidence, confidence, reason: typeof e.reason === "string" ? e.reason : "" });
+    evaluations.push({ relationship, memoryId, evidence, confidence, reason: typeof e.reason === "string" ? e.reason : "", by: "model" });
   }
 
   let learned: LearnedConclusion | undefined;

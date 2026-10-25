@@ -18,6 +18,7 @@ export interface Evaluation {
   evidence: string[];
   confidence: number;
   reason: string;
+  by: "rules" | "model";
 }
 
 export interface LearnedConclusion {
@@ -86,7 +87,7 @@ function evaluateSubject(text: string, finding: ResearchFinding | undefined, led
   const proposition = propositionOf(text);
   if (!proposition) {
     return finding
-      ? [{ relationship: "UNRELATED", memoryId, evidence: [], confidence: BASE_CONFIDENCE, reason: "no gathered evidence speaks to this memory" }]
+      ? [{ relationship: "UNRELATED", memoryId, evidence: [], confidence: BASE_CONFIDENCE, reason: "no gathered evidence speaks to this memory", by: "rules" }]
       : [];
   }
   const evaluations: Evaluation[] = [];
@@ -94,10 +95,10 @@ function evaluateSubject(text: string, finding: ResearchFinding | undefined, led
     const verdict = judge(proposition, isQuestion(text, finding), finding !== undefined, paper);
     if (!verdict) continue;
     const { evidence, confidence } = corroboration(paper, ledger);
-    evaluations.push({ relationship: verdict.relationship, memoryId, evidence, confidence, reason: verdict.reason });
+    evaluations.push({ relationship: verdict.relationship, memoryId, evidence, confidence, reason: verdict.reason, by: "rules" });
   }
   if (finding && evaluations.length === 0) {
-    evaluations.push({ relationship: "UNRELATED", memoryId, evidence: [], confidence: BASE_CONFIDENCE, reason: "none of the gathered papers bears on this memory" });
+    evaluations.push({ relationship: "UNRELATED", memoryId, evidence: [], confidence: BASE_CONFIDENCE, reason: "none of the gathered papers bears on this memory", by: "rules" });
   }
   return evaluations;
 }

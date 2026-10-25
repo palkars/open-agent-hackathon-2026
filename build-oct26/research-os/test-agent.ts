@@ -11,6 +11,7 @@ import http from "node:http";
 import os from "node:os";
 import path from "node:path";
 import { LocalResearchRepository } from "./src/data/local-repository.ts";
+import { loadNotes } from "./src/data/repository.ts";
 import { ResearchMemory } from "./src/memory/research-memory.ts";
 import { seedResearchNotes } from "./src/memory/seed.ts";
 import { runResearchAgent } from "./src/agents/research-agent.ts";
@@ -186,7 +187,7 @@ async function main(): Promise<void> {
         answer: "Yes: distributed threshold opening (P007) gives traceability without one trusted opener.",
         evaluations: [
           { relationship: "CONTRADICTS", memory_id: target.id, evidence: ["P007", "E002", "P999"], confidence: 0.9, reason: "P007 uses threshold opening" },
-          { relationship: "SUPPORTS", memory_id: null, evidence: ["P007"], confidence: 0.9, reason: "P007 answers the question" },
+          { relationship: "supported", memory_id: null, evidence: ["P007"], confidence: 0.9, reason: "P007 answers the question" },
           { relationship: "SUPPORTS", memory_id: "mem-99", evidence: ["P007"], confidence: 0.9, reason: "invented memory" },
         ],
         learned: { content: "Distributed threshold opening provides traceability without a single trusted opener.", evidence: ["P007", "E002"], confidence: 0.9 },
@@ -200,13 +201,73 @@ async function main(): Promise<void> {
       assert(chat.path === "/v1/chat/completions" && chat.headers.authorization === "Bearer runtime-token", "chat must go to /v1/chat/completions with the bearer token");
       assert(chat.headers["meterless-app"] === "research-os" && chat.headers["meterless-scope"] === "user", "chat must send meterless-app and meterless-scope: user");
       assert(chat.body.model === "meterless/auto" && chat.body.tools.some((t: any) => t.function.name === "search_research_memory"), "chat must offer the research tools");
-      assert(result.mode === "model" && result.evaluationSource === "model" && result.run.chunks === 1, `mode ${result.mode}, source ${result.evaluationSource}, chunks ${result.run.chunks}`);
+      assert(result.mode === "model" && result.evaluationSource.startsWith("model") && result.run.chunks === 1, `mode ${result.mode}, source ${result.evaluationSource}, chunks ${result.run.chunks}`);
       const contradiction = result.evaluations.find((e) => e.memoryId === target.id);
-      assert(contradiction && !contradiction.evidence.includes("P999"), "the ungrounded P999 citation must be dropped");
+      assert(contradiction && contradiction.by === "model" && !contradiction.evidence.includes("P999"), "the model's evaluation is kept, minus the ungrounded P999 citation");
       assert(!result.evaluations.some((e) => e.memoryId === "mem-99"), "an evaluation of an unseen memory must be dropped");
+      assert(result.evaluations.some((e) => e.memoryId === null && e.relationship === "SUPPORTS" && e.by === "model"), "\"supported\" should be read as SUPPORTS");
       assert(result.notes.some((n) => n.includes("P999")), "the dropped citation should be reported");
       assert(result.learning.stored?.content.startsWith("Distributed threshold opening") && result.learning.superseded.includes(target.id), "the model's conclusion should revise N002");
       assert(!result.iterations[0].content.includes("<think>"), "thinking must be stripped");
+    } finally {
+      await runtime.close();
+    }
+  });
+
+  await check("model mode: rules catch a contradiction the model didn't judge", async () => {
+    const modelMemory = await freshMemory("model-gap");
+    const target = modelMemory.listResearchFindings().find((f) => f.tags.includes("note:N002"))!;
+    const runtime = await fakeServer((_path, body) => {
+      const toolResults = (body.messages as ChatMessage[]).filter((m) => m.role === "tool").length;
+      if (toolResults === 0) {
+        const call = (id: string, name: string, args: unknown) => ({ id, type: "function", function: { name, arguments: JSON.stringify(args) } });
+        return { json: { choices: [{ message: { role: "assistant", content: null, tool_calls: [
+          call("c1", "search_papers", { query: "traceability trusted opener" }),
+          call("c2", "get_experiments", { paper_ids: ["P001", "P002", "P007"] }),
+        ] } }] } };
+      }
+      // Judges only the question, as Nemotron did in a live run.
+      const final = { answer: "Yes (P007).", evaluations: [{ relationship: "SUPPORTS", memory_id: null, evidence: ["P007", "E002"], confidence: 0.85, reason: "P007" }], learned: null };
+      return { json: { choices: [{ message: { role: "assistant", content: `\`\`\`json\n${JSON.stringify(final)}\n\`\`\`\n[TASK_COMPLETE]` } }] } };
+    });
+    try {
+      const model = new ResearchModel(new ModelClient({ id: "direct", baseUrl: `${runtime.url}/v1`, token: "k", model: "nvidia/nemotron" }));
+      const result = await runResearchAgent(QUESTION, { memory: modelMemory, repository, model });
+      const filled = result.evaluations.find((e) => e.memoryId === target.id && e.relationship === "CONTRADICTS");
+      assert(result.evaluationSource === "model+rules" && filled?.by === "rules", `source ${result.evaluationSource}, filled ${JSON.stringify(filled)}`);
+      assert(result.learning.conflicts.some((c) => c.memoryId === target.id), "the rules' contradiction must still be recorded in H-MEM");
+    } finally {
+      await runtime.close();
+    }
+  });
+
+  await check("model mode: a final chunk with no answer gets a reminder, then the rules' answer", async () => {
+    const modelMemory = await freshMemory("model-silent");
+    const target = modelMemory.listResearchFindings().find((f) => f.tags.includes("note:N002"))!;
+    let reminders = 0;
+    const runtime = await fakeServer((_path, body) => {
+      const messages = body.messages as ChatMessage[];
+      const last = messages.at(-1);
+      if (last?.role === "user" && String(last.content).startsWith("Now write the final answer")) {
+        reminders++;
+        return { json: { choices: [{ message: { role: "assistant", content: "" } }] } };
+      }
+      if (messages.some((m) => m.role === "tool")) {
+        // Ends with nothing but the completion marker, as Nemotron did live.
+        return { json: { choices: [{ message: { role: "assistant", content: "[TASK_COMPLETE]" } }] } };
+      }
+      const call = (id: string, name: string, args: unknown) => ({ id, type: "function", function: { name, arguments: JSON.stringify(args) } });
+      return { json: { choices: [{ message: { role: "assistant", content: null, tool_calls: [
+        call("c1", "search_papers", { query: "traceability trusted opener" }),
+        call("c2", "get_experiments", { paper_ids: ["P001", "P002", "P007"] }),
+      ] } }] } };
+    });
+    try {
+      const model = new ResearchModel(new ModelClient({ id: "direct", baseUrl: `${runtime.url}/v1`, token: "k", model: "nvidia/nemotron" }));
+      const result = await runResearchAgent(QUESTION, { memory: modelMemory, repository, model });
+      assert(reminders === 1, `expected one reminder, got ${reminders}`);
+      assert(result.answer.startsWith("Yes.") && result.answer.includes("P007"), `answer: ${JSON.stringify(result.answer)}`);
+      assert(result.learning.stored && result.learning.superseded.includes(target.id), "the rules' conclusion should still revise N002");
     } finally {
       await runtime.close();
     }
@@ -248,7 +309,9 @@ async function main(): Promise<void> {
   await check("Zetaris setup: one statement per table, escaped literals", () => {
     const statements = buildSetupStatements("researchos");
     assert(statements.length === 5 && statements[0] === "CREATE SCHEMASTORE CONTAINER researchos", "container plus four views");
-    assert(statements.every((s) => !s.includes(";")), "Lightning SQL takes one statement per call");
+    // Semicolons inside quoted text are fine; one between statements is not.
+    const outsideQuotes = (s: string) => s.replace(/'(?:\\.|[^'\\])*'/g, "''");
+    assert(statements.every((s) => !outsideQuotes(s).includes(";")), "Lightning SQL takes one statement per call");
     assert(statements[1].includes("'P007'") && statements[1].includes("AS t(paper_id, title"), "papers view should inline the rows");
     assert(statements[3].includes("('N001', 'P001')"), "note_papers should link notes to papers");
   });
@@ -258,7 +321,8 @@ async function main(): Promise<void> {
     const papers = files.find((f) => f.table === "papers")!;
     assert(files.length === 4 && papers.content.startsWith("paper_id,title,year,"), "four CSVs, header row first");
     assert(papers.content.includes('"P007","Distributed Opening for Post-Quantum Group Signatures",2026,') && papers.content.includes(",true,true,true,false,"), "strings quoted, numbers and booleans bare");
-    assert(files.find((f) => f.table === "note_papers")!.content.trimEnd().split("\n").length === 5, "note_papers flattens each note's papers");
+    const links = loadNotes().reduce((sum, n) => sum + n.related_papers.length, 0);
+    assert(files.find((f) => f.table === "note_papers")!.content.trimEnd().split("\n").length === links + 1, "note_papers flattens each note's papers");
     const statements = buildFileTableStatements("researchos_files", "file:///data/researchos");
     assert(statements[1] === `CREATE LIGHTNING FILESTORE TABLE papers FROM researchos_files FORMAT CSV OPTIONS (path "file:///data/researchos/papers.csv", header "true", inferSchema "true", escape '"')`, statements[1]);
   });
