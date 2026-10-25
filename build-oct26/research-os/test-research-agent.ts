@@ -2,7 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { ResearchAgent } from "./src/agents/research-agent.ts";
-import type { ResearchContext } from "./src/agents/types.ts";
+import { DeterministicResearchReasoner } from "./src/reasoning/deterministic-reasoner.ts";
+import type { ResearchConclusion, ResearchContext } from "./src/agents/types.ts";
 import type { ResearchEvidence } from "./src/data/types.ts";
 import { ResearchMemory } from "./src/memory/research-memory.ts";
 import {
@@ -163,7 +164,39 @@ function printEvidence(context: ResearchContext): void {
   }
 }
 
-function printReport(context: ResearchContext): void {
+function printList(values: string[]): void {
+  if (values.length === 0) {
+    console.log("none");
+    return;
+  }
+  for (const value of values) console.log(value);
+}
+
+function printAssessment(conclusion: ResearchConclusion): void {
+  console.log("ASSESSMENT");
+  console.log("------------------------------------------------");
+  console.log("");
+  console.log("Status:");
+  console.log(conclusion.assessment);
+  console.log("");
+  console.log("Summary:");
+  console.log(conclusion.summary);
+  console.log("");
+  console.log("Confidence:");
+  console.log(conclusion.confidence);
+  console.log("");
+  console.log("Supporting sources:");
+  printList(conclusion.supportingSourceIds);
+  console.log("");
+  console.log("Conflicting sources:");
+  printList(conclusion.conflictingSourceIds);
+  console.log("");
+  console.log("Open questions:");
+  printList(conclusion.openQuestions);
+  console.log("");
+}
+
+function printReport(context: ResearchContext, conclusion: ResearchConclusion): void {
   console.log("================================================");
   console.log("RESEARCHOS — PHASE 14");
   console.log("================================================");
@@ -177,15 +210,16 @@ function printReport(context: ResearchContext): void {
   console.log("ZETARIS");
   console.log("----------------");
   printEvidence(context);
+  printAssessment(conclusion);
 }
 
 try {
   loadResearchOsEnv();
   const memory = await ResearchMemory.create();
   const repository = ZetarisResearchRepository.fromEnv();
-  const agent = new ResearchAgent(memory, repository);
-  const context = await agent.gatherResearchContext(QUESTION);
-  printReport(context);
+  const researchAgent = new ResearchAgent(memory, repository, new DeterministicResearchReasoner());
+  const result = await researchAgent.research(QUESTION);
+  printReport(result.context, result.conclusion);
 } catch (error) {
   if (error instanceof ZetarisClientError) {
     console.error(ERROR_CATEGORY[error.kind]);

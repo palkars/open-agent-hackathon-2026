@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import type { ResearchAgentResult } from "./src/agents/types.ts";
 import { searchPapers } from "./src/data/repository.ts";
 import type { Experiment, Paper, ResearchEvidence, ResearchNote } from "./src/data/types.ts";
 import { ZetarisResearchRepository, type PotentiallyConflictingEvidence, type TraceableScheme } from "./src/zetaris/repository.ts";
@@ -172,6 +173,92 @@ function printPotentiallyConflictingEvidence(rows: PotentiallyConflictingEvidenc
   }
 }
 
+function printLines(values: string[]): void {
+  if (values.length === 0) {
+    console.log("none");
+    return;
+  }
+  for (const value of values) console.log(value);
+}
+
+function printCurrentEvidence(evidence: ResearchAgentResult["context"]["currentEvidence"]): void {
+  if (!Array.isArray(evidence)) {
+    if (evidence.papers.length === 0 && evidence.notes.length === 0 && evidence.experiments.length === 0) {
+      console.log("none");
+      return;
+    }
+    for (const paper of evidence.papers) {
+      console.log(`- ${paper.paper_id}: ${paper.title}`);
+      console.log(`  method ${paper.crypto_method ?? "unknown"}; anonymity ${flag(paper.provides_anonymity)}; traceability ${flag(paper.provides_traceability)}; trusted opener ${flag(paper.trusted_opener_required)}`);
+    }
+    return;
+  }
+  if (evidence.length === 0) {
+    console.log("none");
+    return;
+  }
+  for (const row of evidence) {
+    if ("researcher_note" in row) {
+      console.log(`- ${row.paper_id}: ${row.title}`);
+      console.log(`  stance ${row.note_stance}; trusted opener ${flag(row.trusted_opener_required)}; experiment ${row.experiment_result ?? "unknown"}`);
+      console.log(`  ${row.researcher_note}`);
+      continue;
+    }
+    console.log(`- ${row.paper_id}: ${row.title}`);
+    console.log(`  method ${row.crypto_method}; anonymity ${flag(row.provides_anonymity)}; traceability ${flag(row.provides_traceability)}; trusted opener ${flag(row.trusted_opener_required)}`);
+    console.log(`  verify ${measure(row.verify_time_ms, "ms")}; signature ${measure(row.signature_size_bytes, "bytes")}; result ${row.result ?? "unknown"}`);
+  }
+}
+
+function printResearchResult(result: ResearchAgentResult): void {
+  const { context, conclusion } = result;
+  console.log("");
+  console.log("QUESTION");
+  console.log(context.question.question);
+  console.log("");
+  console.log("PRIOR KNOWLEDGE");
+  console.log("source: Meterless H-MEM");
+  const memories = context.priorMemories.memories;
+  if (memories.length === 0) {
+    console.log("none");
+  } else {
+    for (const hit of memories) {
+      const record = hit.memory;
+      const kind = record.provenance?.label?.trim() || record.type;
+      const refs = record.provenance?.refs?.filter((ref) => ref.trim()).join(", ") || record.source || "unknown";
+      console.log(`- ${kind} (${record.confidence}) [${refs}]`);
+      console.log(`  ${record.content}`);
+    }
+  }
+  console.log("");
+  console.log("CURRENT EVIDENCE");
+  console.log("source: Zetaris");
+  printCurrentEvidence(context.currentEvidence);
+  console.log("");
+  console.log("ASSESSMENT");
+  console.log(conclusion.assessment);
+  console.log("");
+  console.log("CONCLUSION");
+  console.log(conclusion.summary);
+  console.log("");
+  console.log("CONFIDENCE");
+  console.log(conclusion.confidence);
+  console.log("");
+  console.log("SUPPORTING SOURCES");
+  printLines(conclusion.supportingSourceIds);
+  console.log("");
+  console.log("CONFLICTING SOURCES");
+  printLines(conclusion.conflictingSourceIds);
+  console.log("");
+  console.log("OPEN QUESTIONS");
+  printLines(conclusion.openQuestions.map((question) => `- ${question}`));
+  console.log("");
+  console.log("MEMORY STORED");
+  if (result.memoryStored) console.log(result.storedMemoryId ? `yes (${result.storedMemoryId})` : "yes");
+  else if (result.storedMemoryId) console.log(`already stored (${result.storedMemoryId})`);
+  else console.log("no");
+}
+
 function printExperiment(experiment: Experiment): void {
   console.log("Experiment:");
   console.log(`Scheme: ${experiment.scheme}`);
@@ -266,6 +353,35 @@ if (command === "search") {
       console.log(`- ${entry.action} by ${entry.actor} at ${new Date(entry.timestamp).toISOString()}${confidence}`);
     }
   }
+} else if (command === "research") {
+  const text = [query, ...extra].join(" ").trim();
+  if (!text) {
+    console.error('Usage: npx tsx research-os/research.ts research "<question>"');
+    process.exitCode = 1;
+  } else {
+    try {
+      loadResearchOsEnv();
+      const { ResearchMemory } = await import("./src/memory/research-memory.ts");
+      const { ResearchAgent } = await import("./src/agents/research-agent.ts");
+      const { DeterministicResearchReasoner } = await import("./src/reasoning/deterministic-reasoner.ts");
+      const agent = new ResearchAgent(
+        await ResearchMemory.create(),
+        ZetarisResearchRepository.fromEnv(),
+        new DeterministicResearchReasoner(),
+      );
+      printResearchResult(await agent.research(text));
+    } catch (error) {
+      if (error instanceof ZetarisClientError) {
+        console.error(ERROR_CATEGORY[error.kind]);
+        console.error(error.message);
+      } else if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("CONNECTION_ERROR");
+      }
+      process.exitCode = 1;
+    }
+  }
 } else if (command === "memory") {
   const text = [query, ...extra].join(" ").trim();
   if (!text) {
@@ -289,6 +405,7 @@ if (command === "search") {
   console.error("       npx tsx research-os/research.ts evidence-conflicts");
   console.error("       npx tsx research-os/research.ts seed-memory");
   console.error("       npx tsx research-os/research.ts audit <memory-id>");
+  console.error('       npx tsx research-os/research.ts research "<question>"');
   console.error('       npx tsx research-os/research.ts memory "<query>"');
   process.exitCode = 1;
 }

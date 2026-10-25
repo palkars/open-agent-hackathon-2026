@@ -47,7 +47,7 @@ export class ResearchMemory {
     private readonly hmem: {
       add: (input: Record<string, unknown>) => { id: string };
       query: (query: string, opts?: { topN?: number; threshold?: number; chatId?: string }) => QueryResult;
-      store: { all: () => { content: string; source: string }[] };
+      store: { all: () => { id?: string; content: string; source: string }[] };
       ledger: { history: (memoryId: string) => LedgerEntry[] };
     },
   ) {}
@@ -74,6 +74,13 @@ export class ResearchMemory {
         refs: finding.sourceIds,
       },
     });
+  }
+
+  findResearchFinding(finding: ResearchMemoryInput): { id: string } | undefined {
+    const source = finding.sourceIds.join(", ");
+    const match = this.hmem.store.all().find((record) => record.content === finding.content && record.source === source);
+    const id = match?.id?.trim();
+    return id ? { id } : undefined;
   }
 
   hasResearchFinding(finding: ResearchMemoryInput): boolean {
