@@ -23,10 +23,19 @@ export interface ResearchConclusion {
   openQuestions: string[];
 }
 
+export interface ResearchTimings {
+  memoryRetrievalMs: number;
+  zetarisRetrievalMs: number;
+  reasoningMs: number;
+  memoryStoreMs: number;
+  totalMs: number;
+}
+
 export interface ResearchAgentResult {
   question: ResearchQuestion;
   context: ResearchContext;
   conclusion: ResearchConclusion;
   memoryStored: boolean;
   storedMemoryId?: string;
+  timings: ResearchTimings;
 }

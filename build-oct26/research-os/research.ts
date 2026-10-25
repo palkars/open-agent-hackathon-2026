@@ -173,6 +173,26 @@ function printPotentiallyConflictingEvidence(rows: PotentiallyConflictingEvidenc
   }
 }
 
+const SAFE_RESEARCH_FAILURES = new Set([
+  "MEMORY_RETRIEVAL_ERROR",
+  "ZETARIS_AUTHENTICATION_ERROR",
+  "ZETARIS_CONNECTION_ERROR",
+  "REASONING_ERROR",
+  "Research question cannot be empty",
+]);
+
+function safeResearchFailure(error: unknown): string {
+  if (error instanceof Error && SAFE_RESEARCH_FAILURES.has(error.message)) return error.message;
+  if (error instanceof ZetarisClientError) {
+    if (error.kind === "auth") return "ZETARIS_AUTHENTICATION_ERROR";
+    if (error.kind === "config" && /password|api[_ ]?key|username|credential|unauthor|forbidden/i.test(error.message)) {
+      return "ZETARIS_AUTHENTICATION_ERROR";
+    }
+    return "ZETARIS_CONNECTION_ERROR";
+  }
+  return "MEMORY_RETRIEVAL_ERROR";
+}
+
 function printLines(values: string[]): void {
   if (values.length === 0) {
     console.log("none");
@@ -257,6 +277,13 @@ function printResearchResult(result: ResearchAgentResult): void {
   if (result.memoryStored) console.log(result.storedMemoryId ? `yes (${result.storedMemoryId})` : "yes");
   else if (result.storedMemoryId) console.log(`already stored (${result.storedMemoryId})`);
   else console.log("no");
+  console.log("");
+  console.log("TIMINGS");
+  console.log(`memory retrieval: ${result.timings.memoryRetrievalMs} ms`);
+  console.log(`zetaris retrieval: ${result.timings.zetarisRetrievalMs} ms`);
+  console.log(`reasoning: ${result.timings.reasoningMs} ms`);
+  console.log(`memory store: ${result.timings.memoryStoreMs} ms`);
+  console.log(`total: ${result.timings.totalMs} ms`);
 }
 
 function printExperiment(experiment: Experiment): void {
@@ -371,14 +398,7 @@ if (command === "search") {
       );
       printResearchResult(await agent.research(text));
     } catch (error) {
-      if (error instanceof ZetarisClientError) {
-        console.error(ERROR_CATEGORY[error.kind]);
-        console.error(error.message);
-      } else if (error instanceof Error) {
-        console.error(error.message);
-      } else {
-        console.error("CONNECTION_ERROR");
-      }
+      console.error(safeResearchFailure(error));
       process.exitCode = 1;
     }
   }
