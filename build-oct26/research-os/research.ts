@@ -391,10 +391,14 @@ if (command === "search") {
       const { ResearchMemory } = await import("./src/memory/research-memory.ts");
       const { ResearchAgent } = await import("./src/agents/research-agent.ts");
       const { DeterministicResearchReasoner } = await import("./src/reasoning/deterministic-reasoner.ts");
+      const { LLMResearchReasoner } = await import("./src/reasoning/llm-reasoner.ts");
+      const reasoner = (process.env.RESEARCH_REASONER ?? "").trim().toLowerCase() === "llm"
+        ? new LLMResearchReasoner()
+        : new DeterministicResearchReasoner();
       const agent = new ResearchAgent(
         await ResearchMemory.create(),
         ZetarisResearchRepository.fromEnv(),
-        new DeterministicResearchReasoner(),
+        reasoner,
       );
       printResearchResult(await agent.research(text));
     } catch (error) {
