@@ -1,3 +1,3 @@
 # Prompts
 1. I gave this prompt to cursor/grocai "Analyse the paper. We ar pariticpating https://hackathon.genai.works/resources?id=01a08ff1-546c-7a4e-a499-dc948b4d8fb3  openagenthackathon and chosing track2. reasoning. The project idea is to fact check the claim citing evidences , grouping them into clusters and getting LLms opinion about each cluster and then deciding whther the claim is valid. It involves reverser image search. DEtermine if it's possible to narrow it down to open agent hackthon track 2 idea and whther it can be built considering the scoring criteria where impact is scored more " It gave the md file. review the response and come up with the better usecase
-2. 
+2. I do want to implemnet the samestory idea. come up with a final version of it and present detailed requirements, the user, system behaviour, proposed architechture and implementation phases on a very high level. This will be reviewed manually or by other ai asisstants 
