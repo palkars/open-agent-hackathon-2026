@@ -43,11 +43,23 @@ export interface ResearchTimings {
   totalMs: number;
 }
 
+export const MAX_RESEARCH_ITERATIONS = 3;
+
+export type ResearchTraceStep = "Search memory" | "Query Zetaris" | "Found conflict" | "No conflict" | "Investigate" | "Conclusion";
+
+export interface ResearchTraceEntry {
+  iteration: number;
+  step: ResearchTraceStep;
+  detail: string;
+}
+
 export interface ResearchAgentResult {
   question: ResearchQuestion;
   context: ResearchContext;
   conclusion: ResearchConclusion;
   evaluations: ContradictionReport[];
+  iterations: number;
+  trace: ResearchTraceEntry[];
   memoryStored: boolean;
   storedMemoryId?: string;
   timings: ResearchTimings;

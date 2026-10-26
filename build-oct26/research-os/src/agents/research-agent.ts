@@ -3,9 +3,10 @@ import type { ResearchMemory, ResearchMemoryInput, ResearchMemoryType } from "..
 import type { ResearchReasoner } from "../reasoning/types.ts";
 import type { PotentiallyConflictingEvidence, TraceableScheme, ZetarisResearchRepository } from "../zetaris/repository.ts";
 import { ZetarisClientError } from "../zetaris/types.ts";
-import type { ResearchEvidence } from "../data/types.ts";
+import type { Experiment, Paper, ResearchEvidence, ResearchNote } from "../data/types.ts";
 import { ContradictionEvaluator } from "./evaluator.ts";
-import type { ContradictionReport, EvidenceAssessment, ResearchAgentResult, ResearchConclusion, ResearchContext, ResearchTimings } from "./types.ts";
+import type { ContradictionReport, EvidenceAssessment, ResearchAgentResult, ResearchConclusion, ResearchContext, ResearchTimings, ResearchTraceEntry } from "./types.ts";
+import { MAX_RESEARCH_ITERATIONS } from "./types.ts";
 
 const MEMORY_RETRIEVAL_ERROR = "MEMORY_RETRIEVAL_ERROR";
 const ZETARIS_AUTHENTICATION_ERROR = "ZETARIS_AUTHENTICATION_ERROR";
@@ -19,6 +20,9 @@ const CONCLUSION_MEMORY_TYPE: Record<EvidenceAssessment, ResearchMemoryType> = {
   MIXED: "LIMITATION",
   INSUFFICIENT: "OPEN_QUESTION",
 };
+
+const PAPER_ID = /\b[A-Z]{1,3}\d{2,}\b/g;
+const CONFLICT_FOCUS = /\b(conflict\w*|contradict\w*|skeptic\w*)\b/i;
 
 const CONCLUSION_TAGS = [
   "researchos",
@@ -52,10 +56,16 @@ export class ResearchAgent {
     }
 
     const started = performance.now();
+    this.phaseMs = {
+      memoryRetrievalMs: 0,
+      zetarisRetrievalMs: 0,
+      reasoningMs: 0,
+      evaluationMs: 0,
+      memoryStoreMs: 0,
+    };
     console.log("[ResearchOS] Question received");
-    const context = await this.gatherResearchContext(text);
-    console.log("[ResearchOS] Assessing evidence");
-    const conclusion = await this.assessResearchContext(context);
+    const investigation = await this.investigate(text);
+    const { context, conclusion, iterations, trace } = investigation;
     console.log("[ResearchOS] Evaluating contradictions");
     const evaluations = await this.evaluateContradictions(context, conclusion);
     const stored = this.storeResearchConclusion(conclusion);
@@ -68,10 +78,100 @@ export class ResearchAgent {
       context,
       conclusion,
       evaluations,
+      iterations,
+      trace,
       memoryStored: stored.memoryStored,
       ...(stored.storedMemoryId ? { storedMemoryId: stored.storedMemoryId } : {}),
       timings: { ...this.phaseMs, totalMs: elapsedMs(started) },
     };
+  }
+
+  private async investigate(question: string): Promise<Pick<ResearchAgentResult, "context" | "conclusion" | "iterations" | "trace">> {
+    const trace: ResearchTraceEntry[] = [];
+    const investigatedPapers = new Set<string>();
+    let investigatedSchemes = false;
+    let investigatedConflicts = false;
+    let evidence = emptyEvidence();
+    let priorMemories = emptyRecall();
+    let conclusion = insufficientConclusion();
+    let focus = question;
+    let remaining: string[] = [];
+    let iterations = 0;
+
+    for (let iteration = 1; iteration <= MAX_RESEARCH_ITERATIONS; iteration += 1) {
+      iterations = iteration;
+      console.log(`[ResearchOS] Iteration ${iteration} of ${MAX_RESEARCH_ITERATIONS}`);
+      trace.push({ iteration, step: "Search memory", detail: oneLine(focus) });
+      console.log("[Meterless H-MEM] Retrieving prior knowledge");
+      priorMemories = mergeMemories(priorMemories, this.recall(focus));
+
+      const query = nextQuery(focus, remaining, { papers: investigatedPapers, schemes: investigatedSchemes, conflicts: investigatedConflicts });
+      if (!query) {
+        trace.push({ iteration, step: "Conclusion", detail: "No further Zetaris query" });
+        break;
+      }
+
+      trace.push({ iteration, step: "Query Zetaris", detail: query.detail });
+      console.log("[Zetaris] Retrieving current evidence");
+      const batch = await this.retrieveEvidence(query);
+      if (query.kind === "paper") investigatedPapers.add(query.paperId);
+      if (query.kind === "schemes") investigatedSchemes = true;
+      if (query.kind === "conflicts") investigatedConflicts = true;
+      evidence = mergeEvidence(evidence, batch);
+
+      const conflict = batchHasConflict(query.kind, batch);
+      trace.push({ iteration, step: conflict ? "Found conflict" : "No conflict", detail: query.detail });
+      trace.push({ iteration, step: "Investigate", detail: oneLine(focus) });
+      console.log("[ResearchOS] Assessing evidence");
+      const context = { question: { question }, priorMemories, currentEvidence: evidence };
+      conclusion = await this.assessResearchContext(context);
+      remaining = conclusion.openQuestions;
+      const enough = conclusion.assessment !== "INSUFFICIENT" && remaining.length === 0;
+      const capped = iteration === MAX_RESEARCH_ITERATIONS;
+      trace.push({
+        iteration,
+        step: "Conclusion",
+        detail: enough ? conclusion.assessment : capped ? `${conclusion.assessment}; stopped at ${MAX_RESEARCH_ITERATIONS}` : `${conclusion.assessment}; ${remaining.length} open`,
+      });
+      if (enough || capped) break;
+      const nextFocus = remaining.length > 0 ? remaining.join("\n") : question;
+      if (!nextQuery(nextFocus, remaining, { papers: investigatedPapers, schemes: investigatedSchemes, conflicts: investigatedConflicts })) {
+        trace.push({ iteration, step: "Conclusion", detail: "No further Zetaris query" });
+        break;
+      }
+      focus = nextFocus;
+    }
+
+    return {
+      context: { question: { question }, priorMemories, currentEvidence: evidence },
+      conclusion,
+      iterations,
+      trace,
+    };
+  }
+
+  private recall(text: string): ResearchContext["priorMemories"] {
+    const started = performance.now();
+    try {
+      return this.memory.retrieveResearchMemory(text);
+    } catch {
+      throw new Error(MEMORY_RETRIEVAL_ERROR);
+    } finally {
+      this.phaseMs.memoryRetrievalMs += elapsedMs(started);
+    }
+  }
+
+  private async retrieveEvidence(query: EvidenceQuery): Promise<ResearchEvidence> {
+    const started = performance.now();
+    try {
+      if (query.kind === "paper") return await this.repository.getPaperEvidence(query.paperId);
+      if (query.kind === "conflicts") return conflictsToEvidence(await this.repository.getPotentiallyConflictingEvidence());
+      return schemesToEvidence(await this.repository.findPostQuantumAnonymousTraceableSchemes());
+    } catch (error) {
+      throw reportedZetarisError(error);
+    } finally {
+      this.phaseMs.zetarisRetrievalMs += elapsedMs(started);
+    }
   }
 
   async gatherResearchContext(question: string): Promise<ResearchContext> {
@@ -117,7 +217,7 @@ export class ResearchAgent {
       if (!hasCurrentEvidence(context.currentEvidence)) return insufficientConclusion();
       throw new Error(REASONING_ERROR);
     } finally {
-      this.phaseMs.reasoningMs = elapsedMs(started);
+      this.phaseMs.reasoningMs += elapsedMs(started);
     }
   }
 
@@ -189,6 +289,138 @@ function insufficientConclusion(): ResearchConclusion {
     conflictingSourceIds: [],
     openQuestions: [],
   };
+}
+
+type EvidenceQuery =
+  | { kind: "paper"; paperId: string; detail: string }
+  | { kind: "conflicts"; detail: string }
+  | { kind: "schemes"; detail: string };
+
+function nextQuery(
+  focus: string,
+  remaining: string[],
+  investigated: { papers: Set<string>; schemes: boolean; conflicts: boolean },
+): EvidenceQuery | null {
+  const text = [focus, ...remaining].join("\n");
+  const unseenPaper = paperIds(text).find((id) => !investigated.papers.has(id));
+  if (unseenPaper && (investigated.schemes || paperIds(focus).length > 0)) {
+    return { kind: "paper", paperId: unseenPaper, detail: unseenPaper };
+  }
+  if (CONFLICT_FOCUS.test(text) && !investigated.conflicts) return { kind: "conflicts", detail: "potentially conflicting evidence" };
+  if (!investigated.schemes) return { kind: "schemes", detail: "post-quantum anonymous traceable schemes" };
+  if (unseenPaper) return { kind: "paper", paperId: unseenPaper, detail: unseenPaper };
+  if (!investigated.conflicts && CONFLICT_FOCUS.test(text)) return { kind: "conflicts", detail: "potentially conflicting evidence" };
+  return null;
+}
+
+function paperIds(text: string): string[] {
+  return [...new Set([...text.matchAll(PAPER_ID)].map((match) => match[0]))];
+}
+
+function emptyEvidence(): ResearchEvidence {
+  return { papers: [], notes: [], experiments: [] };
+}
+
+function emptyRecall(): ResearchContext["priorMemories"] {
+  return { memories: [], context: "", trace: { retrievalReason: "", strategy: "minimal", scores: {} } };
+}
+
+function mergeMemories(current: ResearchContext["priorMemories"], next: ResearchContext["priorMemories"]): ResearchContext["priorMemories"] {
+  const byId = new Map(current.memories.map((hit) => [hit.memory.id, hit]));
+  for (const hit of next.memories) {
+    const existing = byId.get(hit.memory.id);
+    if (!existing || hit.relevance > existing.relevance) byId.set(hit.memory.id, hit);
+  }
+  return { memories: [...byId.values()], context: next.context || current.context, trace: next.trace };
+}
+
+function schemesToEvidence(schemes: TraceableScheme[]): ResearchEvidence {
+  const papers: Paper[] = [];
+  const experiments: Experiment[] = [];
+  const seen = new Set<string>();
+  for (const scheme of schemes) {
+    if (!seen.has(scheme.paper_id)) {
+      seen.add(scheme.paper_id);
+      papers.push({
+        paper_id: scheme.paper_id,
+        title: scheme.title,
+        crypto_method: scheme.crypto_method,
+        key_claim: scheme.key_claim,
+        limitation: scheme.limitation,
+        post_quantum: true,
+        provides_anonymity: true,
+        provides_traceability: true,
+        trusted_opener_required: scheme.trusted_opener_required,
+      });
+    }
+    experiments.push({
+      experiment_id: `${scheme.paper_id}:${scheme.scheme ?? "experiment"}`,
+      paper_id: scheme.paper_id,
+      scheme: scheme.scheme ?? "",
+      verify_time_ms: scheme.verify_time_ms,
+      signature_size_bytes: scheme.signature_size_bytes,
+      communication_kb: scheme.communication_kb,
+      result: scheme.result,
+    });
+  }
+  return { papers, notes: [], experiments };
+}
+
+function conflictsToEvidence(rows: PotentiallyConflictingEvidence[]): ResearchEvidence {
+  const papers: Paper[] = [];
+  const notes: ResearchNote[] = [];
+  const experiments: Experiment[] = [];
+  const seen = new Set<string>();
+  rows.forEach((row, index) => {
+    if (!seen.has(row.paper_id)) {
+      seen.add(row.paper_id);
+      papers.push({
+        paper_id: row.paper_id,
+        title: row.title,
+        key_claim: row.key_claim,
+        trusted_opener_required: row.trusted_opener_required,
+      });
+    }
+    notes.push({
+      note_id: `${row.paper_id}:note:${index}`,
+      paper_id: row.paper_id,
+      text: row.researcher_note,
+      type: row.note_stance,
+      confidence: row.note_confidence,
+    });
+    if (row.experiment_result) {
+      experiments.push({
+        experiment_id: `${row.paper_id}:experiment:${index}`,
+        paper_id: row.paper_id,
+        scheme: "",
+        result: row.experiment_result,
+      });
+    }
+  });
+  return { papers, notes, experiments };
+}
+
+function mergeEvidence(base: ResearchEvidence, extra: ResearchEvidence): ResearchEvidence {
+  const papers = new Map(base.papers.map((paper) => [paper.paper_id, paper]));
+  for (const paper of extra.papers) papers.set(paper.paper_id, { ...papers.get(paper.paper_id), ...paper, paper_id: paper.paper_id });
+  const notes = new Map(base.notes.map((note) => [note.note_id, note]));
+  for (const note of extra.notes) notes.set(note.note_id, note);
+  const experiments = new Map(base.experiments.map((experiment) => [experiment.experiment_id, experiment]));
+  for (const experiment of extra.experiments) experiments.set(experiment.experiment_id, experiment);
+  return { papers: [...papers.values()], notes: [...notes.values()], experiments: [...experiments.values()] };
+}
+
+function batchHasConflict(kind: EvidenceQuery["kind"], evidence: ResearchEvidence): boolean {
+  if (kind === "conflicts") return evidence.papers.length > 0 || evidence.notes.length > 0;
+  const skeptical = evidence.notes.some((note) => note.type?.trim().toUpperCase() === "SKEPTICAL");
+  const openerRequired = evidence.papers.some((paper) => paper.trusted_opener_required === true);
+  const failed = evidence.experiments.some((experiment) => /^(fail|failed|failure)$/i.test(experiment.result?.trim() ?? ""));
+  return skeptical || openerRequired || failed;
+}
+
+function oneLine(text: string): string {
+  const line = text.replace(/\s+/g, " ").trim();
+  return line.length > 180 ? `${line.slice(0, 177)}...` : line;
 }
 
 function sourceIds(conclusion: ResearchConclusion): string[] {

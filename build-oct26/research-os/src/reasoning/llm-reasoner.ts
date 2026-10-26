@@ -86,8 +86,7 @@ export async function completeMeterless(
       { role: "user", content: request.user },
     ],
   };
-  console.log(`[Meterless] ${request.activity} with ${model}`);
-  let completion = await postCompletion(baseUrl, token, appId, {
+  const structured = {
     ...body,
     response_format: {
       type: "json_schema",
@@ -97,14 +96,35 @@ export async function completeMeterless(
         schema: request.schema,
       },
     },
-  });
-  if (completion.status === 400 || completion.status === 422 || completion.status === 504) {
-    completion = await postCompletion(baseUrl, token, appId, body);
+  };
+  console.log(`[Meterless] ${request.activity} with ${model}`);
+  let completion = await postCompletion(baseUrl, token, appId, structured);
+  if (isGatewayStatus(completion.status)) completion = await postCompletion(baseUrl, token, appId, structured);
+  if (!completion.ok && (completion.status === 400 || completion.status === 422 || isGatewayStatus(completion.status))) {
+    completion = await postCompletion(baseUrl, token, appId, { ...body, response_format: { type: "json_object" } });
   }
   if (completion.status === 401 || completion.status === 403) throw new Error("LLM request unauthorized.");
   if (!completion.ok) throw new Error(`LLM request failed: HTTP ${completion.status}`);
 
-  const content = messageText(completion.payload);
+  let content = messageText(completion.payload);
+  if (content.trim() && !looksLikeJson(content)) {
+    const repaired = await postCompletion(baseUrl, token, appId, {
+      ...body,
+      messages: [
+        ...body.messages,
+        { role: "assistant", content },
+        { role: "user", content: "Convert your previous answer into one JSON object that matches the requested schema. Return only that JSON object." },
+      ],
+      response_format: { type: "json_object" },
+    });
+    if (repaired.ok) {
+      const repairedText = messageText(repaired.payload);
+      if (looksLikeJson(repairedText)) {
+        content = repairedText;
+        completion = repaired;
+      }
+    }
+  }
   const answeredBy = typeof completion.payload.model === "string" ? completion.payload.model : model;
   console.log(`[Meterless] Answered by ${answeredBy}`);
   if (!content.trim()) throw new Error("LLM response was not valid JSON.");
@@ -248,13 +268,8 @@ function messageText(payload: Record<string, unknown>): string {
 }
 
 function parseConclusion(raw: string, allowed: Set<string>): ResearchConclusion {
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(stripFence(raw));
-  } catch {
-    throw new Error("LLM conclusion was not valid JSON.");
-  }
-  if (!isRecord(parsed)) throw new Error("LLM conclusion was not valid JSON.");
+  const parsed = coerceConclusion(parseJsonRecord(raw) ?? parseLabeledConclusion(raw));
+  if (!parsed) throw new Error("LLM conclusion was not valid JSON.");
 
   const assessment = parsed.assessment;
   if (!isAssessment(assessment)) throw new Error("LLM conclusion assessment is invalid.");
@@ -347,8 +362,75 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
+function isGatewayStatus(status: number): boolean {
+  return status === 502 || status === 503 || status === 504;
+}
+
+function looksLikeJson(raw: string): boolean {
+  return parseJsonRecord(raw) !== undefined;
+}
+
+function parseJsonRecord(raw: string): Record<string, unknown> | undefined {
+  try {
+    const parsed = JSON.parse(stripFence(raw));
+    return isRecord(parsed) ? parsed : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function coerceConclusion(parsed: Record<string, unknown> | undefined): Record<string, unknown> | undefined {
+  if (!parsed) return undefined;
+  const summary = firstString(parsed.summary, parsed.reasoning);
+  const assessment = typeof parsed.assessment === "string" ? parsed.assessment.trim().toUpperCase() : parsed.assessment;
+  const confidence = typeof parsed.confidence === "string" ? Number(parsed.confidence) : parsed.confidence;
+  const openQuestions = Array.isArray(parsed.openQuestions)
+    ? parsed.openQuestions
+    : typeof parsed.openQuestions === "string" && !/^none$/i.test(parsed.openQuestions.trim())
+      ? parsed.openQuestions.split(";").map((item) => item.trim()).filter(Boolean)
+      : [];
+  const ids = typeof summary === "string" ? [...new Set(summary.match(/\b[A-Z]{1,3}\d{2,}\b/g) ?? [])] : [];
+  const supportingSourceIds = Array.isArray(parsed.supportingSourceIds)
+    ? parsed.supportingSourceIds
+    : assessment === "CONTRADICTED" ? [] : ids;
+  const conflictingSourceIds = Array.isArray(parsed.conflictingSourceIds)
+    ? parsed.conflictingSourceIds
+    : assessment === "SUPPORTED" ? [] : ids;
+  return { ...parsed, assessment, summary, confidence, supportingSourceIds, conflictingSourceIds, openQuestions };
+}
+
+function firstString(...values: unknown[]): string | undefined {
+  return values.find((value): value is string => typeof value === "string" && value.trim() !== "");
+}
+
+function parseLabeledConclusion(raw: string): Record<string, unknown> | undefined {
+  const assessment = raw.match(/(?:^|\n)\s*assessment:\s*(SUPPORTED|CONTRADICTED|MIXED|INSUFFICIENT)\b/i);
+  const confidence = raw.match(/(?:^|\n)\s*confidence:\s*([0-9]*\.?[0-9]+)/i);
+  const summary = raw.match(/(?:^|\n)\s*(?:reasoning|summary):\s*([\s\S]+)/i);
+  if (!assessment?.[1] || !confidence?.[1] || !summary?.[1]?.trim()) return undefined;
+  const text = summary[1].trim();
+  const ids = [...new Set(text.match(/\b[A-Z]{1,3}\d{2,}\b/g) ?? [])];
+  const kind = assessment[1].toUpperCase();
+  const openLine = raw.match(/(?:^|\n)\s*open questions?:\s*(.+)/i);
+  const openQuestions = openLine?.[1] && !/^none$/i.test(openLine[1].trim())
+    ? openLine[1].split(";").map((item) => item.trim()).filter(Boolean)
+    : [];
+  return {
+    assessment: kind,
+    summary: text,
+    confidence: Number(confidence[1]),
+    supportingSourceIds: kind === "CONTRADICTED" ? [] : ids,
+    conflictingSourceIds: kind === "SUPPORTED" ? [] : ids,
+    openQuestions,
+  };
+}
+
 function stripFence(raw: string): string {
   const trimmed = raw.trim();
-  const fenced = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
-  return fenced?.[1] ?? trimmed;
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  const body = fenced?.[1]?.trim() ?? trimmed;
+  const start = body.indexOf("{");
+  const end = body.lastIndexOf("}");
+  if (start >= 0 && end > start) return body.slice(start, end + 1);
+  return body;
 }

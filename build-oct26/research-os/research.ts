@@ -280,6 +280,13 @@ function printResearchResult(result: ResearchAgentResult): void {
   else if (result.storedMemoryId) console.log(`already stored (${result.storedMemoryId})`);
   else console.log("no");
   console.log("");
+  console.log("ITERATIONS");
+  console.log(result.iterations);
+  console.log("");
+  console.log("AGENT TRACE");
+  if (result.trace.length === 0) console.log("none");
+  for (const entry of result.trace) console.log(`${entry.iteration} ${entry.step}: ${entry.detail}`);
+  console.log("");
   console.log("TIMINGS");
   console.log(`memory retrieval: ${result.timings.memoryRetrievalMs} ms`);
   console.log(`zetaris retrieval: ${result.timings.zetarisRetrievalMs} ms`);

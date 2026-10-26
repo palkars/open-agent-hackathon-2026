@@ -4,16 +4,16 @@ overview: "Finish ResearchOS from the current phase-15 agent: point reasoning at
 todos:
   - id: nemotron
     content: Implement the Power Prompt so ResearchOS calls Nightshift as its primary provider, with Nemotron pinned in a Nightshift lane.
-    status: pending
+    status: completed
   - id: evaluator
     content: Add evaluator.ts and attach contradiction reports to the agent result and CLI.
-    status: pending
+    status: completed
   - id: iterate
     content: Cap research at 3 iterations with targeted Zetaris queries and a step trace.
-    status: pending
+    status: completed
   - id: markovian-vendor
     content: Vendor Markovian and add a cold-versus-warm smoke test with a deterministic generator.
-    status: pending
+    status: completed
   - id: markovian-wire
     content: Run the research loop as a Markovian stepFn and add research-compare.
     status: pending

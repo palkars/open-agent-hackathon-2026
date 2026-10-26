@@ -277,6 +277,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function stripFence(raw: string): string {
   const trimmed = raw.trim();
-  const fenced = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
-  return fenced?.[1] ?? trimmed;
+  const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  const body = fenced?.[1]?.trim() ?? trimmed;
+  const start = body.indexOf("{");
+  const end = body.lastIndexOf("}");
+  if (start >= 0 && end > start) return body.slice(start, end + 1);
+  return body;
 }
