@@ -1,11 +1,14 @@
-import OpenAI from "openai";
 import type { EvidenceAssessment, ResearchConclusion, ResearchContext } from "../agents/types.ts";
 import { formatResearchContext } from "./context-formatter.ts";
 import type { ResearchReasoner } from "./types.ts";
 
 const ASSESSMENTS = ["SUPPORTED", "CONTRADICTED", "MIXED", "INSUFFICIENT"] as const;
 const SOURCE_ID_TOKEN = /\b[A-Z]{1,3}\d{2,}\b/g;
-const DEFAULT_MODEL = "gpt-4.1";
+const DEFAULT_BASE_URL = "http://127.0.0.1:8088/v1";
+const DEFAULT_MODEL = "meterless/auto";
+const APP_ID = "research-os";
+const REQUEST_TIMEOUT_MS = 180_000;
+const DETECT_PORTS = [8088, 8090, 8787, 11434];
 
 const SYSTEM_INSTRUCTION = `You are the reasoning component of ResearchOS.
 You may reason ONLY from the supplied prior research memory and current research evidence.
@@ -47,41 +50,183 @@ export class LLMResearchReasoner implements ResearchReasoner {
   }
 
   private async complete(prompt: string): Promise<string> {
-    const provider = (this.env.LLM_PROVIDER ?? "openai").trim().toLowerCase();
-    if (provider !== "openai") throw new Error("LLM_PROVIDER must be openai.");
-    const apiKey = this.env.OPENAI_API_KEY?.trim();
-    if (!apiKey) throw new Error("Set OPENAI_API_KEY.");
+    const provider = (this.env.LLM_PROVIDER ?? "meterless").trim().toLowerCase();
+    if (provider !== "meterless") throw new Error("LLM_PROVIDER must be meterless.");
+    const token = runtimeToken(this.env);
+    const baseUrl = await resolveBaseUrl(this.env);
+    const model = selectModel(await listRuntimeModels(baseUrl, token), this.env);
+    const appId = this.env.METERLESS_APP?.trim() || APP_ID;
 
-    const client = new OpenAI({ apiKey });
-    try {
-      const completion = await client.chat.completions.create({
-        model: this.env.OPENAI_MODEL?.trim() || DEFAULT_MODEL,
-        temperature: 0,
-        store: false,
-        messages: [
-          { role: "system", content: SYSTEM_INSTRUCTION },
-          { role: "user", content: prompt },
-        ],
-        response_format: {
-          type: "json_schema",
-          json_schema: {
-            name: "research_conclusion",
-            strict: true,
-            schema: CONCLUSION_SCHEMA,
-          },
+    const body = {
+      model,
+      temperature: 0,
+      max_tokens: 800,
+      chat_template_kwargs: { enable_thinking: false },
+      messages: [
+        { role: "system", content: SYSTEM_INSTRUCTION },
+        { role: "user", content: prompt },
+      ],
+    };
+    console.log(`[Meterless] Reasoning with ${model}`);
+    let completion = await postCompletion(baseUrl, token, appId, {
+      ...body,
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: "research_conclusion",
+          strict: true,
+          schema: CONCLUSION_SCHEMA,
         },
-      });
-      const content = completion.choices[0]?.message?.content;
-      if (!content?.trim()) throw new Error("LLM conclusion was not valid JSON.");
-      return content;
-    } catch (error) {
-      if (error instanceof Error && /LLM /.test(error.message)) throw error;
-      if (error instanceof OpenAI.APIError && typeof error.status === "number") {
-        throw new Error(`LLM request failed: HTTP ${error.status}`);
-      }
-      throw new Error("LLM request failed.");
+      },
+    });
+    if (completion.status === 400 || completion.status === 422 || completion.status === 504) {
+      completion = await postCompletion(baseUrl, token, appId, body);
     }
+    if (completion.status === 401 || completion.status === 403) throw new Error("LLM request unauthorized.");
+    if (!completion.ok) throw new Error(`LLM request failed: HTTP ${completion.status}`);
+
+    const content = messageText(completion.payload);
+    const answeredBy = typeof completion.payload.model === "string" ? completion.payload.model : model;
+    console.log(`[Meterless] Answered by ${answeredBy}`);
+    if (!content.trim()) throw new Error("LLM conclusion was not valid JSON.");
+    return content;
   }
+}
+
+interface CompletionResult {
+  status: number;
+  ok: boolean;
+  payload: Record<string, unknown>;
+}
+
+function runtimeToken(env: NodeJS.ProcessEnv): string {
+  const token = env.METERLESS_RUNTIME_TOKEN?.trim() ?? "";
+  if (!token) throw new Error("Set METERLESS_RUNTIME_TOKEN.");
+  if (token === "rt-local") throw new Error("METERLESS_RUNTIME_TOKEN is invalid.");
+  return token;
+}
+
+function normalizeBaseUrl(raw: string): string {
+  let value = raw.trim();
+  if (!value) return DEFAULT_BASE_URL;
+  if (!/^https?:\/\//i.test(value)) value = `http://${value}`;
+  value = value.replace(/\/+$/, "");
+  value = value.replace(/\/v1\/chat\/completions$/i, "");
+  value = value.replace(/\/v1\/models$/i, "");
+  value = value.replace(/\/healthz$/i, "");
+  value = value.replace(/\/v1$/i, "");
+  value = value.replace(/\/+$/, "");
+  return `${value}/v1`;
+}
+
+function originOf(baseUrl: string): string {
+  return new URL(baseUrl).origin;
+}
+
+async function resolveBaseUrl(env: NodeJS.ProcessEnv): Promise<string> {
+  const configured = normalizeBaseUrl(env.METERLESS_BASE_URL?.trim() || DEFAULT_BASE_URL);
+  if (await runtimeResponds(configured)) return configured;
+  const host = new URL(configured).hostname;
+  for (const port of DETECT_PORTS) {
+    const candidate = normalizeBaseUrl(`http://${host}:${port}/v1`);
+    if (candidate !== configured && (await runtimeResponds(candidate))) return candidate;
+  }
+  return configured;
+}
+
+async function runtimeResponds(baseUrl: string): Promise<boolean> {
+  try {
+    const response = await fetch(`${originOf(baseUrl)}/healthz`, { signal: AbortSignal.timeout(3_000) });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function listRuntimeModels(baseUrl: string, token: string): Promise<string[]> {
+  let response: Response;
+  try {
+    response = await fetch(`${baseUrl}/models`, {
+      headers: meterlessHeaders(token),
+      signal: AbortSignal.timeout(15_000),
+    });
+  } catch {
+    throw new Error("Meterless runtime is offline.");
+  }
+  if (response.status === 401 || response.status === 403) throw new Error("LLM request unauthorized.");
+  if (!response.ok) throw new Error("Meterless runtime is offline.");
+  let payload: unknown = {};
+  try {
+    payload = await response.json();
+  } catch {
+    payload = {};
+  }
+  const data = isRecord(payload) ? payload.data : undefined;
+  if (!Array.isArray(data)) return [];
+  return data.flatMap((item) => (isRecord(item) && typeof item.id === "string" ? [item.id] : []));
+}
+
+function selectModel(ids: string[], env: NodeJS.ProcessEnv): string {
+  const requested = env.METERLESS_MODEL?.trim() ?? "";
+  if (requested && requested !== DEFAULT_MODEL) return requested;
+  const preferred = "nvidia/nemotron-3.5-lightning-30b-a3b";
+  if (ids.includes(preferred)) return preferred;
+  const nemotron = ids.find((id) => id.startsWith("nvidia/nemotron"));
+  return nemotron ?? (requested || DEFAULT_MODEL);
+}
+
+function meterlessHeaders(token: string, appId = APP_ID): Headers {
+  const headers = new Headers();
+  headers.set("Authorization", `Bearer ${token}`);
+  headers.set("meterless-app", appId);
+  headers.set("meterless-scope", "user");
+  return headers;
+}
+
+async function postCompletion(
+  baseUrl: string,
+  token: string,
+  appId: string,
+  body: { [key: string]: unknown },
+): Promise<CompletionResult> {
+  let response: Response;
+  try {
+    const headers = meterlessHeaders(token, appId);
+    headers.set("Content-Type", "application/json");
+    response = await fetch(`${baseUrl}/chat/completions`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    });
+  } catch (error) {
+    if (error instanceof Error && error.name === "TimeoutError") throw new Error("LLM request failed: timeout");
+    throw new Error("Meterless runtime is offline.");
+  }
+  let payload: unknown = {};
+  try {
+    payload = await response.json();
+  } catch {
+    payload = {};
+  }
+  return { status: response.status, ok: response.ok, payload: isRecord(payload) ? payload : {} };
+}
+
+function messageText(payload: Record<string, unknown>): string {
+  const choices = payload.choices;
+  if (!Array.isArray(choices) || !isRecord(choices[0])) return "";
+  const message = choices[0].message;
+  if (!isRecord(message)) return "";
+  const content = message.content;
+  if (typeof content === "string") return content;
+  if (!Array.isArray(content)) return "";
+  return content
+    .map((part) => {
+      if (typeof part === "string") return part;
+      if (isRecord(part) && typeof part.text === "string") return part.text;
+      return "";
+    })
+    .join("");
 }
 
 function parseConclusion(raw: string, allowed: Set<string>): ResearchConclusion {
