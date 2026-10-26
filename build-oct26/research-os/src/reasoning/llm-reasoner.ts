@@ -50,47 +50,65 @@ export class LLMResearchReasoner implements ResearchReasoner {
   }
 
   private async complete(prompt: string): Promise<string> {
-    const provider = (this.env.LLM_PROVIDER ?? "meterless").trim().toLowerCase();
-    if (provider !== "meterless") throw new Error("LLM_PROVIDER must be meterless.");
-    const token = runtimeToken(this.env);
-    const baseUrl = await resolveBaseUrl(this.env);
-    const model = selectModel(await listRuntimeModels(baseUrl, token), this.env);
-    const appId = this.env.METERLESS_APP?.trim() || APP_ID;
-
-    const body = {
-      model,
-      temperature: 0,
-      max_tokens: 800,
-      chat_template_kwargs: { enable_thinking: false },
-      messages: [
-        { role: "system", content: SYSTEM_INSTRUCTION },
-        { role: "user", content: prompt },
-      ],
-    };
-    console.log(`[Meterless] Reasoning with ${model}`);
-    let completion = await postCompletion(baseUrl, token, appId, {
-      ...body,
-      response_format: {
-        type: "json_schema",
-        json_schema: {
-          name: "research_conclusion",
-          strict: true,
-          schema: CONCLUSION_SCHEMA,
-        },
-      },
+    return completeMeterless(this.env, {
+      system: SYSTEM_INSTRUCTION,
+      user: prompt,
+      schemaName: "research_conclusion",
+      schema: CONCLUSION_SCHEMA,
+      activity: "Reasoning",
     });
-    if (completion.status === 400 || completion.status === 422 || completion.status === 504) {
-      completion = await postCompletion(baseUrl, token, appId, body);
-    }
-    if (completion.status === 401 || completion.status === 403) throw new Error("LLM request unauthorized.");
-    if (!completion.ok) throw new Error(`LLM request failed: HTTP ${completion.status}`);
-
-    const content = messageText(completion.payload);
-    const answeredBy = typeof completion.payload.model === "string" ? completion.payload.model : model;
-    console.log(`[Meterless] Answered by ${answeredBy}`);
-    if (!content.trim()) throw new Error("LLM conclusion was not valid JSON.");
-    return content;
   }
+}
+
+export async function completeMeterless(
+  env: NodeJS.ProcessEnv,
+  request: {
+    system: string;
+    user: string;
+    schemaName: string;
+    schema: { [key: string]: unknown };
+    activity: string;
+  },
+): Promise<string> {
+  const provider = (env.LLM_PROVIDER ?? "meterless").trim().toLowerCase();
+  if (provider !== "meterless") throw new Error("LLM_PROVIDER must be meterless.");
+  const token = runtimeToken(env);
+  const baseUrl = await resolveBaseUrl(env);
+  const model = selectModel(await listRuntimeModels(baseUrl, token), env);
+  const appId = env.METERLESS_APP?.trim() || APP_ID;
+  const body = {
+    model,
+    temperature: 0,
+    max_tokens: 1200,
+    chat_template_kwargs: { enable_thinking: false },
+    messages: [
+      { role: "system", content: request.system },
+      { role: "user", content: request.user },
+    ],
+  };
+  console.log(`[Meterless] ${request.activity} with ${model}`);
+  let completion = await postCompletion(baseUrl, token, appId, {
+    ...body,
+    response_format: {
+      type: "json_schema",
+      json_schema: {
+        name: request.schemaName,
+        strict: true,
+        schema: request.schema,
+      },
+    },
+  });
+  if (completion.status === 400 || completion.status === 422 || completion.status === 504) {
+    completion = await postCompletion(baseUrl, token, appId, body);
+  }
+  if (completion.status === 401 || completion.status === 403) throw new Error("LLM request unauthorized.");
+  if (!completion.ok) throw new Error(`LLM request failed: HTTP ${completion.status}`);
+
+  const content = messageText(completion.payload);
+  const answeredBy = typeof completion.payload.model === "string" ? completion.payload.model : model;
+  console.log(`[Meterless] Answered by ${answeredBy}`);
+  if (!content.trim()) throw new Error("LLM response was not valid JSON.");
+  return content;
 }
 
 interface CompletionResult {

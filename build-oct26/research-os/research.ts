@@ -178,6 +178,7 @@ const SAFE_RESEARCH_FAILURES = new Set([
   "ZETARIS_AUTHENTICATION_ERROR",
   "ZETARIS_CONNECTION_ERROR",
   "REASONING_ERROR",
+  "EVALUATION_ERROR",
   "Research question cannot be empty",
 ]);
 
@@ -273,6 +274,7 @@ function printResearchResult(result: ResearchAgentResult): void {
   console.log("OPEN QUESTIONS");
   printLines(conclusion.openQuestions.map((question) => `- ${question}`));
   console.log("");
+  printEvaluations(result);
   console.log("MEMORY STORED");
   if (result.memoryStored) console.log(result.storedMemoryId ? `yes (${result.storedMemoryId})` : "yes");
   else if (result.storedMemoryId) console.log(`already stored (${result.storedMemoryId})`);
@@ -282,8 +284,42 @@ function printResearchResult(result: ResearchAgentResult): void {
   console.log(`memory retrieval: ${result.timings.memoryRetrievalMs} ms`);
   console.log(`zetaris retrieval: ${result.timings.zetarisRetrievalMs} ms`);
   console.log(`reasoning: ${result.timings.reasoningMs} ms`);
+  console.log(`evaluation: ${result.timings.evaluationMs} ms`);
   console.log(`memory store: ${result.timings.memoryStoreMs} ms`);
   console.log(`total: ${result.timings.totalMs} ms`);
+}
+
+function printEvaluations(result: ResearchAgentResult): void {
+  const contradictions = result.evaluations.filter((report) => report.relationship === "CONTRADICTS");
+  const memories = new Map(result.context.priorMemories.memories.map((hit) => [hit.memory.id, hit.memory.content]));
+  console.log("EVALUATION");
+  if (result.evaluations.length === 0) console.log("none");
+  for (const report of result.evaluations) {
+    const evidence = report.evidence.length > 0 ? report.evidence.join(", ") : "none";
+    console.log(`- ${report.memoryId} ${report.relationship} [${evidence}]`);
+    console.log(`  ${report.recommendation}`);
+  }
+  console.log("");
+  if (contradictions.length === 0) {
+    console.log("CONTRADICTIONS");
+    console.log("none");
+    console.log("");
+    return;
+  }
+  for (const report of contradictions) {
+    console.log("CONTRADICTION DETECTED");
+    console.log("");
+    console.log("Existing belief");
+    console.log(memories.get(report.memoryId) ?? report.memoryId);
+    console.log("");
+    console.log("New evidence");
+    console.log(report.evidence.join(", "));
+    console.log(report.reason);
+    console.log("");
+    console.log("Recommendation");
+    console.log(report.recommendation);
+    console.log("");
+  }
 }
 
 function printExperiment(experiment: Experiment): void {

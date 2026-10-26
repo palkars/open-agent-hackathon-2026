@@ -4,12 +4,14 @@ import type { ResearchReasoner } from "../reasoning/types.ts";
 import type { PotentiallyConflictingEvidence, TraceableScheme, ZetarisResearchRepository } from "../zetaris/repository.ts";
 import { ZetarisClientError } from "../zetaris/types.ts";
 import type { ResearchEvidence } from "../data/types.ts";
-import type { EvidenceAssessment, ResearchAgentResult, ResearchConclusion, ResearchContext, ResearchTimings } from "./types.ts";
+import { ContradictionEvaluator } from "./evaluator.ts";
+import type { ContradictionReport, EvidenceAssessment, ResearchAgentResult, ResearchConclusion, ResearchContext, ResearchTimings } from "./types.ts";
 
 const MEMORY_RETRIEVAL_ERROR = "MEMORY_RETRIEVAL_ERROR";
 const ZETARIS_AUTHENTICATION_ERROR = "ZETARIS_AUTHENTICATION_ERROR";
 const ZETARIS_CONNECTION_ERROR = "ZETARIS_CONNECTION_ERROR";
 const REASONING_ERROR = "REASONING_ERROR";
+const EVALUATION_ERROR = "EVALUATION_ERROR";
 
 const CONCLUSION_MEMORY_TYPE: Record<EvidenceAssessment, ResearchMemoryType> = {
   SUPPORTED: "CLAIM",
@@ -32,6 +34,7 @@ export class ResearchAgent {
     memoryRetrievalMs: 0,
     zetarisRetrievalMs: 0,
     reasoningMs: 0,
+    evaluationMs: 0,
     memoryStoreMs: 0,
   };
 
@@ -39,6 +42,7 @@ export class ResearchAgent {
     private readonly memory: ResearchMemory,
     private readonly repository: ZetarisResearchRepository,
     private readonly reasoner: ResearchReasoner,
+    private readonly evaluator: ContradictionEvaluator = new ContradictionEvaluator(reasoner),
   ) {}
 
   async research(question: string): Promise<ResearchAgentResult> {
@@ -52,6 +56,8 @@ export class ResearchAgent {
     const context = await this.gatherResearchContext(text);
     console.log("[ResearchOS] Assessing evidence");
     const conclusion = await this.assessResearchContext(context);
+    console.log("[ResearchOS] Evaluating contradictions");
+    const evaluations = await this.evaluateContradictions(context, conclusion);
     const stored = this.storeResearchConclusion(conclusion);
     if (stored.memoryStored) console.log("[Meterless H-MEM] Storing new research learning");
     else if (stored.storedMemoryId) console.log("[Meterless H-MEM] Research learning already stored");
@@ -61,6 +67,7 @@ export class ResearchAgent {
       question: context.question,
       context,
       conclusion,
+      evaluations,
       memoryStored: stored.memoryStored,
       ...(stored.storedMemoryId ? { storedMemoryId: stored.storedMemoryId } : {}),
       timings: { ...this.phaseMs, totalMs: elapsedMs(started) },
@@ -111,6 +118,17 @@ export class ResearchAgent {
       throw new Error(REASONING_ERROR);
     } finally {
       this.phaseMs.reasoningMs = elapsedMs(started);
+    }
+  }
+
+  async evaluateContradictions(context: ResearchContext, conclusion: ResearchConclusion): Promise<ContradictionReport[]> {
+    const started = performance.now();
+    try {
+      return await this.evaluator.evaluate(context, conclusion);
+    } catch {
+      throw new Error(EVALUATION_ERROR);
+    } finally {
+      this.phaseMs.evaluationMs = elapsedMs(started);
     }
   }
 
