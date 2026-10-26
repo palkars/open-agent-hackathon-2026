@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ResearchOS</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c1915;
+      --muted: #5e564c;
+      --paper: #f3eee6;
+      --panel: #fffaf3;
+      --line: #ddd4c8;
+      --accent: #8c3d2a;
+      --claim: #1f6b4a;
+      --contradiction: #8c3d2a;
+      --shadow: 0 1px 0 rgba(28, 25, 21, 0.04);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.45 "Segoe UI", sans-serif;
+    }
+    header, main { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    header { padding: 28px 0 8px; }
+    h1 { margin: 0; font: 700 28px/1.1 Georgia, serif; letter-spacing: -0.03em; }
+    .lede { margin: 6px 0 0; color: var(--muted); }
+    form { display: flex; gap: 12px; align-items: flex-end; margin: 18px 0; }
+    form > div { flex: 1; min-width: 0; }
+    label { display: block; font-size: 13px; font-weight: 650; margin-bottom: 6px; }
+    textarea {
+      width: 100%;
+      min-height: 88px;
+      resize: vertical;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: inherit;
+      font: inherit;
+    }
+    button {
+      height: 42px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fffaf3;
+      font: 650 15px/1 "Segoe UI", sans-serif;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.55; cursor: progress; }
+    .error {
+      display: none;
+      margin: 0 0 14px;
+      padding: 10px 12px;
+      border: 1px solid #e2c2b8;
+      border-radius: 8px;
+      background: #f8ebe6;
+      color: var(--accent);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding-bottom: 32px;
+    }
+    .pane {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 14px 16px 16px;
+      min-height: 220px;
+    }
+    .pane h2 { margin: 0; font: 700 18px/1.2 Georgia, serif; }
+    .source {
+      display: inline-block;
+      margin: 6px 0 12px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #efe7dc;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .empty, .meta { color: var(--muted); }
+    .assessment { font-weight: 750; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    h3 { margin: 0 0 8px; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .claim h3 { color: var(--claim); }
+    .contradiction h3 { color: var(--contradiction); }
+    article { margin: 0 0 10px; }
+    article p { margin: 4px 0 0; }
+    .id { font-family: Consolas, monospace; font-size: 13px; }
+    ol { margin: 0; padding-left: 18px; }
+    li { margin: 0 0 6px; }
+    @media (max-width: 880px) {
+      form, .grid, .split { display: block; }
+      button { margin-top: 10px; }
+      .pane { margin-bottom: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ResearchOS</h1>
+    <p class="lede">Warm research over H-MEM, Zetaris, Markovian, and Nemotron.</p>
+    <form id="ask">
+      <div>
+        <label for="question">Research question</label>
+        <textarea id="question" name="question">Can post-quantum anonymity and traceability be achieved without requiring a single trusted opener?</textarea>
+      </div>
+      <button type="submit">Run research</button>
+    </form>
+    <p id="error" class="error" role="alert"></p>
+  </header>
+  <main class="grid">
+    <section class="pane" id="question-pane" aria-labelledby="question-heading">
+      <h2 id="question-heading">Question</h2>
+      <div class="source">Nemotron</div>
+      <div class="body"><p class="empty">Run a question to fill this pane.</p></div>
+    </section>
+    <section class="pane" id="memory-pane" aria-labelledby="memory-heading">
+      <h2 id="memory-heading">Research memory</h2>
+      <div class="source">H-MEM</div>
+      <div class="body"><p class="empty">Claims and contradictions appear here.</p></div>
+    </section>
+    <section class="pane" id="evidence-pane" aria-labelledby="evidence-heading">
+      <h2 id="evidence-heading">Current evidence</h2>
+      <div class="source">Zetaris</div>
+      <div class="body"><p class="empty">Paper ids appear here.</p></div>
+    </section>
+    <section class="pane" id="trace-pane" aria-labelledby="trace-heading">
+      <h2 id="trace-heading">Agent trace</h2>
+      <div class="source">Markovian</div>
+      <div class="body"><p class="empty">Chunk status and the research trace appear here.</p></div>
+    </section>
+  </main>
+  <script>
+    const form = document.querySelector("#ask");
+    const questionInput = document.querySelector("#question");
+    const error = document.querySelector("#error");
+    const button = form.querySelector("button");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const question = questionInput.value.trim();
+      error.style.display = "none";
+      error.textContent = "";
+      if (!question) {
+        showError("Research question cannot be empty");
+        return;
+      }
+      button.disabled = true;
+      button.textContent = "Researching…";
+      try {
+        const response = await fetch("/api/research", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        });
+        const payload = await response.json();
+        if (!response.ok) {
+          showError(typeof payload.error === "string" ? payload.error : "MEMORY_RETRIEVAL_ERROR");
+          return;
+        }
+        render(payload);
+      } catch {
+        showError("MEMORY_RETRIEVAL_ERROR");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Run research";
+      }
+    });
+
+    function showError(message) {
+      error.textContent = message;
+      error.style.display = "block";
+    }
+
+    function render(result) {
+      fill("#question-pane .body", questionView(result));
+      fill("#memory-pane .body", memoryView(result));
+      fill("#evidence-pane .body", evidenceView(result));
+      fill("#trace-pane .body", traceView(result));
+    }
+
+    function fill(selector, html) {
+      document.querySelector(selector).innerHTML = html;
+    }
+
+    function questionView(result) {
+      const conclusion = result.conclusion;
+      return [
+        `<p>${esc(result.question)}</p>`,
+        `<p class="assessment">${esc(conclusion.assessment)} · confidence ${esc(conclusion.confidence)}</p>`,
+        `<p>${esc(conclusion.summary)}</p>`,
+        `<p class="meta">Supporting ${esc(list(conclusion.supportingSourceIds))} · Conflicting ${esc(list(conclusion.conflictingSourceIds))}</p>`,
+        `<p class="meta">Open questions: ${esc(list(conclusion.openQuestions))}</p>`,
+      ].join("");
+    }
+
+    function memoryView(result) {
+      const reports = new Map((result.evaluations ?? []).map((report) => [report.memoryId, report]));
+      const claims = [];
+      const contradictions = [];
+      for (const memory of result.memories ?? []) {
+        const report = reports.get(memory.id);
+        const card = memoryCard(memory, report);
+        if (report?.relationship === "CONTRADICTS") contradictions.push(card);
+        else claims.push(card);
+      }
+      return `<div class="split"><div class="claim"><h3>Claims</h3>${claims.join("") || `<p class="empty">none</p>`}</div><div class="contradiction"><h3>Contradictions</h3>${contradictions.join("") || `<p class="empty">none</p>`}</div></div>`;
+    }
+
+    function memoryCard(memory, report) {
+      const refs = memory.refs?.length ? memory.refs.join(", ") : memory.source || "unknown";
+      const relation = report ? `${report.relationship}: ${report.recommendation}` : "not evaluated";
+      return `<article><div class="id">${esc(memory.id)} · ${esc(memory.label)} · ${esc(refs)}</div><p>${esc(memory.content)}</p><p class="meta">${esc(relation)}</p></article>`;
+    }
+
+    function evidenceView(result) {
+      const rows = result.evidence ?? [];
+      if (rows.length === 0) return `<p class="empty">none</p>`;
+      return rows.map((row) => `<article><div class="id">${esc(row.paperId)}</div><p>${esc(row.title)}</p><p class="meta">method ${esc(row.method)}; anonymity ${esc(row.anonymity)}; traceability ${esc(row.traceability)}; trusted opener ${esc(row.trustedOpener)}</p></article>`).join("");
+    }
+
+    function traceView(result) {
+      const markovian = result.markovian ?? { chunks: 0, status: "unknown", resolved: [] };
+      const resolved = list(markovian.resolved);
+      const steps = (result.trace ?? []).map((entry) => `<li>${esc(entry.iteration)} ${esc(entry.step)}: ${esc(entry.detail)}</li>`).join("");
+      return `<p class="assessment">${esc(markovian.chunks)} chunk · ${esc(markovian.status)}</p><p class="meta">Already resolved: ${esc(resolved)}</p><ol>${steps || `<li class="empty">none</li>`}</ol>`;
+    }
+
+    function list(values) {
+      return values && values.length ? values.join(", ") : "none";
+    }
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+  </script>
+</body>
+</html>

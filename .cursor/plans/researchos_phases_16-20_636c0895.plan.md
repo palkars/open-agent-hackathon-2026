@@ -19,7 +19,7 @@ todos:
     status: completed
   - id: ui
     content: Serve a four-pane page over the warm agent and verify the trusted-opener question in the browser.
-    status: pending
+    status: completed
 isProject: false
 ---
 
