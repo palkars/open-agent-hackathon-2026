@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type { ResearchAgentResult } from "./src/agents/types.ts";
+import type { MarkovianTrace, ResearchAgentResult } from "./src/agents/types.ts";
 import { searchPapers } from "./src/data/repository.ts";
 import type { Experiment, Paper, ResearchEvidence, ResearchNote } from "./src/data/types.ts";
 import { ZetarisResearchRepository, type PotentiallyConflictingEvidence, type TraceableScheme } from "./src/zetaris/repository.ts";
@@ -283,6 +283,7 @@ function printResearchResult(result: ResearchAgentResult): void {
   console.log("ITERATIONS");
   console.log(result.iterations);
   console.log("");
+  printMarkovian(result.markovian);
   console.log("AGENT TRACE");
   if (result.trace.length === 0) console.log("none");
   for (const entry of result.trace) console.log(`${entry.iteration} ${entry.step}: ${entry.detail}`);
@@ -294,6 +295,15 @@ function printResearchResult(result: ResearchAgentResult): void {
   console.log(`evaluation: ${result.timings.evaluationMs} ms`);
   console.log(`memory store: ${result.timings.memoryStoreMs} ms`);
   console.log(`total: ${result.timings.totalMs} ms`);
+}
+
+function printMarkovian(trace: MarkovianTrace): void {
+  console.log("MARKOVIAN");
+  console.log(`chunks: ${trace.chunks}`);
+  console.log(`status: ${trace.status}`);
+  console.log("already resolved:");
+  printLines(trace.resolved.map((step) => `- ${step}`));
+  console.log("");
 }
 
 function printEvaluations(result: ResearchAgentResult): void {
@@ -449,6 +459,37 @@ if (command === "search") {
       process.exitCode = 1;
     }
   }
+} else if (command === "research-compare") {
+  const text = [query, ...extra].join(" ").trim();
+  if (!text) {
+    console.error('Usage: npx tsx research-os/research.ts research-compare "<question>"');
+    process.exitCode = 1;
+  } else {
+    try {
+      loadResearchOsEnv();
+      const { ResearchMemory } = await import("./src/memory/research-memory.ts");
+      const { ResearchAgent } = await import("./src/agents/research-agent.ts");
+      const { DeterministicResearchReasoner } = await import("./src/reasoning/deterministic-reasoner.ts");
+      const { LLMResearchReasoner } = await import("./src/reasoning/llm-reasoner.ts");
+      const reasoner = (process.env.RESEARCH_REASONER ?? "").trim().toLowerCase() === "llm"
+        ? new LLMResearchReasoner()
+        : new DeterministicResearchReasoner();
+      const agent = new ResearchAgent(
+        await ResearchMemory.create(),
+        ZetarisResearchRepository.fromEnv(),
+        reasoner,
+      );
+      const comparison = await agent.compareResearch(text);
+      console.log("");
+      console.log("COLD");
+      printMarkovian(comparison.cold);
+      console.log("WARM");
+      printMarkovian(comparison.warm);
+    } catch (error) {
+      console.error(safeResearchFailure(error));
+      process.exitCode = 1;
+    }
+  }
 } else if (command === "memory") {
   const text = [query, ...extra].join(" ").trim();
   if (!text) {
@@ -473,6 +514,7 @@ if (command === "search") {
   console.error("       npx tsx research-os/research.ts seed-memory");
   console.error("       npx tsx research-os/research.ts audit <memory-id>");
   console.error('       npx tsx research-os/research.ts research "<question>"');
+  console.error('       npx tsx research-os/research.ts research-compare "<question>"');
   console.error('       npx tsx research-os/research.ts memory "<query>"');
   process.exitCode = 1;
 }

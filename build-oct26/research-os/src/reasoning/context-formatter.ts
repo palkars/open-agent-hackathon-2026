@@ -3,7 +3,7 @@ import type { Experiment, Paper, ResearchNote } from "../data/types.ts";
 import type { PotentiallyConflictingEvidence, TraceableScheme } from "../zetaris/repository.ts";
 
 export function formatResearchContext(context: ResearchContext): string {
-  return [
+  const sections = [
     "RESEARCH QUESTION",
     text(context.question.question) ?? "none",
     "",
@@ -12,7 +12,9 @@ export function formatResearchContext(context: ResearchContext): string {
     "",
     "CURRENT RESEARCH EVIDENCE",
     formatEvidence(context.currentEvidence),
-  ].join("\n");
+  ];
+  if (!context.chunkPrompt) return sections.join("\n");
+  return ["MARKOVIAN CHUNK", context.chunkPrompt, "", ...sections].join("\n");
 }
 
 function formatMemories(context: ResearchContext): string {

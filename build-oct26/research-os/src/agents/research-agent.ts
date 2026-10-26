@@ -4,8 +4,9 @@ import type { ResearchReasoner } from "../reasoning/types.ts";
 import type { PotentiallyConflictingEvidence, TraceableScheme, ZetarisResearchRepository } from "../zetaris/repository.ts";
 import { ZetarisClientError } from "../zetaris/types.ts";
 import type { Experiment, Paper, ResearchEvidence, ResearchNote } from "../data/types.ts";
+import { Markovian, resetRunSeq } from "../../vendor/markovian/src/index.ts";
 import { ContradictionEvaluator } from "./evaluator.ts";
-import type { ContradictionReport, EvidenceAssessment, ResearchAgentResult, ResearchConclusion, ResearchContext, ResearchTimings, ResearchTraceEntry } from "./types.ts";
+import type { ContradictionReport, EvidenceAssessment, MarkovianTrace, ResearchAgentResult, ResearchConclusion, ResearchContext, ResearchTimings, ResearchTraceEntry } from "./types.ts";
 import { MAX_RESEARCH_ITERATIONS } from "./types.ts";
 
 const MEMORY_RETRIEVAL_ERROR = "MEMORY_RETRIEVAL_ERROR";
@@ -23,6 +24,7 @@ const CONCLUSION_MEMORY_TYPE: Record<EvidenceAssessment, ResearchMemoryType> = {
 
 const PAPER_ID = /\b[A-Z]{1,3}\d{2,}\b/g;
 const CONFLICT_FOCUS = /\b(conflict\w*|contradict\w*|skeptic\w*)\b/i;
+const MARKOVIAN_CONFIG = { chunkSize: 2000, maxChunks: MAX_RESEARCH_ITERATIONS, carryoverTokens: 128 };
 
 const CONCLUSION_TAGS = [
   "researchos",
@@ -56,6 +58,43 @@ export class ResearchAgent {
     }
 
     const started = performance.now();
+    this.resetPhases();
+    console.log("[ResearchOS] Question received");
+    const investigation = await this.investigate(text, true);
+    console.log("[ResearchOS] Evaluating contradictions");
+    const evaluations = await this.evaluateContradictions(investigation.context, investigation.conclusion);
+    const stored = this.storeResearchConclusion(investigation.conclusion);
+    if (stored.memoryStored) console.log("[Meterless H-MEM] Storing new research learning");
+    else if (stored.storedMemoryId) console.log("[Meterless H-MEM] Research learning already stored");
+    console.log("[ResearchOS] Complete");
+
+    return {
+      question: investigation.context.question,
+      context: investigation.context,
+      conclusion: investigation.conclusion,
+      evaluations,
+      iterations: investigation.iterations,
+      trace: investigation.trace,
+      markovian: investigation.markovian,
+      memoryStored: stored.memoryStored,
+      ...(stored.storedMemoryId ? { storedMemoryId: stored.storedMemoryId } : {}),
+      timings: { ...this.phaseMs, totalMs: elapsedMs(started) },
+    };
+  }
+
+  async compareResearch(question: string): Promise<{ cold: MarkovianTrace; warm: MarkovianTrace }> {
+    const text = question.trim();
+    if (!text) throw new Error("Research question cannot be empty");
+    this.resetPhases();
+    console.log("[ResearchOS] Cold run");
+    const cold = await this.investigate(text, false);
+    this.resetPhases();
+    console.log("[ResearchOS] Warm run");
+    const warm = await this.investigate(text, true);
+    return { cold: cold.markovian, warm: warm.markovian };
+  }
+
+  private resetPhases(): void {
     this.phaseMs = {
       memoryRetrievalMs: 0,
       zetarisRetrievalMs: 0,
@@ -63,90 +102,99 @@ export class ResearchAgent {
       evaluationMs: 0,
       memoryStoreMs: 0,
     };
-    console.log("[ResearchOS] Question received");
-    const investigation = await this.investigate(text);
-    const { context, conclusion, iterations, trace } = investigation;
-    console.log("[ResearchOS] Evaluating contradictions");
-    const evaluations = await this.evaluateContradictions(context, conclusion);
-    const stored = this.storeResearchConclusion(conclusion);
-    if (stored.memoryStored) console.log("[Meterless H-MEM] Storing new research learning");
-    else if (stored.storedMemoryId) console.log("[Meterless H-MEM] Research learning already stored");
-    console.log("[ResearchOS] Complete");
-
-    return {
-      question: context.question,
-      context,
-      conclusion,
-      evaluations,
-      iterations,
-      trace,
-      memoryStored: stored.memoryStored,
-      ...(stored.storedMemoryId ? { storedMemoryId: stored.storedMemoryId } : {}),
-      timings: { ...this.phaseMs, totalMs: elapsedMs(started) },
-    };
   }
 
-  private async investigate(question: string): Promise<Pick<ResearchAgentResult, "context" | "conclusion" | "iterations" | "trace">> {
+  private async investigate(question: string, warm: boolean): Promise<Pick<ResearchAgentResult, "context" | "conclusion" | "iterations" | "trace" | "markovian">> {
     const trace: ResearchTraceEntry[] = [];
-    const investigatedPapers = new Set<string>();
-    let investigatedSchemes = false;
-    let investigatedConflicts = false;
+    const resolved: string[] = [];
     let evidence = emptyEvidence();
     let priorMemories = emptyRecall();
     let conclusion = insufficientConclusion();
-    let focus = question;
-    let remaining: string[] = [];
-    let iterations = 0;
+    const label = warm ? "Warm" : "Cold";
 
-    for (let iteration = 1; iteration <= MAX_RESEARCH_ITERATIONS; iteration += 1) {
-      iterations = iteration;
-      console.log(`[ResearchOS] Iteration ${iteration} of ${MAX_RESEARCH_ITERATIONS}`);
-      trace.push({ iteration, step: "Search memory", detail: oneLine(focus) });
+    let memoryContext: string | undefined;
+    let warmRecall = emptyRecall();
+    if (warm) {
       console.log("[Meterless H-MEM] Retrieving prior knowledge");
-      priorMemories = mergeMemories(priorMemories, this.recall(focus));
-
-      const query = nextQuery(focus, remaining, { papers: investigatedPapers, schemes: investigatedSchemes, conflicts: investigatedConflicts });
-      if (!query) {
-        trace.push({ iteration, step: "Conclusion", detail: "No further Zetaris query" });
-        break;
-      }
-
-      trace.push({ iteration, step: "Query Zetaris", detail: query.detail });
-      console.log("[Zetaris] Retrieving current evidence");
-      const batch = await this.retrieveEvidence(query);
-      if (query.kind === "paper") investigatedPapers.add(query.paperId);
-      if (query.kind === "schemes") investigatedSchemes = true;
-      if (query.kind === "conflicts") investigatedConflicts = true;
-      evidence = mergeEvidence(evidence, batch);
-
-      const conflict = batchHasConflict(query.kind, batch);
-      trace.push({ iteration, step: conflict ? "Found conflict" : "No conflict", detail: query.detail });
-      trace.push({ iteration, step: "Investigate", detail: oneLine(focus) });
-      console.log("[ResearchOS] Assessing evidence");
-      const context = { question: { question }, priorMemories, currentEvidence: evidence };
-      conclusion = await this.assessResearchContext(context);
-      remaining = conclusion.openQuestions;
-      const enough = conclusion.assessment !== "INSUFFICIENT" && remaining.length === 0;
-      const capped = iteration === MAX_RESEARCH_ITERATIONS;
-      trace.push({
-        iteration,
-        step: "Conclusion",
-        detail: enough ? conclusion.assessment : capped ? `${conclusion.assessment}; stopped at ${MAX_RESEARCH_ITERATIONS}` : `${conclusion.assessment}; ${remaining.length} open`,
-      });
-      if (enough || capped) break;
-      const nextFocus = remaining.length > 0 ? remaining.join("\n") : question;
-      if (!nextQuery(nextFocus, remaining, { papers: investigatedPapers, schemes: investigatedSchemes, conflicts: investigatedConflicts })) {
-        trace.push({ iteration, step: "Conclusion", detail: "No further Zetaris query" });
-        break;
-      }
-      focus = nextFocus;
+      warmRecall = this.recall(question);
+      const reinjection = warmRecall.context.trim();
+      if (reinjection) memoryContext = reinjection;
     }
+
+    resetRunSeq();
+    const markovian = new Markovian({ chunkConfig: MARKOVIAN_CONFIG });
+    const run = await markovian.run({
+      goal: question,
+      mode: "RESEARCH",
+      memoryContext,
+      reflect: false,
+      stepFn: async ({ step, prompt, carryover }) => {
+        const iteration = step + 1;
+        console.log(`[ResearchOS] ${label} chunk ${iteration} of ${MAX_RESEARCH_ITERATIONS}`);
+        const open = parseRemaining(carryover);
+        const investigated = parseCompleted(carryover);
+        const focus = open.length > 0 ? open.join("\n") : question;
+        const memoryResolved = prompt.includes("[MEMORY CONTEXT]");
+        if (memoryResolved) {
+          trace.push({ iteration, step: "Search memory", detail: "already resolved" });
+          if (!resolved.includes("Search memory")) resolved.push("Search memory");
+          console.log("[Meterless H-MEM] Search already resolved from reinjection");
+          priorMemories = mergeMemories(priorMemories, warmRecall);
+        } else {
+          trace.push({ iteration, step: "Search memory", detail: oneLine(focus) });
+          console.log("[Meterless H-MEM] Retrieving prior knowledge");
+          priorMemories = mergeMemories(priorMemories, this.recall(focus));
+        }
+
+        const query = nextQuery(focus, open, investigated);
+        if (!query) {
+          trace.push({ iteration, step: "Conclusion", detail: "No further Zetaris query" });
+          return { content: chunkText(trace, iteration) + "\n" + checkpoint(investigated, [], conclusion, true) };
+        }
+
+        trace.push({ iteration, step: "Query Zetaris", detail: query.detail });
+        console.log("[Zetaris] Retrieving current evidence");
+        const batch = await this.retrieveEvidence(query);
+        if (query.kind === "paper") investigated.papers.add(query.paperId);
+        if (query.kind === "schemes") investigated.schemes = true;
+        if (query.kind === "conflicts") investigated.conflicts = true;
+        evidence = mergeEvidence(evidence, batch);
+
+        const conflict = batchHasConflict(query.kind, batch);
+        trace.push({ iteration, step: conflict ? "Found conflict" : "No conflict", detail: query.detail });
+        trace.push({ iteration, step: "Investigate", detail: oneLine(focus) });
+        console.log("[ResearchOS] Assessing evidence");
+        conclusion = await this.assessResearchContext({
+          question: { question },
+          priorMemories,
+          currentEvidence: evidence,
+          chunkPrompt: researchView(prompt),
+        });
+        const remaining = conclusion.openQuestions;
+        const enough = conclusion.assessment !== "INSUFFICIENT" && remaining.length === 0;
+        const capped = iteration === MAX_RESEARCH_ITERATIONS;
+        const nextFocus = remaining.length > 0 ? remaining.join("\n") : question;
+        const followUp = nextQuery(nextFocus, remaining, investigated);
+        trace.push({
+          iteration,
+          step: "Conclusion",
+          detail: enough ? conclusion.assessment : capped ? `${conclusion.assessment}; stopped at ${MAX_RESEARCH_ITERATIONS}` : `${conclusion.assessment}; ${remaining.length} open`,
+        });
+        if (!enough && !capped && !followUp) {
+          trace.push({ iteration, step: "Conclusion", detail: "No further Zetaris query" });
+        }
+        const done = enough || capped || !followUp;
+        return { content: chunkText(trace, iteration) + "\n" + checkpoint(investigated, remaining, conclusion, done) };
+      },
+    });
+    if (run.status === "errored") throw new Error(run.error || REASONING_ERROR);
 
     return {
       context: { question: { question }, priorMemories, currentEvidence: evidence },
       conclusion,
-      iterations,
+      iterations: run.chunks.length,
       trace,
+      markovian: { chunks: run.chunks.length, status: run.status, resolved },
     };
   }
 
@@ -295,6 +343,67 @@ type EvidenceQuery =
   | { kind: "paper"; paperId: string; detail: string }
   | { kind: "conflicts"; detail: string }
   | { kind: "schemes"; detail: string };
+
+interface InvestigatedQueries {
+  papers: Set<string>;
+  schemes: boolean;
+  conflicts: boolean;
+}
+
+function researchView(prompt: string): string {
+  const marker = prompt.indexOf("\nEnd every non-final chunk with [STATE_CHECKPOINT]");
+  return (marker >= 0 ? prompt.slice(0, marker) : prompt).trim();
+}
+
+function chunkText(trace: ResearchTraceEntry[], iteration: number): string {
+  return trace.filter((entry) => entry.iteration === iteration).map((entry) => (
+    entry.detail === "already resolved" ? `already resolved: ${entry.step}` : `${entry.step}: ${entry.detail}`
+  )).join("\n");
+}
+
+function checkpoint(investigated: InvestigatedQueries, remaining: string[], conclusion: ResearchConclusion, done: boolean): string {
+  const completed = formatCompleted(investigated);
+  const open = remaining.length > 0 ? remaining.map((question) => oneLine(question)).join(" | ") : "none";
+  const block = [
+    `COMPLETED: ${completed}`,
+    `REMAINING: ${open}`,
+    `DECISIONS: ${conclusion.assessment}`,
+    `CONTEXT: ${oneLine(conclusion.summary) || "none"}`,
+  ].join("\n");
+  return done ? `[STATE_CHECKPOINT]\n${block}\n[TASK_COMPLETE]` : `[STATE_CHECKPOINT]\n${block}`;
+}
+
+function formatCompleted(investigated: InvestigatedQueries): string {
+  const parts: string[] = [];
+  if (investigated.schemes) parts.push("schemes");
+  if (investigated.conflicts) parts.push("conflicts");
+  parts.push(...[...investigated.papers].sort());
+  return parts.join("; ") || "none";
+}
+
+function parseCompleted(carryover: string): InvestigatedQueries {
+  const investigated: InvestigatedQueries = { papers: new Set(), schemes: false, conflicts: false };
+  const line = carryField(carryover, "COMPLETED");
+  if (!line || line.toLowerCase() === "none") return investigated;
+  for (const part of line.split(";")) {
+    const token = part.trim();
+    if (token === "schemes") investigated.schemes = true;
+    else if (token === "conflicts") investigated.conflicts = true;
+    else if (/^[A-Z]{1,3}\d{2,}$/.test(token)) investigated.papers.add(token);
+  }
+  return investigated;
+}
+
+function parseRemaining(carryover: string): string[] {
+  const line = carryField(carryover, "REMAINING");
+  if (!line || line.toLowerCase() === "none") return [];
+  return line.split("|").map((part) => part.trim()).filter(Boolean);
+}
+
+function carryField(carryover: string, name: string): string {
+  const match = carryover.match(new RegExp(`(?:^|\\n)${name}:\\s*([^\\n]*)`));
+  return match?.[1]?.trim() ?? "";
+}
 
 function nextQuery(
   focus: string,

@@ -10,6 +10,7 @@ export interface ResearchContext {
   question: ResearchQuestion;
   priorMemories: QueryResult;
   currentEvidence: ResearchEvidence | TraceableScheme[] | PotentiallyConflictingEvidence[];
+  chunkPrompt?: string;
 }
 
 export type EvidenceAssessment = "SUPPORTED" | "CONTRADICTED" | "MIXED" | "INSUFFICIENT";
@@ -53,6 +54,12 @@ export interface ResearchTraceEntry {
   detail: string;
 }
 
+export interface MarkovianTrace {
+  chunks: number;
+  status: string;
+  resolved: string[];
+}
+
 export interface ResearchAgentResult {
   question: ResearchQuestion;
   context: ResearchContext;
@@ -60,6 +67,7 @@ export interface ResearchAgentResult {
   evaluations: ContradictionReport[];
   iterations: number;
   trace: ResearchTraceEntry[];
+  markovian: MarkovianTrace;
   memoryStored: boolean;
   storedMemoryId?: string;
   timings: ResearchTimings;
