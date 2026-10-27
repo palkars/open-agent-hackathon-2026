@@ -1,4 +1,14 @@
 build-oct26/research-os/.env
-build-oct26/vendor
-build-oct26/node_modules
-build-oct26/research-os/node_modules
+
+# Installed dependencies. Regenerated with npm install.
+node_modules/
+
+# Vendored engines. Regenerated with npm run setup.
+vendor/
+
+# Local memory snapshots from notebook and ResearchOS runs.
+.notebook/
+.memory/
+
+# OS junk
+.DS_Store
