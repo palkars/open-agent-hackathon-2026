@@ -269,7 +269,10 @@ function messageText(payload: Record<string, unknown>): string {
 
 function parseConclusion(raw: string, allowed: Set<string>): ResearchConclusion {
   const parsed = coerceConclusion(parseJsonRecord(raw) ?? parseLabeledConclusion(raw));
-  if (!parsed) throw new Error("LLM conclusion was not valid JSON.");
+  if (!parsed) {
+    console.error(`[ResearchOS] Unparsed conclusion: ${raw.replace(/\s+/g, " ").slice(0, 400)}`);
+    throw new Error("LLM conclusion was not valid JSON.");
+  }
 
   const assessment = parsed.assessment;
   if (!isAssessment(assessment)) throw new Error("LLM conclusion assessment is invalid.");
@@ -297,18 +300,19 @@ function parseConclusion(raw: string, allowed: Set<string>): ResearchConclusion 
 
 function sourceIdsIn(context: ResearchContext): Set<string> {
   const ids = new Set<string>();
+  addTextIds(ids, context.question.question);
+  addTextIds(ids, context.chunkPrompt);
   for (const hit of context.priorMemories.memories) {
     const record = hit.memory;
-    for (const ref of record.provenance?.refs ?? []) addId(ids, ref);
-    for (const part of (record.source ?? "").split(",")) addId(ids, part);
+    addTextIds(ids, record.content);
+    addTextIds(ids, record.source);
+    addTextIds(ids, record.provenance?.label);
+    for (const ref of record.provenance?.refs ?? []) addTextIds(ids, ref);
   }
   const evidence = context.currentEvidence;
-  if (Array.isArray(evidence)) {
-    for (const row of evidence) addId(ids, row.paper_id);
-  } else {
-    for (const paper of evidence.papers) addId(ids, paper.paper_id);
-    for (const note of evidence.notes) addId(ids, note.paper_id);
-    for (const experiment of evidence.experiments) addId(ids, experiment.paper_id);
+  const rows = Array.isArray(evidence) ? evidence : [...evidence.papers, ...evidence.notes, ...evidence.experiments];
+  for (const row of rows) {
+    for (const value of Object.values(row)) addTextIds(ids, value);
   }
   return ids;
 }
@@ -321,7 +325,7 @@ function sourceIdList(value: unknown, allowed: Set<string>): string[] {
     if (typeof item !== "string") throw new Error("LLM conclusion source IDs are invalid.");
     const id = item.trim();
     if (!id || seen.has(id)) continue;
-    if (!allowed.has(id)) throw new Error("LLM conclusion contains an unknown source ID.");
+    if (!allowed.has(id)) throw new Error(`LLM conclusion contains an unknown source ID: ${id}`);
     seen.add(id);
     ids.push(id);
   }
@@ -341,13 +345,27 @@ function stringList(value: unknown): string[] {
 
 function assertKnownSourceIds(value: string, allowed: Set<string>): void {
   for (const token of value.match(SOURCE_ID_TOKEN) ?? []) {
-    if (!allowed.has(token)) throw new Error("LLM conclusion contains an unknown source ID.");
+    if (!allowed.has(token)) throw new Error(`LLM conclusion contains an unknown source ID: ${token}`);
   }
 }
 
-function addId(ids: Set<string>, value: string | undefined): void {
-  const id = value?.trim();
-  if (id) ids.add(id);
+function addTextIds(ids: Set<string>, value: unknown): void {
+  if (typeof value !== "string" || !value) return;
+  for (const token of value.match(/\b[A-Z]{1,3}\d{2,}\b/g) ?? []) ids.add(token);
+}
+
+function normalizeConfidence(value: unknown): unknown {
+  if (typeof value === "string") {
+    const percent = value.trim().match(/^([0-9]*\.?[0-9]+)\s*%$/);
+    if (percent) return Number(percent[1]) / 100;
+    return scaleConfidence(Number(value.trim()));
+  }
+  return scaleConfidence(value);
+}
+
+function scaleConfidence(value: unknown): unknown {
+  if (typeof value === "number" && value > 1 && value <= 100) return value / 100;
+  return value;
 }
 
 function isAssessment(value: unknown): value is EvidenceAssessment {
@@ -383,7 +401,7 @@ function coerceConclusion(parsed: Record<string, unknown> | undefined): Record<s
   if (!parsed) return undefined;
   const summary = firstString(parsed.summary, parsed.reasoning);
   const assessment = typeof parsed.assessment === "string" ? parsed.assessment.trim().toUpperCase() : parsed.assessment;
-  const confidence = typeof parsed.confidence === "string" ? Number(parsed.confidence) : parsed.confidence;
+  const confidence = normalizeConfidence(parsed.confidence);
   const openQuestions = Array.isArray(parsed.openQuestions)
     ? parsed.openQuestions
     : typeof parsed.openQuestions === "string" && !/^none$/i.test(parsed.openQuestions.trim())

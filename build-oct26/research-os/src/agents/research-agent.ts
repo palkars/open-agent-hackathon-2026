@@ -261,8 +261,10 @@ export class ResearchAgent {
     const started = performance.now();
     try {
       return await this.reasoner.assess(context);
-    } catch {
+    } catch (error) {
       if (!hasCurrentEvidence(context.currentEvidence)) return insufficientConclusion();
+      const detail = error instanceof Error ? error.message : "LLM conclusion was not valid JSON.";
+      console.error(`[ResearchOS] ${detail}`);
       throw new Error(REASONING_ERROR);
     } finally {
       this.phaseMs.reasoningMs += elapsedMs(started);

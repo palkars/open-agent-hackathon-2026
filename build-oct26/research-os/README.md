@@ -1,18 +1,50 @@
 # ResearchOS
 
-ResearchOS answers a research question by recalling prior findings, reading current evidence, and writing one new conclusion. Memory is local H-MEM. Evidence comes from Zetaris. The research loop is a Markovian run of at most three chunks. When `RESEARCH_REASONER=llm`, each assessment and contradiction check is a Nightshift call pinned to NVIDIA Nemotron. The app never stores an NVIDIA API key.
+Open the UI at **[http://127.0.0.1:4173](http://127.0.0.1:4173)**.
 
-The page below is the trusted-opener question after one warm run. The conclusion is **SUPPORTED**. The memories already agree with the papers, so the contradictions column is empty. Search memory is marked already resolved because the warm path starts from an H-MEM reinjection.
+From `build-oct26`:
 
-![ResearchOS question, Nemotron conclusion, and H-MEM claims](images/ui-top.png)
+```bash
+npx tsx research-os/ui/server.ts
+```
 
-![Zetaris papers and the Markovian agent trace](images/ui-evidence.png)
+Then open that address. Press **Run research**. The screenshots below are that page after the trusted-opener question. The conclusion is **SUPPORTED**. The contradictions column is empty because the stored memories already agree with the papers. The trace says Search memory was already resolved because this is a warm run.
+
+The top of the page is the question, the Nemotron conclusion, and the H-MEM claims:
+
+![http://127.0.0.1:4173 showing the question, the Nemotron conclusion, and H-MEM claims](images/ui-top.png)
+
+Scroll down for the Zetaris papers and the Markovian trace:
+
+![http://127.0.0.1:4173 showing Zetaris paper ids and the Markovian trace ending in Conclusion](images/ui-evidence.png)
+
+## How the page works
+
+Pressing **Run research** sends the question to `POST /api/research`. The server runs the warm agent and fills the four panes:
+
+| Pane on the page | Source label | What the screenshot is showing |
+|---|---|---|
+| Question | Nemotron | The question, **SUPPORTED**, confidence 0.75, and supporting papers P015, P020, P026, P029, P030 |
+| Research memory | H-MEM | Claims on the left, each marked SUPPORTS. Contradictions on the right, currently none |
+| Current evidence | Zetaris | One block per paper id, including method, anonymity, traceability, and trusted opener false |
+| Agent trace | Markovian | `1 chunk · completed`, Search memory already resolved, then Query Zetaris, No conflict, Investigate, and Conclusion |
+
+A blank question stays on the page and shows `Research question cannot be empty`. It does not call the agent.
+
+Behind that button, one warm run does this:
+
+1. H-MEM recalls prior findings and that text is injected into the first Markovian chunk. Search memory is not repeated.
+2. Markovian runs at most 3 chunks. Each chunk queries Zetaris once for something not already completed.
+3. Nemotron, or the deterministic reasoner when Nightshift is off, assesses only the current chunk plus the evidence gathered so far.
+4. The contradiction check compares each memory with the Zetaris papers.
+5. The conclusion is stored in H-MEM once, unless that same finding is already there.
+6. The four panes render that result. The trace ends in a conclusion.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-  question[Question] --> hmem[H-MEM recall]
+  question[Question at http://127.0.0.1:4173] --> hmem[H-MEM recall]
   hmem --> markovian[Markovian max 3 chunks]
   markovian --> zetaris[Zetaris evidence]
   zetaris --> nemotron[Nightshift Nemotron]
@@ -20,7 +52,7 @@ flowchart TD
   evaluator --> stop{Enough evidence}
   stop -->|no and under cap| markovian
   stop -->|yes or cap| store[Store learning in H-MEM]
-  store --> ui[Four-pane UI]
+  store --> ui[Four panes on the same page]
 ```
 
 | Piece | Role | Where it lives |
@@ -30,9 +62,9 @@ flowchart TD
 | Zetaris | Current papers, notes, and experiments | `src/zetaris` |
 | Nemotron | Assessment and contradiction check, through Nightshift | `src/reasoning/llm-reasoner.ts` |
 | Deterministic reasoner | Same decisions offline, with Nightshift down | `src/reasoning/deterministic-reasoner.ts` |
-| UI | Four panes over the warm agent | `ui/server.ts`, `ui/index.html` |
+| UI | The four panes at http://127.0.0.1:4173 | `ui/server.ts`, `ui/index.html` |
 
-## How it works
+## How the loop works
 
 `research` and the UI both run the warm path. `research-compare` runs the same question cold, then warm.
 
@@ -156,23 +188,7 @@ npx tsx research-os/test-ui.ts
 
 ## User guide
 
-### Ask in the browser
-
-1. Start the server and open [http://127.0.0.1:4173](http://127.0.0.1:4173).
-2. The question box starts with: "Can post-quantum anonymity and traceability be achieved without requiring a single trusted opener?"
-3. Press **Run research**. The button reads **Researching…** until the warm run finishes. A deterministic run is usually under a second. A Nemotron run often takes about a minute.
-4. Read the four panes:
-
-| Pane | Source | What you should see |
-|---|---|---|
-| Question | Nemotron | The question, the assessment, confidence, summary, supporting and conflicting source ids, and any open questions |
-| Research memory | H-MEM | Claims on the left and contradictions on the right. Each row has a memory id, label, source ids, the text, and the evaluator's recommendation |
-| Current evidence | Zetaris | One block per paper id, with method, anonymity, traceability, and whether a trusted opener is required |
-| Agent trace | Markovian | Chunk count and status, steps already resolved, then Search memory, Query Zetaris, Found conflict or No conflict, Investigate, and Conclusion |
-
-A blank question shows `Research question cannot be empty` and does not call the agent. A failed Zetaris connection shows `ZETARIS_CONNECTION_ERROR` or `ZETARIS_AUTHENTICATION_ERROR`. A rejected conclusion shows `REASONING_ERROR`. A failed contradiction check shows `EVALUATION_ERROR`. Any other failure, including an unauthorized Nightshift token, shows `MEMORY_RETRIEVAL_ERROR`. The page does not show a stack trace.
-
-If the contradictions column says **none**, the retrieved memories do not conflict with the evidence. That is the current result for the trusted-opener question, because those memories already say a single trusted opener is not required.
+The page walkthrough, with screenshots of the question box and each pane, is in [USER-GUIDE.md](USER-GUIDE.md). The only input on the page is the **Research question** box. Press **Run research** and read Question (Nemotron), Research memory (H-MEM), Current evidence (Zetaris), and Agent trace (Markovian).
 
 ### Ask from the terminal
 
