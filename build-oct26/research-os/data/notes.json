@@ -1,26 +1,5782 @@
 [
   {
     "note_id": "N001",
-    "date": "2026-09-10",
-    "type": "conclusion",
-    "text": "Anonymous signatures appear capable of supporting traceability.",
-    "confidence": 0.8,
-    "related_papers": ["P001", "P002"]
+    "paper_id": "P001",
+    "date": "2026-01-04",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Classical Group Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
   },
   {
     "note_id": "N002",
-    "date": "2026-09-12",
-    "type": "conclusion",
-    "text": "Traceable group signatures require a trusted opening authority.",
-    "confidence": 0.72,
-    "related_papers": ["P001", "P002"]
+    "paper_id": "P002",
+    "date": "2026-02-07",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Dynamic Group Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
   },
   {
     "note_id": "N003",
-    "date": "2026-09-15",
-    "type": "research_question",
-    "text": "Can traceability be achieved without a single trusted opener?",
-    "confidence": 0.5,
-    "related_papers": []
+    "paper_id": "P003",
+    "date": "2026-03-10",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N004",
+    "paper_id": "P004",
+    "date": "2026-04-13",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Linkable Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N005",
+    "paper_id": "P005",
+    "date": "2026-05-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Traceable Ring Signatures is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N006",
+    "paper_id": "P006",
+    "date": "2026-06-19",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Anonymous Credentials provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N007",
+    "paper_id": "P007",
+    "date": "2026-07-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Direct Anonymous Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N008",
+    "paper_id": "P008",
+    "date": "2026-08-25",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Attribute-Based Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N009",
+    "paper_id": "P009",
+    "date": "2026-09-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Threshold Group Opening is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N010",
+    "paper_id": "P010",
+    "date": "2026-01-04",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Verifier-Local Revocation provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "classical",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N011",
+    "paper_id": "P011",
+    "date": "2026-02-07",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Lattice Group Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N012",
+    "paper_id": "P012",
+    "date": "2026-03-10",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Lattice Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N013",
+    "paper_id": "P013",
+    "date": "2026-04-13",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Linkable Lattice Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N014",
+    "paper_id": "P014",
+    "date": "2026-05-16",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Traceable Lattice Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N015",
+    "paper_id": "P015",
+    "date": "2026-06-19",
+    "note_type": "research_note",
+    "stance": "SKEPTICAL",
+    "confidence": 0.62,
+    "note": "Current working assumption: practical traceability still requires a single trusted opener, despite the paper's distributed-opening claim.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N016",
+    "paper_id": "P016",
+    "date": "2026-07-22",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Lattice Anonymous Credentials provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N017",
+    "paper_id": "P017",
+    "date": "2026-08-25",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Module-Lattice Group Signatures provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N018",
+    "paper_id": "P018",
+    "date": "2026-09-01",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Compact Lattice Ring Signatures offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N019",
+    "paper_id": "P019",
+    "date": "2026-01-04",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Revocable Lattice Anonymity provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N020",
+    "paper_id": "P020",
+    "date": "2026-02-07",
+    "note_type": "research_note",
+    "stance": "SKEPTICAL",
+    "confidence": 0.62,
+    "note": "Current working assumption: practical traceability still requires a single trusted opener, despite the paper's distributed-opening claim.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N021",
+    "paper_id": "P021",
+    "date": "2026-03-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Swarm Device Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "hybrid",
+      "authentication",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N022",
+    "paper_id": "P022",
+    "date": "2026-04-13",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Privacy-Preserving Swarm Attestation provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "hybrid",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N023",
+    "paper_id": "P023",
+    "date": "2026-05-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Post-Quantum Swarm Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "authentication",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N024",
+    "paper_id": "P024",
+    "date": "2026-06-19",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "Anonymous PQ Swarm Attestation provides useful accountability, but dependence on a trusted opener is a limitation for decentralized swarm attestation.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N025",
+    "paper_id": "P025",
+    "date": "2026-07-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Batch Verification for Swarms is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "authentication",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N026",
+    "paper_id": "P026",
+    "date": "2026-08-25",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Edge-Friendly Anonymous Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N027",
+    "paper_id": "P027",
+    "date": "2026-09-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Hierarchical Swarm Attestation is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "hybrid",
+      "authentication",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N028",
+    "paper_id": "P028",
+    "date": "2026-01-04",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.74,
+    "note": "Linkable Device Attestation offers privacy benefits, but native traceability is missing; investigate whether an accountable opening mechanism can be added.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "hybrid",
+      "anonymity",
+      "no-traceability"
+    ]
+  },
+  {
+    "note_id": "N029",
+    "paper_id": "P029",
+    "date": "2026-02-07",
+    "note_type": "research_note",
+    "stance": "SKEPTICAL",
+    "confidence": 0.62,
+    "note": "Current working assumption: practical traceability still requires a single trusted opener, despite the paper's distributed-opening claim.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N030",
+    "paper_id": "P030",
+    "date": "2026-03-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.82,
+    "note": "Adaptive Privacy for IoT Swarms is promising because it separates traceability from a single trusted opening authority; investigate its coordination and threat assumptions.",
+    "research_question": "Can this approach contribute to anonymous, linkable or traceable post-quantum swarm attestation?",
+    "tags": [
+      "post-quantum",
+      "anonymity",
+      "traceability"
+    ]
+  },
+  {
+    "note_id": "N031",
+    "paper_id": "P032",
+    "date": "1978-04-06",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: 1024-bit RSA remains operationally safe against published factoring effort.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N032",
+    "paper_id": "P033",
+    "date": "1979-06-07",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: 1024-bit RSA is already within practical factoring range.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N033",
+    "paper_id": "P034",
+    "date": "1980-08-08",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Public exponent 3 is unsafe for RSA encryption and signatures.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N034",
+    "paper_id": "P035",
+    "date": "1981-10-09",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Public exponent 3 with OAEP is safe for RSA encryption.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N035",
+    "paper_id": "P036",
+    "date": "1982-12-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Breaking RSA is the same problem as general integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N036",
+    "paper_id": "P037",
+    "date": "1983-02-11",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA can fail without a general factoring algorithm.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N037",
+    "paper_id": "P038",
+    "date": "1984-04-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Near-term quantum hardware makes 2048-bit RSA obsolete.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N038",
+    "paper_id": "P039",
+    "date": "1985-06-13",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Only toy moduli have been factored on current quantum hardware.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N039",
+    "paper_id": "P040",
+    "date": "1986-08-14",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Multiprime RSA is as hard to factor as two-prime RSA.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N040",
+    "paper_id": "P041",
+    "date": "1987-10-15",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Extra primes make the number field sieve easier against multiprime RSA.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N041",
+    "paper_id": "P042",
+    "date": "1988-12-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Textbook RSA Encryption for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N042",
+    "paper_id": "P043",
+    "date": "1989-02-17",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Public Exponent Selection for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N043",
+    "paper_id": "P044",
+    "date": "1990-04-18",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: PKCS#1 v1.5 Padding for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N044",
+    "paper_id": "P045",
+    "date": "1991-06-19",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: OAEP Padding for RSA for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N045",
+    "paper_id": "P046",
+    "date": "1992-08-20",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: RSA-CRT Decryption for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N046",
+    "paper_id": "P047",
+    "date": "1993-10-21",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Multiprime RSA Speedup for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N047",
+    "paper_id": "P048",
+    "date": "1994-12-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Wiener Low Private Exponent Attack for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N048",
+    "paper_id": "P049",
+    "date": "1995-02-23",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Boneh-Durfee Private Exponent Bound for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N049",
+    "paper_id": "P050",
+    "date": "1996-04-24",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Coppersmith Small Root Attack for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N050",
+    "paper_id": "P051",
+    "date": "1997-06-25",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Stereotyped Message Attack on RSA for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N051",
+    "paper_id": "P052",
+    "date": "1998-08-26",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Fermat Factoring of Close Primes for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N052",
+    "paper_id": "P053",
+    "date": "1999-10-27",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Pollard Rho for RSA Moduli for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N053",
+    "paper_id": "P054",
+    "date": "2000-12-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Pollard p-1 Factoring for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N054",
+    "paper_id": "P055",
+    "date": "2001-02-02",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Quadratic Sieve Factoring for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N055",
+    "paper_id": "P056",
+    "date": "2002-04-03",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Multiple Polynomial Quadratic Sieve for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N056",
+    "paper_id": "P057",
+    "date": "2003-06-04",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Number Field Sieve Complexity for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N057",
+    "paper_id": "P058",
+    "date": "2004-08-05",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: General Number Field Sieve for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N058",
+    "paper_id": "P059",
+    "date": "2005-10-06",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Special Number Field Sieve for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N059",
+    "paper_id": "P060",
+    "date": "2006-12-07",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA Equivalence to Factoring for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N060",
+    "paper_id": "P061",
+    "date": "2007-02-08",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Partial Key Exposure of RSA for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N061",
+    "paper_id": "P062",
+    "date": "2008-04-09",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Side-Channel Timing for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N062",
+    "paper_id": "P063",
+    "date": "2009-06-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Fault Attack on CRT for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N063",
+    "paper_id": "P064",
+    "date": "2010-08-11",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Key Generation from the 1970s for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N064",
+    "paper_id": "P065",
+    "date": "2011-10-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Common Modulus Attack on RSA for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N065",
+    "paper_id": "P066",
+    "date": "2012-12-13",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Broadcast Attack on Small Exponent RSA for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N066",
+    "paper_id": "P067",
+    "date": "2013-02-14",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Modulus Generation for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N067",
+    "paper_id": "P068",
+    "date": "2014-04-15",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Safe Prime Selection for RSA for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N068",
+    "paper_id": "P069",
+    "date": "2015-06-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Signature with PKCS#1 for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N069",
+    "paper_id": "P070",
+    "date": "2016-08-17",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA-PSS Signatures for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N070",
+    "paper_id": "P071",
+    "date": "2017-10-18",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Batch RSA Decryption for 1024-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N071",
+    "paper_id": "P072",
+    "date": "2018-12-19",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Textbook RSA Encryption for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N072",
+    "paper_id": "P073",
+    "date": "2019-02-20",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Public Exponent Selection for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N073",
+    "paper_id": "P074",
+    "date": "2020-04-21",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: PKCS#1 v1.5 Padding for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N074",
+    "paper_id": "P075",
+    "date": "2021-06-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: OAEP Padding for RSA for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N075",
+    "paper_id": "P076",
+    "date": "2022-08-23",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: RSA-CRT Decryption for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N076",
+    "paper_id": "P077",
+    "date": "2023-10-24",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Multiprime RSA Speedup for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N077",
+    "paper_id": "P078",
+    "date": "2024-12-25",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Wiener Low Private Exponent Attack for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N078",
+    "paper_id": "P079",
+    "date": "2025-02-26",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Boneh-Durfee Private Exponent Bound for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N079",
+    "paper_id": "P080",
+    "date": "2026-04-27",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Coppersmith Small Root Attack for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N080",
+    "paper_id": "P081",
+    "date": "1978-06-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Stereotyped Message Attack on RSA for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N081",
+    "paper_id": "P082",
+    "date": "1979-08-02",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Fermat Factoring of Close Primes for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N082",
+    "paper_id": "P083",
+    "date": "1980-10-03",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Pollard Rho for RSA Moduli for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N083",
+    "paper_id": "P084",
+    "date": "1981-12-04",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Pollard p-1 Factoring for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N084",
+    "paper_id": "P085",
+    "date": "1982-02-05",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Quadratic Sieve Factoring for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N085",
+    "paper_id": "P086",
+    "date": "1983-04-06",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Multiple Polynomial Quadratic Sieve for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N086",
+    "paper_id": "P087",
+    "date": "1984-06-07",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Number Field Sieve Complexity for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N087",
+    "paper_id": "P088",
+    "date": "1985-08-08",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: General Number Field Sieve for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N088",
+    "paper_id": "P089",
+    "date": "1986-10-09",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Special Number Field Sieve for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N089",
+    "paper_id": "P090",
+    "date": "1987-12-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA Equivalence to Factoring for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N090",
+    "paper_id": "P091",
+    "date": "1988-02-11",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Partial Key Exposure of RSA for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N091",
+    "paper_id": "P092",
+    "date": "1989-04-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Side-Channel Timing for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N092",
+    "paper_id": "P093",
+    "date": "1990-06-13",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Fault Attack on CRT for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N093",
+    "paper_id": "P094",
+    "date": "1991-08-14",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Key Generation from the 1970s for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N094",
+    "paper_id": "P095",
+    "date": "1992-10-15",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Common Modulus Attack on RSA for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N095",
+    "paper_id": "P096",
+    "date": "1993-12-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Broadcast Attack on Small Exponent RSA for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N096",
+    "paper_id": "P097",
+    "date": "1994-02-17",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Modulus Generation for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N097",
+    "paper_id": "P098",
+    "date": "1995-04-18",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Safe Prime Selection for RSA for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N098",
+    "paper_id": "P099",
+    "date": "1996-06-19",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Signature with PKCS#1 for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N099",
+    "paper_id": "P100",
+    "date": "1997-08-20",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA-PSS Signatures for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N100",
+    "paper_id": "P101",
+    "date": "1998-10-21",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Batch RSA Decryption for 2048-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N101",
+    "paper_id": "P102",
+    "date": "1999-12-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Textbook RSA Encryption for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N102",
+    "paper_id": "P103",
+    "date": "2000-02-23",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Public Exponent Selection for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N103",
+    "paper_id": "P104",
+    "date": "2001-04-24",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: PKCS#1 v1.5 Padding for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N104",
+    "paper_id": "P105",
+    "date": "2002-06-25",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: OAEP Padding for RSA for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N105",
+    "paper_id": "P106",
+    "date": "2003-08-26",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: RSA-CRT Decryption for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N106",
+    "paper_id": "P107",
+    "date": "2004-10-27",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Multiprime RSA Speedup for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N107",
+    "paper_id": "P108",
+    "date": "2005-12-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Wiener Low Private Exponent Attack for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N108",
+    "paper_id": "P109",
+    "date": "2006-02-02",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Boneh-Durfee Private Exponent Bound for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N109",
+    "paper_id": "P110",
+    "date": "2007-04-03",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Coppersmith Small Root Attack for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N110",
+    "paper_id": "P111",
+    "date": "2008-06-04",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Stereotyped Message Attack on RSA for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N111",
+    "paper_id": "P112",
+    "date": "2009-08-05",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Fermat Factoring of Close Primes for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N112",
+    "paper_id": "P113",
+    "date": "2010-10-06",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Pollard Rho for RSA Moduli for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N113",
+    "paper_id": "P114",
+    "date": "2011-12-07",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Pollard p-1 Factoring for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N114",
+    "paper_id": "P115",
+    "date": "2012-02-08",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Quadratic Sieve Factoring for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N115",
+    "paper_id": "P116",
+    "date": "2013-04-09",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Multiple Polynomial Quadratic Sieve for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N116",
+    "paper_id": "P117",
+    "date": "2014-06-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Number Field Sieve Complexity for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N117",
+    "paper_id": "P118",
+    "date": "2015-08-11",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: General Number Field Sieve for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N118",
+    "paper_id": "P119",
+    "date": "2016-10-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Special Number Field Sieve for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N119",
+    "paper_id": "P120",
+    "date": "2017-12-13",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA Equivalence to Factoring for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N120",
+    "paper_id": "P121",
+    "date": "2018-02-14",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Partial Key Exposure of RSA for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N121",
+    "paper_id": "P122",
+    "date": "2019-04-15",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Side-Channel Timing for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N122",
+    "paper_id": "P123",
+    "date": "2020-06-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Fault Attack on CRT for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N123",
+    "paper_id": "P124",
+    "date": "2021-08-17",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Key Generation from the 1970s for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N124",
+    "paper_id": "P125",
+    "date": "2022-10-18",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Common Modulus Attack on RSA for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N125",
+    "paper_id": "P126",
+    "date": "2023-12-19",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Broadcast Attack on Small Exponent RSA for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N126",
+    "paper_id": "P127",
+    "date": "2024-02-20",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Modulus Generation for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N127",
+    "paper_id": "P128",
+    "date": "2025-04-21",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Safe Prime Selection for RSA for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N128",
+    "paper_id": "P129",
+    "date": "2026-06-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Signature with PKCS#1 for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N129",
+    "paper_id": "P130",
+    "date": "1978-08-23",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA-PSS Signatures for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N130",
+    "paper_id": "P131",
+    "date": "1979-10-24",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Batch RSA Decryption for 3072-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N131",
+    "paper_id": "P132",
+    "date": "1980-12-25",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Textbook RSA Encryption for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N132",
+    "paper_id": "P133",
+    "date": "1981-02-26",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Public Exponent Selection for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N133",
+    "paper_id": "P134",
+    "date": "1982-04-27",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: PKCS#1 v1.5 Padding for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N134",
+    "paper_id": "P135",
+    "date": "1983-06-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: OAEP Padding for RSA for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N135",
+    "paper_id": "P136",
+    "date": "1984-08-02",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: RSA-CRT Decryption for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N136",
+    "paper_id": "P137",
+    "date": "1985-10-03",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Multiprime RSA Speedup for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N137",
+    "paper_id": "P138",
+    "date": "1986-12-04",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Wiener Low Private Exponent Attack for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N138",
+    "paper_id": "P139",
+    "date": "1987-02-05",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Boneh-Durfee Private Exponent Bound for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N139",
+    "paper_id": "P140",
+    "date": "1988-04-06",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Coppersmith Small Root Attack for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N140",
+    "paper_id": "P141",
+    "date": "1989-06-07",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Stereotyped Message Attack on RSA for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N141",
+    "paper_id": "P142",
+    "date": "1990-08-08",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Fermat Factoring of Close Primes for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N142",
+    "paper_id": "P143",
+    "date": "1991-10-09",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Pollard Rho for RSA Moduli for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N143",
+    "paper_id": "P144",
+    "date": "1992-12-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Pollard p-1 Factoring for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N144",
+    "paper_id": "P145",
+    "date": "1993-02-11",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Quadratic Sieve Factoring for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N145",
+    "paper_id": "P146",
+    "date": "1994-04-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Multiple Polynomial Quadratic Sieve for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N146",
+    "paper_id": "P147",
+    "date": "1995-06-13",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Number Field Sieve Complexity for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N147",
+    "paper_id": "P148",
+    "date": "1996-08-14",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: General Number Field Sieve for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N148",
+    "paper_id": "P149",
+    "date": "1997-10-15",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Special Number Field Sieve for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N149",
+    "paper_id": "P150",
+    "date": "1998-12-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA Equivalence to Factoring for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N150",
+    "paper_id": "P151",
+    "date": "1999-02-17",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Partial Key Exposure of RSA for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N151",
+    "paper_id": "P152",
+    "date": "2000-04-18",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Side-Channel Timing for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N152",
+    "paper_id": "P153",
+    "date": "2001-06-19",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Fault Attack on CRT for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N153",
+    "paper_id": "P154",
+    "date": "2002-08-20",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Key Generation from the 1970s for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N154",
+    "paper_id": "P155",
+    "date": "2003-10-21",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Common Modulus Attack on RSA for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N155",
+    "paper_id": "P156",
+    "date": "2004-12-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Broadcast Attack on Small Exponent RSA for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N156",
+    "paper_id": "P157",
+    "date": "2005-02-23",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Modulus Generation for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N157",
+    "paper_id": "P158",
+    "date": "2006-04-24",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Safe Prime Selection for RSA for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N158",
+    "paper_id": "P159",
+    "date": "2007-06-25",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Signature with PKCS#1 for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N159",
+    "paper_id": "P160",
+    "date": "2008-08-26",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA-PSS Signatures for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N160",
+    "paper_id": "P161",
+    "date": "2009-10-27",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Batch RSA Decryption for 4096-bit moduli remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N161",
+    "paper_id": "P162",
+    "date": "2010-12-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Textbook RSA Encryption under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N162",
+    "paper_id": "P163",
+    "date": "2011-02-02",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Public Exponent Selection under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N163",
+    "paper_id": "P164",
+    "date": "2012-04-03",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: PKCS#1 v1.5 Padding under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N164",
+    "paper_id": "P165",
+    "date": "2013-06-04",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: OAEP Padding for RSA under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N165",
+    "paper_id": "P166",
+    "date": "2014-08-05",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: RSA-CRT Decryption under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N166",
+    "paper_id": "P167",
+    "date": "2015-10-06",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Multiprime RSA Speedup under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N167",
+    "paper_id": "P168",
+    "date": "2016-12-07",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Wiener Low Private Exponent Attack under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N168",
+    "paper_id": "P169",
+    "date": "2017-02-08",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Boneh-Durfee Private Exponent Bound under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N169",
+    "paper_id": "P170",
+    "date": "2018-04-09",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Coppersmith Small Root Attack under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N170",
+    "paper_id": "P171",
+    "date": "2019-06-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Stereotyped Message Attack on RSA under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N171",
+    "paper_id": "P172",
+    "date": "2020-08-11",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Fermat Factoring of Close Primes under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N172",
+    "paper_id": "P173",
+    "date": "2021-10-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Pollard Rho for RSA Moduli under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N173",
+    "paper_id": "P174",
+    "date": "2022-12-13",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Pollard p-1 Factoring under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N174",
+    "paper_id": "P175",
+    "date": "2023-02-14",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Quadratic Sieve Factoring under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N175",
+    "paper_id": "P176",
+    "date": "2024-04-15",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Multiple Polynomial Quadratic Sieve under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N176",
+    "paper_id": "P177",
+    "date": "2025-06-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Number Field Sieve Complexity under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N177",
+    "paper_id": "P178",
+    "date": "2026-08-17",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: General Number Field Sieve under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N178",
+    "paper_id": "P179",
+    "date": "1978-10-18",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Special Number Field Sieve under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N179",
+    "paper_id": "P180",
+    "date": "1979-12-19",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA Equivalence to Factoring under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N180",
+    "paper_id": "P181",
+    "date": "1980-02-20",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Partial Key Exposure of RSA under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N181",
+    "paper_id": "P182",
+    "date": "1981-04-21",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Side-Channel Timing under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N182",
+    "paper_id": "P183",
+    "date": "1982-06-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Fault Attack on CRT under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N183",
+    "paper_id": "P184",
+    "date": "1983-08-23",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Key Generation from the 1970s under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N184",
+    "paper_id": "P185",
+    "date": "1984-10-24",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Common Modulus Attack on RSA under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N185",
+    "paper_id": "P186",
+    "date": "1985-12-25",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Broadcast Attack on Small Exponent RSA under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N186",
+    "paper_id": "P187",
+    "date": "1986-02-26",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Modulus Generation under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N187",
+    "paper_id": "P188",
+    "date": "1987-04-27",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Safe Prime Selection for RSA under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N188",
+    "paper_id": "P189",
+    "date": "1988-06-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Signature with PKCS#1 under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N189",
+    "paper_id": "P190",
+    "date": "1989-08-02",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA-PSS Signatures under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N190",
+    "paper_id": "P191",
+    "date": "1990-10-03",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Batch RSA Decryption under a common public exponent remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N191",
+    "paper_id": "P192",
+    "date": "1991-12-04",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Textbook RSA Encryption when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N192",
+    "paper_id": "P193",
+    "date": "1992-02-05",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Public Exponent Selection when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N193",
+    "paper_id": "P194",
+    "date": "1993-04-06",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: PKCS#1 v1.5 Padding when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N194",
+    "paper_id": "P195",
+    "date": "1994-06-07",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: OAEP Padding for RSA when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N195",
+    "paper_id": "P196",
+    "date": "1995-08-08",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: RSA-CRT Decryption when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N196",
+    "paper_id": "P197",
+    "date": "1996-10-09",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Multiprime RSA Speedup when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N197",
+    "paper_id": "P198",
+    "date": "1997-12-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Wiener Low Private Exponent Attack when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N198",
+    "paper_id": "P199",
+    "date": "1998-02-11",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Boneh-Durfee Private Exponent Bound when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N199",
+    "paper_id": "P200",
+    "date": "1999-04-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Coppersmith Small Root Attack when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N200",
+    "paper_id": "P201",
+    "date": "2000-06-13",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Stereotyped Message Attack on RSA when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N201",
+    "paper_id": "P202",
+    "date": "2001-08-14",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Fermat Factoring of Close Primes when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N202",
+    "paper_id": "P203",
+    "date": "2002-10-15",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Pollard Rho for RSA Moduli when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N203",
+    "paper_id": "P204",
+    "date": "2003-12-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Pollard p-1 Factoring when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N204",
+    "paper_id": "P205",
+    "date": "2004-02-17",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Quadratic Sieve Factoring when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N205",
+    "paper_id": "P206",
+    "date": "2005-04-18",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Multiple Polynomial Quadratic Sieve when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N206",
+    "paper_id": "P207",
+    "date": "2006-06-19",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Number Field Sieve Complexity when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N207",
+    "paper_id": "P208",
+    "date": "2007-08-20",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: General Number Field Sieve when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N208",
+    "paper_id": "P209",
+    "date": "2008-10-21",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Special Number Field Sieve when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N209",
+    "paper_id": "P210",
+    "date": "2009-12-22",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA Equivalence to Factoring when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N210",
+    "paper_id": "P211",
+    "date": "2010-02-23",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Partial Key Exposure of RSA when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N211",
+    "paper_id": "P212",
+    "date": "2011-04-24",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Side-Channel Timing when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N212",
+    "paper_id": "P213",
+    "date": "2012-06-25",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Fault Attack on CRT when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N213",
+    "paper_id": "P214",
+    "date": "2013-08-26",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Key Generation from the 1970s when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N214",
+    "paper_id": "P215",
+    "date": "2014-10-27",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Common Modulus Attack on RSA when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N215",
+    "paper_id": "P216",
+    "date": "2015-12-01",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Broadcast Attack on Small Exponent RSA when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N216",
+    "paper_id": "P217",
+    "date": "2016-02-02",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: RSA Modulus Generation when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N217",
+    "paper_id": "P218",
+    "date": "2017-04-03",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Safe Prime Selection for RSA when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N218",
+    "paper_id": "P219",
+    "date": "2018-06-04",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: RSA Signature with PKCS#1 when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N219",
+    "paper_id": "P220",
+    "date": "2019-08-05",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: RSA-PSS Signatures when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N220",
+    "paper_id": "P221",
+    "date": "2020-10-06",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Batch RSA Decryption when primes are unbalanced remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N221",
+    "paper_id": "P222",
+    "date": "2021-12-07",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Textbook RSA Encryption on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N222",
+    "paper_id": "P223",
+    "date": "2022-02-08",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: RSA Public Exponent Selection on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N223",
+    "paper_id": "P224",
+    "date": "2023-04-09",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: PKCS#1 v1.5 Padding on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N224",
+    "paper_id": "P225",
+    "date": "2024-06-10",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: OAEP Padding for RSA on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N225",
+    "paper_id": "P226",
+    "date": "2025-08-11",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: RSA-CRT Decryption on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N226",
+    "paper_id": "P227",
+    "date": "2026-10-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "This note records the paper claim: Multiprime RSA Speedup on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N227",
+    "paper_id": "P228",
+    "date": "1978-12-13",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.83,
+    "note": "This note records the paper claim: Wiener Low Private Exponent Attack on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N228",
+    "paper_id": "P229",
+    "date": "1979-02-14",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "This note records the paper claim: Boneh-Durfee Private Exponent Bound on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N229",
+    "paper_id": "P230",
+    "date": "1980-04-15",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.74,
+    "note": "This note records the paper claim: Coppersmith Small Root Attack on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N230",
+    "paper_id": "P231",
+    "date": "1981-06-16",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "This note records the paper claim: Stereotyped Message Attack on RSA on constrained verifiers remains a classical public-key problem whose cost tracks integer factorization.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N231",
+    "paper_id": "P032",
+    "date": "1978-12-06",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The safety argument depends on a cost model that later factoring records may overturn.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N232",
+    "paper_id": "P033",
+    "date": "1979-02-07",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The estimate assumes a dedicated factoring cluster and does not price a casual attacker.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N233",
+    "paper_id": "P034",
+    "date": "1980-04-08",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The attack applies to stereotyped or unpadded messages rather than every deployment.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N234",
+    "paper_id": "P035",
+    "date": "1981-06-09",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Safety holds only when OAEP is implemented without a padding oracle.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N235",
+    "paper_id": "P036",
+    "date": "1982-08-10",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Equivalence is argued for the textbook problem and not for every padded deployment.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N236",
+    "paper_id": "P037",
+    "date": "1983-10-11",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The failures shown here need partial information or weak parameters.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N237",
+    "paper_id": "P038",
+    "date": "1984-12-12",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The claim treats a logical-qubit estimate as if the machine already exists.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N238",
+    "paper_id": "P039",
+    "date": "1985-02-13",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: A later fault-tolerant machine could change this record without changing the classical analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N239",
+    "paper_id": "P040",
+    "date": "1986-04-14",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The comparison fixes the modulus size and does not vary the size of the smallest prime.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N240",
+    "paper_id": "P041",
+    "date": "1987-06-15",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The speedup appears only when an extra prime is small enough to fall out of the sieve early.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N241",
+    "paper_id": "P042",
+    "date": "1988-08-16",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N242",
+    "paper_id": "P043",
+    "date": "1989-10-17",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N243",
+    "paper_id": "P044",
+    "date": "1990-12-18",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N244",
+    "paper_id": "P045",
+    "date": "1991-02-19",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N245",
+    "paper_id": "P046",
+    "date": "1992-04-20",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N246",
+    "paper_id": "P047",
+    "date": "1993-06-21",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N247",
+    "paper_id": "P048",
+    "date": "1994-08-22",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N248",
+    "paper_id": "P049",
+    "date": "1995-10-23",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N249",
+    "paper_id": "P050",
+    "date": "1996-12-24",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N250",
+    "paper_id": "P051",
+    "date": "1997-02-25",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N251",
+    "paper_id": "P052",
+    "date": "1998-04-26",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N252",
+    "paper_id": "P053",
+    "date": "1999-06-27",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N253",
+    "paper_id": "P054",
+    "date": "2000-08-01",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N254",
+    "paper_id": "P055",
+    "date": "2001-10-02",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N255",
+    "paper_id": "P056",
+    "date": "2002-12-03",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N256",
+    "paper_id": "P057",
+    "date": "2003-02-04",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N257",
+    "paper_id": "P058",
+    "date": "2004-04-05",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N258",
+    "paper_id": "P059",
+    "date": "2005-06-06",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N259",
+    "paper_id": "P060",
+    "date": "2006-08-07",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N260",
+    "paper_id": "P061",
+    "date": "2007-10-08",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N261",
+    "paper_id": "P062",
+    "date": "2008-12-09",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N262",
+    "paper_id": "P063",
+    "date": "2009-02-10",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N263",
+    "paper_id": "P064",
+    "date": "2010-04-11",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N264",
+    "paper_id": "P065",
+    "date": "2011-06-12",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N265",
+    "paper_id": "P066",
+    "date": "2012-08-13",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N266",
+    "paper_id": "P067",
+    "date": "2013-10-14",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N267",
+    "paper_id": "P068",
+    "date": "2014-12-15",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N268",
+    "paper_id": "P069",
+    "date": "2015-02-16",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N269",
+    "paper_id": "P070",
+    "date": "2016-04-17",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N270",
+    "paper_id": "P071",
+    "date": "2017-06-18",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N271",
+    "paper_id": "P072",
+    "date": "2018-08-19",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N272",
+    "paper_id": "P073",
+    "date": "2019-10-20",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N273",
+    "paper_id": "P074",
+    "date": "2020-12-21",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N274",
+    "paper_id": "P075",
+    "date": "2021-02-22",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N275",
+    "paper_id": "P076",
+    "date": "2022-04-23",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N276",
+    "paper_id": "P077",
+    "date": "2023-06-24",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N277",
+    "paper_id": "P078",
+    "date": "2024-08-25",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N278",
+    "paper_id": "P079",
+    "date": "2025-10-26",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N279",
+    "paper_id": "P080",
+    "date": "2026-12-27",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N280",
+    "paper_id": "P081",
+    "date": "1978-02-01",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N281",
+    "paper_id": "P082",
+    "date": "1979-04-02",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N282",
+    "paper_id": "P083",
+    "date": "1980-06-03",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N283",
+    "paper_id": "P084",
+    "date": "1981-08-04",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N284",
+    "paper_id": "P085",
+    "date": "1982-10-05",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N285",
+    "paper_id": "P086",
+    "date": "1983-12-06",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N286",
+    "paper_id": "P087",
+    "date": "1984-02-07",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N287",
+    "paper_id": "P088",
+    "date": "1985-04-08",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N288",
+    "paper_id": "P089",
+    "date": "1986-06-09",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N289",
+    "paper_id": "P090",
+    "date": "1987-08-10",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N290",
+    "paper_id": "P091",
+    "date": "1988-10-11",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N291",
+    "paper_id": "P092",
+    "date": "1989-12-12",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N292",
+    "paper_id": "P093",
+    "date": "1990-02-13",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N293",
+    "paper_id": "P094",
+    "date": "1991-04-14",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N294",
+    "paper_id": "P095",
+    "date": "1992-06-15",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N295",
+    "paper_id": "P096",
+    "date": "1993-08-16",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N296",
+    "paper_id": "P097",
+    "date": "1994-10-17",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N297",
+    "paper_id": "P098",
+    "date": "1995-12-18",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N298",
+    "paper_id": "P099",
+    "date": "1996-02-19",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N299",
+    "paper_id": "P100",
+    "date": "1997-04-20",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N300",
+    "paper_id": "P101",
+    "date": "1998-06-21",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N301",
+    "paper_id": "P102",
+    "date": "1999-08-22",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N302",
+    "paper_id": "P103",
+    "date": "2000-10-23",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N303",
+    "paper_id": "P104",
+    "date": "2001-12-24",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N304",
+    "paper_id": "P105",
+    "date": "2002-02-25",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N305",
+    "paper_id": "P106",
+    "date": "2003-04-26",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N306",
+    "paper_id": "P107",
+    "date": "2004-06-27",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N307",
+    "paper_id": "P108",
+    "date": "2005-08-01",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N308",
+    "paper_id": "P109",
+    "date": "2006-10-02",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N309",
+    "paper_id": "P110",
+    "date": "2007-12-03",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N310",
+    "paper_id": "P111",
+    "date": "2008-02-04",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N311",
+    "paper_id": "P112",
+    "date": "2009-04-05",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N312",
+    "paper_id": "P113",
+    "date": "2010-06-06",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N313",
+    "paper_id": "P114",
+    "date": "2011-08-07",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N314",
+    "paper_id": "P115",
+    "date": "2012-10-08",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N315",
+    "paper_id": "P116",
+    "date": "2013-12-09",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N316",
+    "paper_id": "P117",
+    "date": "2014-02-10",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N317",
+    "paper_id": "P118",
+    "date": "2015-04-11",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N318",
+    "paper_id": "P119",
+    "date": "2016-06-12",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N319",
+    "paper_id": "P120",
+    "date": "2017-08-13",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N320",
+    "paper_id": "P121",
+    "date": "2018-10-14",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N321",
+    "paper_id": "P122",
+    "date": "2019-12-15",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N322",
+    "paper_id": "P123",
+    "date": "2020-02-16",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N323",
+    "paper_id": "P124",
+    "date": "2021-04-17",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N324",
+    "paper_id": "P125",
+    "date": "2022-06-18",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N325",
+    "paper_id": "P126",
+    "date": "2023-08-19",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N326",
+    "paper_id": "P127",
+    "date": "2024-10-20",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: The mocked estimate ignores implementation faults and side channels.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N327",
+    "paper_id": "P128",
+    "date": "2025-12-21",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.7,
+    "note": "This note records the paper limitation: The bound assumes randomly generated primes of equal size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N328",
+    "paper_id": "P129",
+    "date": "2026-02-22",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.74,
+    "note": "This note records the paper limitation: Padding oracle behavior is outside the mocked cost model.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N329",
+    "paper_id": "P130",
+    "date": "1978-04-23",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.78,
+    "note": "This note records the paper limitation: The result is asymptotic and does not fix a concrete modulus size.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N330",
+    "paper_id": "P131",
+    "date": "1979-06-24",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.82,
+    "note": "This note records the paper limitation: Shared moduli and repeated primes are excluded from the analysis.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N331",
+    "paper_id": "P132",
+    "date": "1980-08-25",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P132 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N332",
+    "paper_id": "P133",
+    "date": "1981-10-26",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P133 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N333",
+    "paper_id": "P134",
+    "date": "1982-12-27",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P134 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N334",
+    "paper_id": "P135",
+    "date": "1983-02-01",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P135 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N335",
+    "paper_id": "P136",
+    "date": "1984-04-02",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P136 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N336",
+    "paper_id": "P137",
+    "date": "1985-06-03",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P137 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N337",
+    "paper_id": "P138",
+    "date": "1986-08-04",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P138 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N338",
+    "paper_id": "P139",
+    "date": "1987-10-05",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P139 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N339",
+    "paper_id": "P140",
+    "date": "1988-12-06",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P140 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N340",
+    "paper_id": "P141",
+    "date": "1989-02-07",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P141 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N341",
+    "paper_id": "P142",
+    "date": "1990-04-08",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P142 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N342",
+    "paper_id": "P143",
+    "date": "1991-06-09",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P143 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N343",
+    "paper_id": "P144",
+    "date": "1992-08-10",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P144 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N344",
+    "paper_id": "P145",
+    "date": "1993-10-11",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P145 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N345",
+    "paper_id": "P146",
+    "date": "1994-12-12",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P146 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N346",
+    "paper_id": "P147",
+    "date": "1995-02-13",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P147 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N347",
+    "paper_id": "P148",
+    "date": "1996-04-14",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P148 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N348",
+    "paper_id": "P149",
+    "date": "1997-06-15",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P149 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N349",
+    "paper_id": "P150",
+    "date": "1998-08-16",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P150 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N350",
+    "paper_id": "P151",
+    "date": "1999-10-17",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P151 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N351",
+    "paper_id": "P152",
+    "date": "2000-12-18",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P152 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N352",
+    "paper_id": "P153",
+    "date": "2001-02-19",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P153 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N353",
+    "paper_id": "P154",
+    "date": "2002-04-20",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P154 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N354",
+    "paper_id": "P155",
+    "date": "2003-06-21",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P155 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N355",
+    "paper_id": "P156",
+    "date": "2004-08-22",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P156 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N356",
+    "paper_id": "P157",
+    "date": "2005-10-23",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P157 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N357",
+    "paper_id": "P158",
+    "date": "2006-12-24",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P158 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N358",
+    "paper_id": "P159",
+    "date": "2007-02-25",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P159 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N359",
+    "paper_id": "P160",
+    "date": "2008-04-26",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P160 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N360",
+    "paper_id": "P161",
+    "date": "2009-06-27",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P161 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N361",
+    "paper_id": "P162",
+    "date": "2010-08-01",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P162 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N362",
+    "paper_id": "P163",
+    "date": "2011-10-02",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P163 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N363",
+    "paper_id": "P164",
+    "date": "2012-12-03",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P164 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N364",
+    "paper_id": "P165",
+    "date": "2013-02-04",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P165 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N365",
+    "paper_id": "P166",
+    "date": "2014-04-05",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P166 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N366",
+    "paper_id": "P167",
+    "date": "2015-06-06",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P167 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N367",
+    "paper_id": "P168",
+    "date": "2016-08-07",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P168 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N368",
+    "paper_id": "P169",
+    "date": "2017-10-08",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.71,
+    "note": "It remains open whether the claim in P169 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N369",
+    "paper_id": "P170",
+    "date": "2018-12-09",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.76,
+    "note": "It remains open whether the claim in P170 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N370",
+    "paper_id": "P171",
+    "date": "2019-02-10",
+    "note_type": "research_note",
+    "stance": "OPEN_QUESTION",
+    "confidence": 0.66,
+    "note": "It remains open whether the claim in P171 still holds once both the modulus size and the padding in deployment are published.",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N371",
+    "paper_id": "P032",
+    "date": "1978-08-06",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P032 claims \"1024-bit RSA remains operationally safe against published factoring effort.\" This conflicts with P033, which claims \"1024-bit RSA is already within practical factoring range.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N372",
+    "paper_id": "P033",
+    "date": "1979-10-07",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P033 claims \"1024-bit RSA is already within practical factoring range.\" This conflicts with P032, which claims \"1024-bit RSA remains operationally safe against published factoring effort.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N373",
+    "paper_id": "P034",
+    "date": "1980-12-08",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P034 claims \"Public exponent 3 is unsafe for RSA encryption and signatures.\" This conflicts with P035, which claims \"Public exponent 3 with OAEP is safe for RSA encryption.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N374",
+    "paper_id": "P035",
+    "date": "1981-02-09",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P035 claims \"Public exponent 3 with OAEP is safe for RSA encryption.\" This conflicts with P034, which claims \"Public exponent 3 is unsafe for RSA encryption and signatures.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N375",
+    "paper_id": "P036",
+    "date": "1982-04-10",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P036 claims \"Breaking RSA is the same problem as general integer factorization.\" This conflicts with P037, which claims \"RSA can fail without a general factoring algorithm.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N376",
+    "paper_id": "P037",
+    "date": "1983-06-11",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P037 claims \"RSA can fail without a general factoring algorithm.\" This conflicts with P036, which claims \"Breaking RSA is the same problem as general integer factorization.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N377",
+    "paper_id": "P038",
+    "date": "1984-08-12",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P038 claims \"Near-term quantum hardware makes 2048-bit RSA obsolete.\" This conflicts with P039, which claims \"Only toy moduli have been factored on current quantum hardware.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N378",
+    "paper_id": "P039",
+    "date": "1985-10-13",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P039 claims \"Only toy moduli have been factored on current quantum hardware.\" This conflicts with P038, which claims \"Near-term quantum hardware makes 2048-bit RSA obsolete.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N379",
+    "paper_id": "P040",
+    "date": "1986-12-14",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P040 claims \"Multiprime RSA is as hard to factor as two-prime RSA.\" This conflicts with P041, which claims \"Extra primes make the number field sieve easier against multiprime RSA.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N380",
+    "paper_id": "P041",
+    "date": "1987-02-15",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.81,
+    "note": "P041 claims \"Extra primes make the number field sieve easier against multiprime RSA.\" This conflicts with P040, which claims \"Multiprime RSA is as hard to factor as two-prime RSA.\"",
+    "research_question": "Does RSA security reduce to integer factorization?",
+    "tags": [
+      "rsa",
+      "public-key",
+      "integer-factorization"
+    ]
+  },
+  {
+    "note_id": "N381",
+    "paper_id": "P232",
+    "date": "2026-04-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.84,
+    "note": "A Lattice Ballot collects anonymous votes without a tallying authority.",
+    "research_question": "Has this claim been recorded, and does the evidence agree?",
+    "tags": [
+      "claim-check"
+    ]
+  },
+  {
+    "note_id": "N382",
+    "paper_id": "P233",
+    "date": "2026-04-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.8,
+    "note": "A second mocked study also finds that a Lattice Ballot collects anonymous votes without a tallying authority.",
+    "research_question": "Has this claim been recorded, and does the evidence agree?",
+    "tags": [
+      "claim-check"
+    ]
+  },
+  {
+    "note_id": "N383",
+    "paper_id": "P234",
+    "date": "2026-04-12",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.77,
+    "note": "A Cedar Modulus remains safe against a laptop factoring effort.",
+    "research_question": "Has this claim been recorded, and does the evidence agree?",
+    "tags": [
+      "claim-check"
+    ]
+  },
+  {
+    "note_id": "N384",
+    "paper_id": "P235",
+    "date": "2026-04-12",
+    "note_type": "research_note",
+    "stance": "LIMITATION",
+    "confidence": 0.83,
+    "note": "A laptop factoring effort breaks a Cedar Modulus. This conflicts with P234, which claims a Cedar Modulus remains safe against a laptop factoring effort.",
+    "research_question": "Has this claim been recorded, and does the evidence agree?",
+    "tags": [
+      "claim-check"
+    ]
+  },
+  {
+    "note_id": "N385",
+    "paper_id": "P236",
+    "date": "2026-04-18",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "RSA public key cryptography cannot be implemented to run in polynomial time.",
+    "research_question": "Can RSA public key cryptography be implemented to run in polynomial time?",
+    "tags": [
+      "rsa",
+      "polynomial-time"
+    ]
+  },
+  {
+    "note_id": "N386",
+    "paper_id": "P237",
+    "date": "2026-04-18",
+    "note_type": "research_note",
+    "stance": "SUPPORTS",
+    "confidence": 0.86,
+    "note": "RSA public key cryptography cannot be implemented to run in polynomial time.",
+    "research_question": "Can RSA public key cryptography be implemented to run in polynomial time?",
+    "tags": [
+      "rsa",
+      "polynomial-time"
+    ]
   }
 ]

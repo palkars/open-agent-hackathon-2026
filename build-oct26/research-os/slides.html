@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ResearchOS</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1c1915;
+      --muted: #5e564c;
+      --paper: #f3eee6;
+      --panel: #fffaf3;
+      --line: #ddd4c8;
+      --accent: #8c3d2a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font: 22px/1.4 "Segoe UI", sans-serif;
+    }
+    .deck { height: 100%; }
+    .slide {
+      display: none;
+      height: 100%;
+      padding: 56px 72px 72px;
+    }
+    .slide.active { display: flex; flex-direction: column; }
+    .kicker {
+      margin: 0 0 18px;
+      color: var(--accent);
+      font: 650 14px/1 "Segoe UI", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      max-width: 16ch;
+      font: 700 64px/1.05 Georgia, serif;
+      letter-spacing: -0.03em;
+    }
+    h2 {
+      margin: 0 0 28px;
+      font: 700 48px/1.1 Georgia, serif;
+      letter-spacing: -0.03em;
+    }
+    p { margin: 22px 0 0; max-width: 38em; }
+    .lede { margin-top: 28px; max-width: 22em; font-size: 28px; color: var(--muted); }
+    ul { margin: 8px 0 0; padding: 0; list-style: none; }
+    li {
+      margin: 0 0 14px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+    }
+    li strong { font-family: Georgia, serif; }
+    .path { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .path span {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--panel);
+      font-size: 18px;
+    }
+    .path span.local { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    pre {
+      margin: 8px 0 0;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: var(--ink);
+      color: var(--panel);
+      font: 18px/1.45 ui-monospace, Consolas, monospace;
+      white-space: pre-wrap;
+    }
+    .foot {
+      position: fixed;
+      right: 28px;
+      bottom: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    @media print {
+      .foot { display: none; }
+      .slide {
+        display: flex !important;
+        height: 100vh;
+        break-after: page;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide active">
+      <p class="kicker">ResearchOS</p>
+      <h1>A question needs memory and evidence.</h1>
+      <p class="lede">The conclusion has to say whether that evidence supports the claim.</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">What it does</p>
+      <h2>One question. Four panes. One assessment.</h2>
+      <ul>
+        <li><strong>SUPPORTED</strong> The relevant evidence agrees, and none of it denies the question.</li>
+        <li><strong>CONTRADICTED</strong> The relevant evidence denies the question, and none of it agrees.</li>
+        <li><strong>MIXED</strong> Some evidence agrees and some denies it.</li>
+        <li><strong>INSUFFICIENT</strong> No supplied evidence is about the question.</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">One warm run</p>
+      <h2>Memory, then evidence, then Nemotron.</h2>
+      <div class="path">
+        <span>H-MEM recall</span>
+        <span>Markovian, at most 3 chunks</span>
+        <span>Zetaris rows</span>
+        <span>Nemotron through Nightshift</span>
+        <span>Contradiction check</span>
+        <span>Store the finding</span>
+      </div>
+      <p>H-MEM text is injected into the first chunk. Later chunks carry only what is still open.</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">One result</p>
+      <h2>Can a Lattice Ballot collect anonymous votes without a tallying authority?</h2>
+      <ul>
+        <li>Zetaris loads <strong>P232</strong> and <strong>P233</strong>.</li>
+        <li>Both papers say yes, and both experiments passed.</li>
+        <li>The assessment should be <strong>SUPPORTED</strong>.</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">What stays local</p>
+      <h2>The key never enters this repo.</h2>
+      <div class="path">
+        <span class="local">Papers</span>
+        <span class="local">H-MEM</span>
+        <span class="local">Markovian</span>
+        <span>Nightshift runtime</span>
+      </div>
+      <p>Papers, H-MEM, and Markovian stay on the machine. The NVIDIA key stays in Nightshift. The only outbound model call is the local Nightshift runtime.</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">Proof</p>
+      <h2>Two commands, then the page.</h2>
+      <p>From <strong>build-oct26</strong>. Markovian, with Nightshift stopped. A cold run finishes in 3 chunks. A warm run finishes in 2.</p>
+      <pre>npx tsx research-os/test-markovian.ts</pre>
+      <p>One real Nightshift request. The printed source ids come from the evidence that was sent.</p>
+      <pre>npx tsx research-os/test-llm-reasoner.ts</pre>
+      <p>Then start the page and open it.</p>
+      <pre>npx tsx research-os/ui/server.ts</pre>
+    </section>
+  </main>
+  <p class="foot">Arrow keys · 1 / 6</p>
+  <script>
+    const slides = [...document.querySelectorAll(".slide")];
+    const foot = document.querySelector(".foot");
+    let index = 0;
+
+    function show(next) {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+      foot.textContent = "Arrow keys · " + (index + 1) + " / " + slides.length;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "ArrowDown" || event.key === " ") {
+        event.preventDefault();
+        show(index + 1);
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        event.preventDefault();
+        show(index - 1);
+      } else if (event.key === "Home") {
+        show(0);
+      } else if (event.key === "End") {
+        show(slides.length - 1);
+      }
+    });
+  </script>
+</body>
+</html>

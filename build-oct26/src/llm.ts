@@ -13,7 +13,9 @@ export interface AnswerResult {
 export async function answer(question: string, memoryContext: string, memories: { relevance: number; content: string }[]): Promise<AnswerResult> {
   if (process.env.ANTHROPIC_API_KEY) {
     try {
-      const { default: Anthropic } = await import("@anthropic-ai/sdk");
+      // Specifier is a variable so tsc does not require the optional SDK to be installed.
+      const sdk = "@anthropic-ai/sdk";
+      const { default: Anthropic } = await import(sdk);
       const client = new Anthropic();
       const response = await client.messages.create({
         model: "claude-sonnet-5",
