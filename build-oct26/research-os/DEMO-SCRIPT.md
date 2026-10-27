@@ -45,7 +45,7 @@ Say: "That request went through Meterless Nightshift. Nemotron returned the asse
 
 If the page shows `ZETARIS_CONNECTION_ERROR`, `REASONING_ERROR`, `EVALUATION_ERROR`, or `MEMORY_RETRIEVAL_ERROR`, stop. Do not use that take.
 
-If the evidence pane has no papers, stop. Zetaris is still serving an older copy, so this question does not match the deck. Record the trusted-opener question instead, and change slide 4 before you submit:
+If the evidence pane has no papers, stop. Zetaris is still serving an older copy. Record the trusted-opener question instead. The product slide already shows that question:
 
 > Can post-quantum anonymity and traceability be achieved without requiring a single trusted opener?
 
