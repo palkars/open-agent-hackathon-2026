@@ -19,8 +19,7 @@ Scroll down for the Zetaris papers and the Markovian trace:
 ![http://127.0.0.1:4173 showing Zetaris paper ids and the Markovian trace ending in Conclusion](images/ui-evidence.png)
 
 ## Sponsor technologies
-
-Zetaris supplies the current papers, notes, and experiments. H-MEM and Markovian are the Meterless reference engines vendored in this folder. They were not rewritten for this project. Nightshift is the only model call. The NVIDIA key stays in Nightshift Providers and is not stored in this repo. ResearchOS calls the local runtime at `http://127.0.0.1:8088/v1` with the runtime token and `METERLESS_MODEL=nvidia/nemotron-3.5-lightning-30b-a3b`.
+Cursor IDE was used for developing this application. Zetaris supplies the current papers, notes, and experiments. H-MEM and Markovian are the Meterless reference engines vendored in this folder. They were not rewritten for this project. Nightshift is the only model call. The NVIDIA key stays in Nightshift Providers and is not stored in this repo. ResearchOS calls the local runtime at `http://127.0.0.1:8088/v1` with the runtime token and `METERLESS_MODEL=nvidia/nemotron-3.5-lightning-30b-a3b`.
 
 On a warm run, H-MEM (`vendor/hmem`, persisted in `.memory`) recalls prior findings and that text is injected into the first Markovian chunk. Markovian (`vendor/markovian`) then carries the work forward in at most 3 chunks. Each chunk asks Zetaris for evidence that is not already completed, and Nemotron assesses that chunk through Nightshift.
 
