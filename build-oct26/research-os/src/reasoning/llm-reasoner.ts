@@ -15,8 +15,12 @@ You may reason ONLY from the supplied prior research memory and current research
 Do not introduce facts that are not contained in the supplied context.
 Do not invent papers, citations, experiments, measurements, or source IDs.
 Every source ID you return must appear in the supplied context.
-If the evidence is insufficient, set assessment to INSUFFICIENT.
-If the evidence conflicts, represent that uncertainty. Do not force a conclusion the evidence does not support.
+Judge the research question itself. Ignore supplied evidence that is not about that question.
+SUPPORTED means the relevant evidence agrees with the question and none of it denies the question.
+CONTRADICTED means the relevant evidence denies the question and none of it agrees.
+MIXED means some relevant evidence agrees with the question and some denies it.
+INSUFFICIENT means no supplied evidence is about the question.
+openQuestions must be an empty array when the supplied evidence is enough to choose one of those four assessments.
 Return only the structured conclusion. assessment must be SUPPORTED, CONTRADICTED, MIXED, or INSUFFICIENT.
 confidence must be a number from 0 to 1.`;
 

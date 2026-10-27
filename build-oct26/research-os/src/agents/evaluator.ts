@@ -6,7 +6,6 @@ import type { PotentiallyConflictingEvidence, TraceableScheme } from "../zetaris
 import type { ContradictionReport, EvidenceRelationship, ResearchConclusion, ResearchContext } from "./types.ts";
 
 const RELATIONSHIPS = ["SUPPORTS", "CONTRADICTS", "EXTENDS", "UNRELATED"] as const;
-const SOURCE_ID_TOKEN = /\b[A-Z]{1,3}\d{2,}\b/g;
 
 const RECOMMENDATION: Record<EvidenceRelationship, string> = {
   CONTRADICTS: "Revise existing conclusion.",
@@ -66,7 +65,13 @@ export class ContradictionEvaluator {
       schema: EVALUATION_SCHEMA,
       activity: "Evaluating contradictions",
     });
-    return parseReports(raw, context);
+    try {
+      return parseReports(raw, context);
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : "LLM evaluation was not valid JSON.";
+      console.error(`[ResearchOS] ${detail}`);
+      return deterministicEvaluations(context);
+    }
   }
 }
 
@@ -107,26 +112,29 @@ function parseReports(raw: string, context: ResearchContext): ContradictionRepor
   const reports: ContradictionReport[] = [];
 
   for (const item of parsed.reports) {
-    if (!isRecord(item)) throw new Error("LLM evaluation report is invalid.");
+    if (!isRecord(item)) continue;
     const relationship = item.relationship;
-    if (!isRelationship(relationship)) throw new Error("LLM evaluation relationship is invalid.");
-    if (typeof item.memoryId !== "string" || !memories.has(item.memoryId)) {
-      throw new Error("LLM evaluation contains an unknown memory ID.");
-    }
-    if (seen.has(item.memoryId)) throw new Error("LLM evaluation repeats a memory ID.");
-    seen.add(item.memoryId);
-    if (!isConfidence(item.confidence)) throw new Error("LLM evaluation confidence is invalid.");
-    if (typeof item.reason !== "string" || item.reason.trim() === "") throw new Error("LLM evaluation reason is invalid.");
+    if (!isRelationship(relationship)) continue;
+    if (typeof item.memoryId !== "string" || !memories.has(item.memoryId) || seen.has(item.memoryId)) continue;
+    const confidenceValue = readConfidence(item.confidence);
+    if (confidenceValue === undefined) continue;
+    if (typeof item.reason !== "string" || item.reason.trim() === "") continue;
     const evidence = sourceIdList(item.evidence, allowed);
-    if (relationship !== "UNRELATED" && evidence.length === 0) throw new Error("LLM evaluation evidence is invalid.");
-    const reason = item.reason.trim();
-    assertKnownSourceIds(reason, allowed);
+    if (relationship !== "UNRELATED" && evidence.length === 0) continue;
+    seen.add(item.memoryId);
     const recommendation = relationship === "CONTRADICTS"
       ? RECOMMENDATION.CONTRADICTS
       : typeof item.recommendation === "string" && item.recommendation.trim()
         ? item.recommendation.trim()
         : RECOMMENDATION[relationship];
-    reports.push({ relationship, memoryId: item.memoryId, evidence, confidence: item.confidence, reason, recommendation });
+    reports.push({
+      relationship,
+      memoryId: item.memoryId,
+      evidence,
+      confidence: confidenceValue,
+      reason: item.reason.trim(),
+      recommendation,
+    });
   }
 
   for (const hit of context.priorMemories.memories) {
@@ -230,24 +238,30 @@ function sourceIdsIn(context: ResearchContext): Set<string> {
 }
 
 function sourceIdList(value: unknown, allowed: Set<string>): string[] {
-  if (!Array.isArray(value)) throw new Error("LLM evaluation evidence is invalid.");
+  if (!Array.isArray(value)) return [];
   const ids: string[] = [];
   const seen = new Set<string>();
   for (const item of value) {
-    if (typeof item !== "string") throw new Error("LLM evaluation evidence is invalid.");
+    if (typeof item !== "string") continue;
     const id = item.trim();
-    if (!id || seen.has(id)) continue;
-    if (!allowed.has(id)) throw new Error("LLM evaluation contains an unknown source ID.");
+    if (!id || seen.has(id) || !allowed.has(id)) continue;
     seen.add(id);
     ids.push(id);
   }
   return ids;
 }
 
-function assertKnownSourceIds(value: string, allowed: Set<string>): void {
-  for (const token of value.match(SOURCE_ID_TOKEN) ?? []) {
-    if (!allowed.has(token)) throw new Error("LLM evaluation contains an unknown source ID.");
+function readConfidence(value: unknown): number | undefined {
+  let numeric: number | undefined;
+  if (typeof value === "number" && Number.isFinite(value)) numeric = value;
+  if (typeof value === "string") {
+    const percent = value.trim().match(/^(\d+(?:\.\d+)?)\s*%$/);
+    const parsed = percent ? Number(percent[1]) : Number(value.trim());
+    if (Number.isFinite(parsed)) numeric = percent ? parsed / 100 : parsed;
   }
+  if (numeric === undefined) return undefined;
+  const scaled = numeric > 1 && numeric <= 100 ? numeric / 100 : numeric;
+  return scaled >= 0 && scaled <= 1 ? scaled : undefined;
 }
 
 function confidence(value: number | undefined, fallback: number): number {
@@ -265,10 +279,6 @@ function addId(ids: Set<string>, value: string | undefined): void {
 
 function isRelationship(value: unknown): value is EvidenceRelationship {
   return typeof value === "string" && (RELATIONSHIPS as readonly string[]).includes(value);
-}
-
-function isConfidence(value: unknown): value is number {
-  return typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

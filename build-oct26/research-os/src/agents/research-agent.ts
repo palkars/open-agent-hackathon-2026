@@ -158,6 +158,7 @@ export class ResearchAgent {
         if (query.kind === "paper") investigated.papers.add(query.paperId);
         if (query.kind === "schemes") investigated.schemes = true;
         if (query.kind === "conflicts") investigated.conflicts = true;
+        if (query.kind === "claim") investigated.claims = true;
         evidence = mergeEvidence(evidence, batch);
 
         const conflict = batchHasConflict(query.kind, batch);
@@ -214,6 +215,7 @@ export class ResearchAgent {
     try {
       if (query.kind === "paper") return await this.repository.getPaperEvidence(query.paperId);
       if (query.kind === "conflicts") return conflictsToEvidence(await this.repository.getPotentiallyConflictingEvidence());
+      if (query.kind === "claim") return await this.repository.findEvidenceForClaim(query.text);
       return schemesToEvidence(await this.repository.findPostQuantumAnonymousTraceableSchemes());
     } catch (error) {
       throw reportedZetarisError(error);
@@ -344,12 +346,14 @@ function insufficientConclusion(): ResearchConclusion {
 type EvidenceQuery =
   | { kind: "paper"; paperId: string; detail: string }
   | { kind: "conflicts"; detail: string }
-  | { kind: "schemes"; detail: string };
+  | { kind: "schemes"; detail: string }
+  | { kind: "claim"; text: string; detail: string };
 
 interface InvestigatedQueries {
   papers: Set<string>;
   schemes: boolean;
   conflicts: boolean;
+  claims: boolean;
 }
 
 function researchView(prompt: string): string {
@@ -379,18 +383,20 @@ function formatCompleted(investigated: InvestigatedQueries): string {
   const parts: string[] = [];
   if (investigated.schemes) parts.push("schemes");
   if (investigated.conflicts) parts.push("conflicts");
+  if (investigated.claims) parts.push("claims");
   parts.push(...[...investigated.papers].sort());
   return parts.join("; ") || "none";
 }
 
 function parseCompleted(carryover: string): InvestigatedQueries {
-  const investigated: InvestigatedQueries = { papers: new Set(), schemes: false, conflicts: false };
+  const investigated: InvestigatedQueries = { papers: new Set(), schemes: false, conflicts: false, claims: false };
   const line = carryField(carryover, "COMPLETED");
   if (!line || line.toLowerCase() === "none") return investigated;
   for (const part of line.split(";")) {
     const token = part.trim();
     if (token === "schemes") investigated.schemes = true;
     else if (token === "conflicts") investigated.conflicts = true;
+    else if (token === "claims") investigated.claims = true;
     else if (/^[A-Z]{1,3}\d{2,}$/.test(token)) investigated.papers.add(token);
   }
   return investigated;
@@ -410,7 +416,7 @@ function carryField(carryover: string, name: string): string {
 function nextQuery(
   focus: string,
   remaining: string[],
-  investigated: { papers: Set<string>; schemes: boolean; conflicts: boolean },
+  investigated: InvestigatedQueries,
 ): EvidenceQuery | null {
   const text = [focus, ...remaining].join("\n");
   const unseenPaper = paperIds(text).find((id) => !investigated.papers.has(id));
@@ -418,10 +424,24 @@ function nextQuery(
     return { kind: "paper", paperId: unseenPaper, detail: unseenPaper };
   }
   if (CONFLICT_FOCUS.test(text) && !investigated.conflicts) return { kind: "conflicts", detail: "potentially conflicting evidence" };
-  if (!investigated.schemes) return { kind: "schemes", detail: "post-quantum anonymous traceable schemes" };
-  if (unseenPaper) return { kind: "paper", paperId: unseenPaper, detail: unseenPaper };
-  if (!investigated.conflicts && CONFLICT_FOCUS.test(text)) return { kind: "conflicts", detail: "potentially conflicting evidence" };
+  if (isPostQuantumOpenerQuestion(text)) {
+    if (!investigated.schemes) return { kind: "schemes", detail: "post-quantum anonymous traceable schemes" };
+    if (unseenPaper) return { kind: "paper", paperId: unseenPaper, detail: unseenPaper };
+    if (!investigated.conflicts && CONFLICT_FOCUS.test(text)) return { kind: "conflicts", detail: "potentially conflicting evidence" };
+    return null;
+  }
+  if (!investigated.claims) return { kind: "claim", text: focus, detail: "papers matching the question" };
   return null;
+}
+
+function isPostQuantumOpenerQuestion(question: string): boolean {
+  const text = question.toLowerCase();
+  const postQuantum = text.includes("post-quantum") || text.includes("post quantum");
+  const anonymity = text.includes("anonymity") || text.includes("anonymous");
+  const traceability = text.includes("traceability") || text.includes("traceable");
+  const opener = text.includes("opener") || text.includes("opening authority");
+  const withoutOpener = text.includes("without") || text.includes("no single") || text.includes("not requiring");
+  return postQuantum && anonymity && traceability && opener && withoutOpener;
 }
 
 function paperIds(text: string): string[] {

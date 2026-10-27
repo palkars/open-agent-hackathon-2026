@@ -153,6 +153,39 @@ export class ZetarisResearchRepository {
       experiments: records(experiments).map(toExperiment),
     };
   }
+
+  async findEvidenceForClaim(question: string): Promise<ResearchEvidence> {
+    const papers = records(await this.client.query(`
+      SELECT ${PAPER_COLUMNS}
+      FROM research_os.papers
+      ORDER BY paper_id
+    `)).map(toPaper);
+    const experiments = records(await this.client.query(`
+      SELECT ${EXPERIMENT_COLUMNS}
+      FROM research_os.experiments
+      ORDER BY experiment_id
+    `)).map(toExperiment);
+    const notes = await this.loadNotesForClaim();
+    const ids = new Set(selectClaimPaperIds(question, papers, notes));
+    return {
+      papers: papers.filter((paper) => ids.has(paper.paper_id)),
+      notes: notes.filter((note) => note.paper_id !== undefined && ids.has(note.paper_id)),
+      experiments: experiments.filter((experiment) => ids.has(experiment.paper_id)),
+    };
+  }
+
+  private async loadNotesForClaim(): Promise<ResearchNote[]> {
+    try {
+      return records(await this.client.query(`
+        SELECT ${NOTE_COLUMNS}
+        FROM research_os.notes
+        ORDER BY note_id
+      `)).map(toNote);
+    } catch (error) {
+      if (!(error instanceof ZetarisClientError) || error.kind !== "query") throw error;
+      return [];
+    }
+  }
 }
 
 export async function getPaperEvidence(paperId: string): Promise<ResearchEvidence> {
@@ -173,6 +206,54 @@ export async function getPotentiallyConflictingEvidence(): Promise<PotentiallyCo
 
 export async function getResearchEvidence(): Promise<ResearchEvidence> {
   return ZetarisResearchRepository.fromEnv().getResearchEvidence();
+}
+
+const CLAIM_STOP_WORDS = new Set([
+  "about", "after", "again", "against", "already", "also", "been", "before", "claim", "could",
+  "does", "evidence", "from", "have", "into", "just", "more", "most", "only", "over", "recorded",
+  "research", "seen", "should", "show", "shows", "some", "such", "than", "that", "their", "them",
+  "then", "there", "these", "they", "this", "those", "time", "under", "what", "when", "where", "whether",
+  "which", "with", "without", "would", "your",
+]);
+
+export function selectClaimPaperIds(question: string, papers: Paper[], notes: ResearchNote[]): string[] {
+  const wanted = [...contentTokens(question)];
+  if (wanted.length === 0) return [];
+  const notesByPaper = new Map<string, string[]>();
+  for (const note of notes) {
+    if (!note.paper_id || !note.text) continue;
+    const list = notesByPaper.get(note.paper_id) ?? [];
+    list.push(note.text);
+    notesByPaper.set(note.paper_id, list);
+  }
+  const indexed = papers.map((paper) => ({
+    id: paper.paper_id,
+    tokens: contentTokens([
+      paper.title,
+      paper.key_claim,
+      paper.limitation,
+      paper.crypto_method,
+      ...(notesByPaper.get(paper.paper_id) ?? []),
+    ].filter(Boolean).join(" ")),
+  }));
+  const counts = new Map(wanted.map((token) => [
+    token,
+    indexed.filter((paper) => paper.tokens.has(token)).length,
+  ]));
+  const present = wanted.filter((token) => (counts.get(token) ?? 0) > 0);
+  if (present.length === 0) return [];
+  const rareCount = Math.min(...present.map((token) => counts.get(token) ?? 0));
+  if (rareCount > 8) return [];
+  const rareTokens = present.filter((token) => counts.get(token) === rareCount);
+  const matched = indexed.filter((paper) => rareTokens.every((token) => paper.tokens.has(token)));
+  if (matched.length > 0) return matched.map((paper) => paper.id);
+  const rarest = [...rareTokens].sort((left, right) => left.localeCompare(right))[0]!;
+  return indexed.filter((paper) => paper.tokens.has(rarest)).map((paper) => paper.id);
+}
+
+function contentTokens(text: string): Set<string> {
+  const tokens = text.toLowerCase().match(/[a-z0-9]+/g) ?? [];
+  return new Set(tokens.filter((token) => token.length >= 4 && !CLAIM_STOP_WORDS.has(token) && !/^\d+$/.test(token)));
 }
 
 async function loadPaperEvidence(client: ZetarisClient, paperId: string): Promise<ResearchEvidence> {
