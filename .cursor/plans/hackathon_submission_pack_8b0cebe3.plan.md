@@ -7,7 +7,7 @@ todos:
     status: completed
   - id: slides
     content: Add a six-slide slides.html with no new dependencies
-    status: pending
+    status: completed
   - id: demo-script
     content: Add DEMO-SCRIPT.md for a two-minute Nightshift recording with secrets off screen
     status: pending
