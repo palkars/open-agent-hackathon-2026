@@ -10,7 +10,7 @@ todos:
     status: completed
   - id: demo-script
     content: Add DEMO-SCRIPT.md for a two-minute Nightshift recording with secrets off screen
-    status: pending
+    status: completed
 isProject: false
 ---
 

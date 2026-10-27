@@ -24,6 +24,7 @@
     .deck { height: 100%; }
     .slide {
       display: none;
+      position: relative;
       height: 100%;
       padding: 56px 72px 72px;
     }
@@ -42,19 +43,60 @@
       letter-spacing: -0.03em;
     }
     h2 {
-      margin: 0 0 28px;
-      font: 700 48px/1.1 Georgia, serif;
+      margin: 0 0 22px;
+      font: 700 40px/1.1 Georgia, serif;
       letter-spacing: -0.03em;
     }
-    p { margin: 22px 0 0; max-width: 38em; }
+    p { margin: 18px 0 0; max-width: 40em; }
     .lede { margin-top: 28px; max-width: 22em; font-size: 28px; color: var(--muted); }
+    .note {
+      color: var(--muted);
+      font-size: 18px;
+      margin-top: 14px;
+      padding-right: 96px;
+    }
     ul { margin: 8px 0 0; padding: 0; list-style: none; }
     li {
-      margin: 0 0 14px;
-      padding: 16px 18px;
+      margin: 0 0 10px;
+      padding: 12px 16px;
       border: 1px solid var(--line);
       border-radius: 12px;
       background: var(--panel);
+    }
+    .cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 16px;
+    }
+    .cols li { margin: 0; }
+    .shots {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+      margin-top: 4px;
+    }
+    .shots figure {
+      margin: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .shots img {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      object-fit: cover;
+      object-position: top center;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+    }
+    .shots figcaption {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 15px;
     }
     li strong { font-family: Georgia, serif; }
     .path { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
@@ -75,9 +117,18 @@
       font: 18px/1.45 ui-monospace, Consolas, monospace;
       white-space: pre-wrap;
     }
+    .pagenum {
+      position: absolute;
+      right: 72px;
+      bottom: 24px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.06em;
+    }
     .foot {
       position: fixed;
-      right: 28px;
+      left: 28px;
       bottom: 18px;
       color: var(--muted);
       font-size: 14px;
@@ -99,10 +150,23 @@
       <p class="kicker">ResearchOS</p>
       <h1>A question needs memory and evidence.</h1>
       <p class="lede">The conclusion has to say whether that evidence supports the claim.</p>
+      <p class="pagenum">1 / 9</p>
     </section>
 
     <section class="slide">
-      <p class="kicker">What it does</p>
+      <p class="kicker">Problem and users</p>
+      <h2>Notes and papers never meet.</h2>
+      <ul class="cols">
+        <li><strong>Who</strong> A researcher checking one claim against a paper corpus and their own earlier conclusions.</li>
+        <li><strong>The work</strong> The question is plain language. No paper id, and no model name. The demo is post-quantum cryptography.</li>
+        <li><strong>What breaks</strong> A new question starts from zero, or repeats a conclusion the papers no longer support.</li>
+        <li><strong>What a model does</strong> It can name papers that were never retrieved. Nothing says whether the evidence supports the claim.</li>
+      </ul>
+      <p class="pagenum">2 / 9</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">Solution</p>
       <h2>One question. Four panes. One assessment.</h2>
       <ul>
         <li><strong>SUPPORTED</strong> The relevant evidence agrees, and none of it denies the question.</li>
@@ -110,65 +174,106 @@
         <li><strong>MIXED</strong> Some evidence agrees and some denies it.</li>
         <li><strong>INSUFFICIENT</strong> No supplied evidence is about the question.</li>
       </ul>
+      <p class="note">Every cited paper id has to be in the memories or the Zetaris rows that were sent.</p>
+      <p class="pagenum">3 / 9</p>
     </section>
 
     <section class="slide">
-      <p class="kicker">One warm run</p>
-      <h2>Memory, then evidence, then Nemotron.</h2>
+      <p class="kicker">Agent workflow</p>
+      <h2>Recall, then evidence, then a stop.</h2>
       <div class="path">
+        <span>Question</span>
         <span>H-MEM recall</span>
-        <span>Markovian, at most 3 chunks</span>
-        <span>Zetaris rows</span>
-        <span>Nemotron through Nightshift</span>
+        <span>Markovian, at most 3</span>
+        <span>Zetaris</span>
+        <span>Nemotron</span>
         <span>Contradiction check</span>
         <span>Store the finding</span>
       </div>
-      <p>H-MEM text is injected into the first chunk. Later chunks carry only what is still open.</p>
-    </section>
-
-    <section class="slide">
-      <p class="kicker">One result</p>
-      <h2>Can a Lattice Ballot collect anonymous votes without a tallying authority?</h2>
       <ul>
-        <li>Zetaris loads <strong>P232</strong> and <strong>P233</strong>.</li>
-        <li>Both papers say yes, and both experiments passed.</li>
-        <li>The assessment should be <strong>SUPPORTED</strong>.</li>
+        <li>On a warm run the first chunk already holds the recalled memory, so Search memory is not repeated.</li>
+        <li>Each chunk asks Zetaris once. Nemotron assesses that chunk plus the evidence gathered so far.</li>
+        <li>The loop stops when the assessment is not <strong>INSUFFICIENT</strong> and nothing is still open, or at chunk 3.</li>
       </ul>
+      <p class="pagenum">4 / 9</p>
     </section>
 
     <section class="slide">
-      <p class="kicker">What stays local</p>
-      <h2>The key never enters this repo.</h2>
-      <div class="path">
-        <span class="local">Papers</span>
-        <span class="local">H-MEM</span>
-        <span class="local">Markovian</span>
-        <span>Nightshift runtime</span>
+      <p class="kicker">Technical stack</p>
+      <h2>Vendored engines, one local model call.</h2>
+      <ul class="cols">
+        <li><strong>Page</strong> Node and tsx. Run research calls <strong>POST /api/research</strong>.</li>
+        <li><strong>H-MEM</strong> Vendored Meterless engine. Prior claims live in <strong>.memory</strong>.</li>
+        <li><strong>Markovian</strong> Vendored. Chunk size 2000, at most 3 chunks, 128 carryover tokens.</li>
+        <li><strong>Zetaris</strong> Current papers, notes, and experiments.</li>
+        <li><strong>Nightshift</strong> Local runtime. Model <strong>nvidia/nemotron-3.5-lightning-30b-a3b</strong>.</li>
+        <li><strong>Offline reasoner</strong> The same four assessments, with Nightshift stopped.</li>
+      </ul>
+      <p class="pagenum">5 / 9</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">Zetaris and Meterless</p>
+      <h2>The corpus stays in Zetaris. The loop is Meterless.</h2>
+      <ul>
+        <li><strong>Zetaris</strong> Each chunk queries it once: schemes, one paper, or conflicting evidence, and only for work not already completed.</li>
+        <li><strong>H-MEM</strong> Recalls prior findings into the first chunk, then stores the new finding once.</li>
+        <li><strong>Markovian</strong> Carries completed work, what is still open, decisions, and context from chunk to chunk.</li>
+        <li><strong>Nightshift</strong> The only model call. The NVIDIA key stays there and never enters this repo.</li>
+      </ul>
+      <p class="note">The reference engines are vendored. They were not rewritten.</p>
+      <p class="pagenum">6 / 9</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">What is unique</p>
+      <h2>The loop stops, and it may only cite what it was given.</h2>
+      <ul class="cols">
+        <li><strong>Warm is shorter</strong> H-MEM text enters the first chunk only. A cold run takes 3 chunks. A warm run takes 2.</li>
+        <li><strong>Later chunks stay open</strong> They do not see that reinjection. They search memory for what is still unresolved.</li>
+        <li><strong>No invented papers</strong> Supporting and conflicting ids have to be in the memories or the Zetaris rows that were sent.</li>
+        <li><strong>A contradiction has a consequence</strong> <strong>CONTRADICTS</strong> always recommends revising the existing conclusion.</li>
+      </ul>
+      <p class="pagenum">7 / 9</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">Product</p>
+      <h2>One warm run, on the page.</h2>
+      <div class="shots">
+        <figure>
+          <img src="images/guide-input.png" alt="Research question, Nemotron assessment SUPPORTED, and H-MEM claims with no contradictions">
+          <figcaption>Question, Nemotron, and H-MEM.</figcaption>
+        </figure>
+        <figure>
+          <img src="images/guide-evidence.png" alt="Zetaris paper cards beside a Markovian trace that ends in a SUPPORTED conclusion">
+          <figcaption>Zetaris papers and the Markovian trace.</figcaption>
+        </figure>
       </div>
-      <p>Papers, H-MEM, and Markovian stay on the machine. The NVIDIA key stays in Nightshift. The only outbound model call is the local Nightshift runtime.</p>
+      <p class="note">Trusted-opener question. Assessment SUPPORTED, from P015, P020, P026, P029, and P030.</p>
+      <p class="pagenum">8 / 9</p>
     </section>
 
     <section class="slide">
-      <p class="kicker">Proof</p>
-      <h2>Two commands, then the page.</h2>
-      <p>From <strong>build-oct26</strong>. Markovian, with Nightshift stopped. A cold run finishes in 3 chunks. A warm run finishes in 2.</p>
-      <pre>npx tsx research-os/test-markovian.ts</pre>
-      <p>One real Nightshift request. The printed source ids come from the evidence that was sent.</p>
-      <pre>npx tsx research-os/test-llm-reasoner.ts</pre>
-      <p>Then start the page and open it.</p>
-      <pre>npx tsx research-os/ui/server.ts</pre>
+      <p class="kicker">Future</p>
+      <h2>What the next runs should show.</h2>
+      <ul>
+        <li><strong>A visible contradiction</strong> The evaluator already marks <strong>CONTRADICTS</strong> in tests. The page should show that case, not only agreement.</li>
+        <li><strong>A researcher edit</strong> Accept or revise a stored finding before the next warm run uses it.</li>
+        <li><strong>Open questions that persist</strong> Carry one unanswered question into a later run, still inside the 3-chunk cap.</li>
+        <li><strong>An export</strong> The assessment, with the paper ids it was allowed to cite.</li>
+      </ul>
+      <p class="pagenum">9 / 9</p>
     </section>
   </main>
-  <p class="foot">Arrow keys · 1 / 6</p>
+  <p class="foot">Arrow keys</p>
   <script>
     const slides = [...document.querySelectorAll(".slide")];
-    const foot = document.querySelector(".foot");
     let index = 0;
 
     function show(next) {
       index = (next + slides.length) % slides.length;
       slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
-      foot.textContent = "Arrow keys · " + (index + 1) + " / " + slides.length;
     }
 
     document.addEventListener("keydown", (event) => {
