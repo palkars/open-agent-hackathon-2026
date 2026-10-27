@@ -18,6 +18,32 @@ Scroll down for the Zetaris papers and the Markovian trace:
 
 ![http://127.0.0.1:4173 showing Zetaris paper ids and the Markovian trace ending in Conclusion](images/ui-evidence.png)
 
+## Sponsor technologies
+
+Zetaris supplies the current papers, notes, and experiments. H-MEM and Markovian are the Meterless reference engines vendored in this folder. They were not rewritten for this project. Nightshift is the only model call. The NVIDIA key stays in Nightshift Providers and is not stored in this repo. ResearchOS calls the local runtime at `http://127.0.0.1:8088/v1` with the runtime token and `METERLESS_MODEL=nvidia/nemotron-3.5-lightning-30b-a3b`.
+
+On a warm run, H-MEM (`vendor/hmem`, persisted in `.memory`) recalls prior findings and that text is injected into the first Markovian chunk. Markovian (`vendor/markovian`) then carries the work forward in at most 3 chunks. Each chunk asks Zetaris for evidence that is not already completed, and Nemotron assesses that chunk through Nightshift.
+
+Two commands show that this path works. Run both from `build-oct26`.
+
+Markovian, with Nightshift stopped:
+
+```bash
+npx tsx research-os/test-markovian.ts
+```
+
+The cold run finishes in 3 chunks. The warm run is given an H-MEM reinjection that already settled one step, so it finishes in 2. The script prints `pass` when that holds.
+
+One real Nightshift request, with the runtime up and Zetaris up:
+
+```bash
+npx tsx research-os/test-llm-reasoner.ts
+```
+
+It prints an assessment, a summary, a confidence, supporting and conflicting source ids, and the valid source ids from the evidence that was sent. The supporting and conflicting ids are a subset of that valid list.
+
+The submission deck is [slides.html](slides.html). The recording script is [DEMO-SCRIPT.md](DEMO-SCRIPT.md).
+
 ## How the page works
 
 Pressing **Run research** sends the question to `POST /api/research`. The server runs the warm agent and fills the four panes:
